@@ -132,27 +132,12 @@ function Hero() {
                 {/* Outer copper border offset */}
                 <div className="absolute -top-2 -left-2 w-full h-full border border-[#C87941]/30 pointer-events-none" />
                 {/* Main frame */}
-                <div
-                  className="w-full h-full border border-[#C87941]/50 bg-[#111] overflow-hidden flex flex-col items-center justify-center gap-3"
-                  style={{ background: "linear-gradient(160deg, #161210 0%, #0d0b09 100%)" }}
-                >
-                  {/* Silhouette SVG */}
-                  <svg width="64" height="72" viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="22" r="16" fill="#C87941" fillOpacity="0.18" stroke="#C87941" strokeOpacity="0.45" strokeWidth="1"/>
-                    <path
-                      d="M4 68c0-15.464 12.536-28 28-28s28 12.536 28 28"
-                      stroke="#C87941"
-                      strokeOpacity="0.45"
-                      strokeWidth="1"
-                      fill="#C87941"
-                      fillOpacity="0.08"
-                    />
-                  </svg>
-                  {/* Label */}
-                  <div className="text-center px-3">
-                    <p className="font-['Outfit'] text-[0.55rem] tracking-[0.18em] uppercase text-[#C87941] mb-1">Your Photo Here</p>
-                    <p className="font-['Outfit'] text-[0.5rem] text-[#F2EFEA]/25 leading-snug">Replace with a professional headshot</p>
-                  </div>
+                <div className="w-full h-full border border-[#C87941]/50 overflow-hidden">
+                  <img
+                    src="/manus-storage/charlotte_headshot_a4fbb299.webp"
+                    alt="Charlotte Smith — Senior Marketing & Brand Strategist"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
                 {/* Copper corner accents */}
                 <span className="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#C87941]" />
