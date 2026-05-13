@@ -58,13 +58,20 @@ function Nav() {
           Charlotte Smith <span className="text-[#C87941]">/</span> Senior Marketing
         </a>
         <div className="hidden md:flex items-center gap-8">
-          {["approach", "work", "capabilities", "credentials", "contact"].map((s) => (
+          {[
+            { id: "approach", label: "Approach" },
+            { id: "work", label: "Work" },
+            { id: "capabilities", label: "Capabilities" },
+            { id: "execution", label: "Campaigns" },
+            { id: "credentials", label: "Credentials" },
+            { id: "contact", label: "Contact" },
+          ].map((s) => (
             <a
-              key={s}
-              href={`#${s}`}
+              key={s.id}
+              href={`#${s.id}`}
               className="font-['Open_Sans'] text-xs font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/60 hover:text-[#C87941] transition-colors duration-200"
             >
-              {s}
+              {s.label}
             </a>
           ))}
         </div>
