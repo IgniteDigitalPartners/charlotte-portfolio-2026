@@ -132,11 +132,11 @@ function Hero() {
                 {/* Outer copper border offset */}
                 <div className="absolute -top-2 -left-2 w-full h-full border border-[#C87941]/30 pointer-events-none" />
                 {/* Main frame */}
-                <div className="w-full h-full border border-[#C87941]/50 overflow-hidden">
+                <div className="w-full h-full border border-[#C87941]/50 overflow-hidden group/headshot">
                   <img
                     src="/manus-storage/charlotte_headshot_a4fbb299.webp"
                     alt="Charlotte Smith — Senior Marketing & Brand Strategist"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/headshot:scale-[1.06]"
                   />
                 </div>
                 {/* Copper corner accents */}
@@ -180,11 +180,11 @@ function Hero() {
                   className="h-6 w-auto opacity-80"
                 />
               </div>
-              <div className="relative overflow-hidden border border-[#C87941]/20" style={{ aspectRatio: "16/9" }}>
+              <div className="relative overflow-hidden border border-[#C87941]/20 group/idp" style={{ aspectRatio: "16/9" }}>
                 <img
                   src="/manus-storage/idp_home_b0eb3df4.png"
                   alt="ignitedigitalpartners.com — live website"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/idp:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
