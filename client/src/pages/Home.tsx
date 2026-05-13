@@ -582,19 +582,32 @@ function Contact() {
     return e;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
     setStatus("sending");
-    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
-    window.location.href = `mailto:charlotte_smith@outlook.com?subject=${subject}&body=${body}`;
-    setTimeout(() => {
-      setStatus("sent");
-      setForm({ name: "", email: "", message: "" });
-    }, 600);
+    try {
+      const res = await fetch("https://formspree.io/f/charlotte_smith@outlook.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Portfolio enquiry from ${form.name}`,
+        }),
+      });
+      if (res.ok) {
+        setStatus("sent");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   }
 
   const inputBase =
@@ -683,7 +696,7 @@ function Contact() {
                     Message sent.
                   </h3>
                   <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/55 leading-relaxed">
-                    Your email client has opened with the message pre-filled. Charlotte will be in touch shortly.
+                    Thank you for reaching out. Charlotte will be in touch shortly.
                   </p>
                   <button
                     onClick={() => setStatus("idle")}
@@ -799,7 +812,7 @@ function Contact() {
                         <svg className="animate-spin" width="14" height="14" viewBox="0 0 14 14" fill="none">
                           <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="20" strokeDashoffset="10" />
                         </svg>
-                        Opening email client...
+                        Sending...
                       </>
                     ) : (
                       <>
@@ -811,7 +824,7 @@ function Contact() {
 
                   {status === "error" && (
                     <p className="font-['Open_Sans'] text-[0.65rem] text-red-400 text-center">
-                      Something went wrong. Please email directly at charlotte_smith@outlook.com
+                      Something went wrong. Please try again or email hello@ignitedigitalpartners.com
                     </p>
                   )}
                   </div>
