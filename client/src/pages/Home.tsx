@@ -257,22 +257,30 @@ function WorkCard({ cs, index }: { cs: typeof caseStudies[0]; index: number }) {
               className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-[#0A0A0A]/20 to-transparent" />
+            {/* Accent color bar at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 opacity-60" style={{ backgroundColor: cs.color }} />
             {/* Case number */}
             <div className="absolute top-4 left-4">
-              <span className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#C87941] bg-[#0A0A0A]/70 px-2 py-1">
+              <span
+                className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase bg-[#0A0A0A]/70 px-2 py-1"
+                style={{ color: cs.color }}
+              >
                 Case No. {cs.number}
               </span>
             </div>
             {/* Arrow on hover */}
             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <div className="w-8 h-8 bg-[#C87941] flex items-center justify-center">
+              <div className="w-8 h-8 flex items-center justify-center" style={{ backgroundColor: cs.color }}>
                 <ArrowUpRight size={16} className="text-[#0A0A0A]" />
               </div>
             </div>
           </div>
           {/* Text */}
           <div className="p-6">
-            <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-2">
+            <div
+              className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-2"
+              style={{ color: cs.color }}
+            >
               {cs.category}
             </div>
             <h3 className="font-['Cormorant_Garamond'] text-2xl font-600 text-[#F2EFEA] mb-2 leading-tight">

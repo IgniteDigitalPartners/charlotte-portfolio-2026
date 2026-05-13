@@ -2,14 +2,17 @@
  * Charlotte Smith Portfolio 2026 — Case Study Page
  * Design: Cinematic Dark Luxury
  * Palette: Obsidian · Copper · Cream
+ * Each case study uses its own brand accent color from data.ts
  */
 import { Link, useParams } from "wouter";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { getCaseStudy } from "@/lib/data";
+import { useState } from "react";
 
 export default function CaseStudy() {
   const { slug } = useParams<{ slug: string }>();
   const cs = getCaseStudy(slug ?? "");
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   if (!cs) {
     return (
@@ -26,8 +29,31 @@ export default function CaseStudy() {
     );
   }
 
+  const accent = cs.color;
+
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
+      {/* Lightbox */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 cursor-pointer"
+          onClick={() => setLightboxImg(null)}
+        >
+          <img
+            src={lightboxImg}
+            alt="Design preview"
+            className="max-w-full max-h-[90vh] object-contain shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            className="absolute top-6 right-6 text-white/60 hover:text-white font-['Outfit'] text-sm tracking-widest uppercase"
+            onClick={() => setLightboxImg(null)}
+          >
+            Close
+          </button>
+        </div>
+      )}
+
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-sm border-b border-white/5">
         <div className="container flex items-center justify-between h-16">
@@ -45,19 +71,28 @@ export default function CaseStudy() {
         </div>
       </nav>
 
-      {/* Hero */}
+      {/* Hero — real Canva design as full-bleed background */}
       <section className="relative pt-16 overflow-hidden">
-        <div className="relative" style={{ minHeight: "70vh" }}>
+        <div className="relative" style={{ minHeight: "75vh" }}>
           <img
             src={cs.heroImage}
             alt={cs.client}
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/70 via-[#0A0A0A]/50 to-[#0A0A0A]" />
-          <div className="relative z-10 container flex flex-col justify-end pb-16" style={{ minHeight: "70vh" }}>
+          {/* Gradient overlay using client accent color */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(to bottom, ${accent}22 0%, #0A0A0A88 40%, #0A0A0A 100%)`,
+            }}
+          />
+          <div className="relative z-10 container flex flex-col justify-end pb-16" style={{ minHeight: "75vh" }}>
             <div className="flex items-center gap-3 mb-6">
-              <span className="block w-10 h-px bg-[#C87941]" />
-              <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+              <span className="block w-10 h-px" style={{ backgroundColor: accent }} />
+              <span
+                className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase"
+                style={{ color: accent }}
+              >
                 Case Study No. {cs.number} · {cs.category}
               </span>
             </div>
@@ -68,19 +103,24 @@ export default function CaseStudy() {
                   {cs.tagline.includes(",") && (
                     <>
                       ,<br />
-                      <em className="italic text-[#C87941]">{cs.tagline.split(",").slice(1).join(",").trim()}</em>
+                      <em className="italic" style={{ color: accent }}>
+                        {cs.tagline.split(",").slice(1).join(",").trim()}
+                      </em>
                     </>
                   )}
                 </h1>
               </div>
               <div className="space-y-0">
                 {[
-                  { label: cs.slug === "gcg" ? "Exchange" : cs.slug === "multi-client" ? "Roster" : cs.slug === "social" ? "Channels" : cs.slug === "brand-systems" ? "Practice" : "Client", value: cs.client },
+                  { label: "Client", value: cs.client },
                   { label: "Period", value: cs.period },
                   { label: "Scope", value: cs.scope },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex items-baseline gap-4 py-3 border-b border-white/10">
-                    <span className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#C87941] w-20 shrink-0">
+                    <span
+                      className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase w-20 shrink-0"
+                      style={{ color: accent }}
+                    >
                       {label}
                     </span>
                     <span className="font-['Outfit'] text-sm italic text-[#F2EFEA]/80">{value}</span>
@@ -92,7 +132,8 @@ export default function CaseStudy() {
                       href={cs.websiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-['Outfit'] text-xs font-600 tracking-[0.12em] uppercase text-[#C87941] hover:text-[#d4894e] transition-colors duration-200"
+                      className="inline-flex items-center gap-2 font-['Outfit'] text-xs font-600 tracking-[0.12em] uppercase transition-colors duration-200"
+                      style={{ color: accent }}
                     >
                       Visit Live Site
                       <ExternalLink size={12} />
@@ -105,11 +146,42 @@ export default function CaseStudy() {
         </div>
       </section>
 
+      {/* Brand Color Swatches */}
+      {cs.brandColors && cs.brandColors.length > 0 && (
+        <section className="py-10 bg-[#0A0A0A] border-b border-white/5">
+          <div className="container">
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-5"
+              style={{ color: accent }}
+            >
+              Brand Palette
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {cs.brandColors.map((c) => (
+                <div key={c.hex} className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 border border-white/10 shadow-sm"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                  <div>
+                    <div className="font-['Outfit'] text-[0.65rem] font-600 text-[#F2EFEA]/70">{c.name}</div>
+                    <div className="font-['Outfit'] text-[0.55rem] tracking-widest text-[#F2EFEA]/30 uppercase">{c.hex}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Brief */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container">
           <div className="max-w-3xl">
-            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-6">
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-6"
+              style={{ color: accent }}
+            >
               The Brief
             </div>
             <p className="font-['Cormorant_Garamond'] text-2xl font-400 text-[#F2EFEA]/80 leading-relaxed">
@@ -119,13 +191,81 @@ export default function CaseStudy() {
         </div>
       </section>
 
-      {/* Multi-client gallery */}
+      {/* Real Canva Work Gallery */}
+      {cs.canvaGallery && cs.canvaGallery.length > 0 && (
+        <section className="py-20 bg-[#060606]">
+          <div className="container">
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              style={{ color: accent }}
+            >
+              Real Work — From Canva
+            </div>
+            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-8">
+              Actual design deliverables produced for this engagement. Click any image to enlarge.
+            </p>
+            <div
+              className={`grid gap-4 ${
+                cs.canvaGallery.length === 1
+                  ? "grid-cols-1 max-w-lg"
+                  : cs.canvaGallery.length === 2
+                  ? "grid-cols-1 md:grid-cols-2"
+                  : cs.canvaGallery.length <= 4
+                  ? "grid-cols-2 md:grid-cols-2"
+                  : "grid-cols-2 md:grid-cols-3"
+              }`}
+            >
+              {cs.canvaGallery.map((item, i) => (
+                <div
+                  key={i}
+                  className="group relative overflow-hidden cursor-pointer border border-white/5 hover:border-white/15 transition-all duration-300"
+                  onClick={() => setLightboxImg(item.url)}
+                >
+                  <div className="relative" style={{ aspectRatio: "4/3" }}>
+                    <img
+                      src={item.url}
+                      alt={item.caption}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <p className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.1em] uppercase text-white/80">
+                        {item.caption}
+                      </p>
+                    </div>
+                    {/* Expand icon */}
+                    <div
+                      className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{ backgroundColor: accent + "CC" }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M1 1h4M1 1v4M11 1H7M11 1v4M1 11h4M1 11V7M11 11H7M11 11V7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="p-3 bg-[#0A0A0A]">
+                    <p className="font-['Outfit'] text-[0.6rem] text-[#F2EFEA]/40 truncate">{item.caption}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Multi-client live website gallery */}
       {cs.slug === "multi-client" && (
         <section className="py-12 bg-[#080808]">
           <div className="container">
-            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-6">
-              Live Client Brands
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              style={{ color: accent }}
+            >
+              Live Client Websites
             </div>
+            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-8">
+              Real websites built and managed across this client portfolio.
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {[
                 { src: "/manus-storage/screenshot_vertui_4b93e974.png", label: "Vertui Horticulture" },
@@ -135,11 +275,13 @@ export default function CaseStudy() {
                 { src: "/manus-storage/screenshot_oroco_f7dc4187.png", label: "Oroco Resource Corp" },
                 { src: "/manus-storage/screenshot_moovly_78fa99a2.png", label: "Moovly" },
               ].map(({ src, label }) => (
-                <div key={label} className="relative overflow-hidden group" style={{ aspectRatio: "16/9" }}>
+                <div key={label} className="relative overflow-hidden group cursor-pointer border border-white/5" style={{ aspectRatio: "16/9" }}
+                  onClick={() => setLightboxImg(src)}
+                >
                   <img src={src} alt={label} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent" />
                   <div className="absolute bottom-3 left-3">
-                    <span className="font-['Outfit'] text-[0.55rem] font-600 tracking-[0.12em] uppercase text-[#C87941]">{label}</span>
+                    <span className="font-['Outfit'] text-[0.55rem] font-600 tracking-[0.12em] uppercase" style={{ color: accent }}>{label}</span>
                   </div>
                 </div>
               ))}
@@ -151,13 +293,19 @@ export default function CaseStudy() {
       {/* Deliverables */}
       <section className="py-20 bg-[#080808]">
         <div className="container">
-          <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-8">
+          <div
+            className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
+            style={{ color: accent }}
+          >
             What Was Built
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
             {cs.deliverables.map((d, i) => (
               <div key={i} className="bg-[#080808] p-8 hover:bg-[#0f0f0f] transition-colors duration-200">
-                <div className="font-['Cormorant_Garamond'] text-3xl text-[#C87941]/30 mb-4">
+                <div
+                  className="font-['Cormorant_Garamond'] text-3xl mb-4"
+                  style={{ color: accent + "4D" }}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </div>
                 <h3 className="font-['Outfit'] text-sm font-600 text-[#F2EFEA] mb-3">{d.title}</h3>
@@ -172,13 +320,19 @@ export default function CaseStudy() {
       {cs.outcomes && (
         <section className="py-20 bg-[#0A0A0A]">
           <div className="container">
-            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-8">
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
+              style={{ color: accent }}
+            >
               Selected Artefacts
             </div>
             <div className="grid grid-cols-3 gap-px bg-white/5 max-w-2xl">
               {cs.outcomes.map((o) => (
                 <div key={o.label} className="bg-[#0A0A0A] p-8 text-center">
-                  <div className="font-['Cormorant_Garamond'] text-4xl font-600 text-[#C87941] mb-2">
+                  <div
+                    className="font-['Cormorant_Garamond'] text-4xl font-600 mb-2"
+                    style={{ color: accent }}
+                  >
                     {o.metric}
                   </div>
                   <div className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/35">
@@ -203,8 +357,11 @@ export default function CaseStudy() {
                 <h2 className="font-['Cormorant_Garamond'] text-[clamp(2rem,4vw,3.5rem)] font-600 text-[#F2EFEA] group-hover:text-[#C87941] transition-colors duration-300">
                   {cs.nextClient}
                 </h2>
-                <div className="w-12 h-12 border border-[#C87941]/30 flex items-center justify-center group-hover:bg-[#C87941] group-hover:border-[#C87941] transition-all duration-200">
-                  <ArrowRight size={20} className="text-[#C87941] group-hover:text-[#0A0A0A] transition-colors duration-200" />
+                <div
+                  className="w-12 h-12 border flex items-center justify-center transition-all duration-200"
+                  style={{ borderColor: accent + "4D" }}
+                >
+                  <ArrowRight size={20} style={{ color: accent }} />
                 </div>
               </div>
             </Link>
