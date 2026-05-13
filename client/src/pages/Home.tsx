@@ -70,14 +70,14 @@ function Hero() {
       id="top"
       className="relative min-h-screen flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Cinematic background */}
+      {/* Real IDP brand hero background — hero-liquid-metal.jpg */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "url('https://d2xsxph8kpxj0f.cloudfront.net/310419663030957850/XsirEnBEEH4G2ticYyVv3a/hero_bg-abxXpk9fovBuJvHqQ7sMhh.webp')",
+          backgroundImage: "url('/manus-storage/hero-liquid-metal_653639b0.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.7,
+          opacity: 0.55,
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/90 via-[#0A0A0A]/60 to-[#0A0A0A]/30 pointer-events-none" />
@@ -122,23 +122,39 @@ function Hero() {
             </div>
           </div>
 
-          {/* Right: IDP hero image */}
+          {/* Right: Real IDP live website screenshot + IDP logo */}
           <div className="relative hidden lg:block">
-            <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
+            {/* IDP Logo */}
+            <div className="mb-6 flex items-center gap-3">
               <img
-                src="/manus-storage/screenshot_idp_e8093138.png"
-                alt="Ignite Digital Partners — Charlotte Smith's consultancy"
+                src="/manus-storage/ignite-wordmark-white_7e55b079.png"
+                alt="Ignite Digital Partners"
+                className="h-8 w-auto"
+              />
+            </div>
+            <div className="relative overflow-hidden border border-[#C87941]/20" style={{ aspectRatio: "16/10" }}>
+              <img
+                src="/manus-storage/idp_home_b0eb3df4.png"
+                alt="ignitedigitalpartners.com — live website"
                 className="w-full h-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                 <span className="font-['Outfit'] text-[0.6rem] tracking-[0.15em] uppercase text-[#C87941]">
-                  Ignite Digital Partners — Founder
+                  ignitedigitalpartners.com
                 </span>
+                <a
+                  href="https://www.ignitedigitalpartners.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-['Outfit'] text-[0.6rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-[#C87941] transition-colors flex items-center gap-1"
+                >
+                  Visit <ExternalLink size={10} />
+                </a>
               </div>
             </div>
             {/* Copper border accent */}
-            <div className="absolute -bottom-2 -right-2 w-full h-full border border-[#C87941]/20 pointer-events-none" />
+            <div className="absolute -bottom-2 -right-2 w-full h-full border border-[#C87941]/15 pointer-events-none" />
           </div>
         </div>
       </div>

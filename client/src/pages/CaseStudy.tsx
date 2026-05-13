@@ -315,6 +315,52 @@ export default function CaseStudy() {
       )}
 
       {/* Multi-client live website gallery */}
+      {/* Live website screenshot — for case studies with a liveScreenshot (not multi-client) */}
+      {cs.liveScreenshot && cs.slug !== "multi-client" && (
+        <section className="py-12 bg-[#080808] border-t border-white/5">
+          <div className="container">
+            <div
+              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              style={{ color: accent }}
+            >
+              Live Website
+            </div>
+            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-6">
+              Real screenshot of the live website as delivered.
+            </p>
+            <div
+              className="relative overflow-hidden border border-white/8 group cursor-pointer"
+              style={{ aspectRatio: "16/9", maxWidth: "900px" }}
+              onClick={() => setLightboxImg(cs.liveScreenshot!)}
+            >
+              <img
+                src={cs.liveScreenshot}
+                alt={`${cs.client} — live website`}
+                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <span className="font-['Outfit'] text-[0.6rem] tracking-[0.15em] uppercase" style={{ color: accent }}>
+                  {cs.websiteUrl?.replace("https://", "").replace("www.", "")}
+                </span>
+                {cs.websiteUrl && (
+                  <a
+                    href={cs.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-['Outfit'] text-[0.6rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-white transition-colors flex items-center gap-1"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Visit <ExternalLink size={10} />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Multi-client live website gallery */}
       {cs.slug === "multi-client" && (
         <section className="py-12 bg-[#080808]">
           <div className="container">
@@ -325,24 +371,33 @@ export default function CaseStudy() {
               Live Client Websites
             </div>
             <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-8">
-              Real websites built and managed across this client portfolio.
+              Real screenshots of live websites built and managed across this client portfolio.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
               {[
-                { src: "/manus-storage/screenshot_vertui_4b93e974.png", label: "Vertui Horticulture" },
-                { src: "/manus-storage/screenshot_rockon_2b3229e3.png", label: "Roc-Kon Concrete" },
-                { src: "/manus-storage/screenshot_ezsy_6ae0a407.png", label: "Ezsy Webs" },
-                { src: "/manus-storage/screenshot_quest_fb32b013.png", label: "Quest Critical Metals" },
-                { src: "/manus-storage/screenshot_oroco_f7dc4187.png", label: "Oroco Resource Corp" },
-                { src: "/manus-storage/screenshot_moovly_78fa99a2.png", label: "Moovly" },
-              ].map(({ src, label }) => (
-                <div key={label} className="relative overflow-hidden group cursor-pointer border border-white/5" style={{ aspectRatio: "16/9" }}
-                  onClick={() => setLightboxImg(src)}
-                >
-                  <img src={src} alt={label} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3">
+                { src: "/manus-storage/vertui_site_9093bff6.png", label: "Vertui Horticulture", url: "https://www.vertui.com" },
+                { src: "/manus-storage/rockon_site_9a4278f1.png", label: "Roc-Kon Concrete", url: "https://roc-kon-revive.vercel.app" },
+                { src: "/manus-storage/ezsy_site_6f187961.png", label: "Ezsy Webs", url: "https://ezsywebs.com" },
+                { src: "/manus-storage/gcg_site_be18de50.png", label: "General Copper Gold", url: "https://www.generalcoppergold.com" },
+              ].map(({ src, label, url }) => (
+                <div key={label} className="relative overflow-hidden group border border-white/5" style={{ aspectRatio: "16/9" }}>
+                  <img
+                    src={src}
+                    alt={label}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04] cursor-pointer"
+                    onClick={() => setLightboxImg(src)}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <span className="font-['Outfit'] text-[0.55rem] font-600 tracking-[0.12em] uppercase" style={{ color: accent }}>{label}</span>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-['Outfit'] text-[0.5rem] tracking-widest uppercase text-[#F2EFEA]/40 hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      Visit <ExternalLink size={9} />
+                    </a>
                   </div>
                 </div>
               ))}

@@ -1,5 +1,6 @@
 // Charlotte Smith Portfolio 2026 — Data Layer
 // Design: Cinematic Dark Luxury | Palette: Obsidian · Copper · Cream
+// Brand assets: Real IDP logos, hero images, live site screenshots, Canva design pages
 
 export interface CaseStudy {
   slug: string;
@@ -19,6 +20,7 @@ export interface CaseStudy {
   deliverables: { title: string; description: string }[];
   outcomes?: { metric: string; label: string }[];
   canvaGallery?: { url: string; caption: string }[];
+  liveScreenshot?: string; // real live website screenshot
   nextSlug?: string;
   nextClient?: string;
 }
@@ -34,22 +36,23 @@ export const caseStudies: CaseStudy[] = [
     scope: "Brand identity, methodology, website, GTM, content engine",
     description:
       "Co-founded and built IDP — a Canadian B2B marketing firm that replaces episodic campaigns with communication infrastructure. Designed the brand, the Ignition Loop methodology, the Ecosystem framework, and the full go-to-market system.",
-    heroImage: "/manus-storage/idp_home_a59ae062.png",
+    heroImage: "/manus-storage/hero-liquid-metal_653639b0.jpg",
+    liveScreenshot: "/manus-storage/idp_home_b0eb3df4.png",
     websiteUrl: "https://www.ignitedigitalpartners.com",
     color: "#E8650A",
     brandColors: [
       { name: "Ignite Orange", hex: "#E8650A" },
-      { name: "Deep Black", hex: "#0A0A0A" },
-      { name: "Warm White", hex: "#F5F0E8" },
-      { name: "Amber Glow", hex: "#C9820A" },
+      { name: "Copper", hex: "#C87941" },
+      { name: "Obsidian", hex: "#0A0A0A" },
+      { name: "Cream", hex: "#F2EFEA" },
     ],
     tags: ["Co-Founder", "Brand Strategy", "Methodology Design", "GTM", "Content Engine"],
     brief:
-      "Most B2B operators in capital-intensive sectors inherit a marketing function assembled in pieces. A website built one year, a CRM the next, an agency for a campaign, an analyst for a quarter. Together they produce a fragmented signal that erodes credibility with investors, partners, and customers. IDP was founded to build the alternative: communication systems that replace episodic campaigns with infrastructure that compounds over time.",
+      "Most B2B operators in capital-intensive sectors inherit a marketing function assembled in pieces — a website built one year, a CRM the next, an agency for a campaign, an analyst for a quarter. Together they produce a fragmented signal that erodes credibility with investors, partners, and customers. IDP was founded to build the alternative: communication systems that replace episodic campaigns with infrastructure that compounds over time.",
     deliverables: [
       {
         title: "The Ignition Loop Methodology",
-        description: "A four-phase continuous intelligence system: Clarity, Activation, Growth, Insight. Each phase feeds measurable intelligence into the next, creating a compounding cycle that strengthens with every iteration. Month 1: Baseline and Clarity. Month 2: System Activation. Months 3-6: Growth and Optimisation. Ongoing: Intelligence and Refinement.",
+        description: "A four-phase continuous intelligence system: Clarity, Activation, Growth, Insight. Each phase feeds measurable intelligence into the next, creating a compounding cycle that strengthens with every iteration. Month 1: Baseline and Clarity. Month 2: System Activation. Months 3–6: Growth and Optimisation. Ongoing: Intelligence and Refinement.",
       },
       {
         title: "The Ecosystem Framework",
@@ -57,7 +60,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Visual Identity System",
-        description: "Deep obsidian backgrounds, Ignite Orange (#E8650A) as the primary action colour, liquid-metal and flame hero aesthetics. The flame mark was designed to read as institutional and premium from first impression. Full brand guidelines deck built in Canva.",
+        description: "Deep obsidian backgrounds, Ignite Orange (#E8650A) as the primary action colour, liquid-metal and flame hero aesthetics. The flame mark reads as institutional and premium from first impression. Full brand guidelines deck built in Canva with Montserrat + Open Sans typography.",
       },
       {
         title: "Full Website Build",
@@ -78,8 +81,10 @@ export const caseStudies: CaseStudy[] = [
       { metric: "3", label: "Operating Environments" },
     ],
     canvaGallery: [
-      { url: "/manus-storage/idp_home_a59ae062.png", caption: "ignitedigitalpartners.com — Live Homepage: Communication Systems That Compound Credibility" },
-      { url: "/manus-storage/idp_ecosystem_54a0796b.png", caption: "The Ecosystem Page — How Attention Becomes Advocacy" },
+      { url: "/manus-storage/idp_home_b0eb3df4.png", caption: "ignitedigitalpartners.com — Live Homepage: Communication Systems That Compound Credibility" },
+      { url: "/manus-storage/idp_ecosystem_3e514b9b.png", caption: "The Ecosystem Page — How Attention Becomes Advocacy" },
+      { url: "/manus-storage/hero-ignition-loop_72ee832d.jpg", caption: "The Ignition Loop — Four-Phase Methodology Visual" },
+      { url: "/manus-storage/hero-network-nodes_027f0b8d.jpg", caption: "IDP Network Intelligence — Brand Visual Identity" },
       { url: "/manus-storage/idp_proposal_p1_47285106.png", caption: "IDP Canva Proposal Template — Cover" },
       { url: "/manus-storage/idp_proposal_p2_51e7adf5.png", caption: "IDP Proposal — Executive Summary" },
       { url: "/manus-storage/idp_proposal_p3_d1f8eb32.png", caption: "IDP Proposal — Services and Methodology" },
@@ -97,25 +102,26 @@ export const caseStudies: CaseStudy[] = [
     scope: "Brand system, investor deck, social templates",
     description:
       "Complete brand system, investor presentation, and social media templates for a TSX-V listed gold exploration company. Premium, engineered, unmistakable.",
-    heroImage: "/manus-storage/gcg_brand_p1_5c0e65c5.png",
-    websiteUrl: "https://generalcoppergold.com",
-    color: "#B87333",
+    heroImage: "/manus-storage/gcg_site_be18de50.png",
+    liveScreenshot: "/manus-storage/gcg_site_be18de50.png",
+    websiteUrl: "https://www.generalcoppergold.com",
+    color: "#B06838",
     brandColors: [
-      { name: "Copper", hex: "#B87333" },
-      { name: "Gold", hex: "#C9A84C" },
-      { name: "Charcoal", hex: "#2D2D2D" },
-      { name: "White", hex: "#FFFFFF" },
+      { name: "Copper", hex: "#B06838" },
+      { name: "Gold", hex: "#B09048" },
+      { name: "Charcoal Black", hex: "#202028" },
+      { name: "Off-White", hex: "#F8F5F0" },
     ],
     tags: ["Investor Relations", "Brand System", "Capital Markets", "TSX-V"],
     brief:
-      "GCG had the geology. The challenge was building the capital narrative around it and delivering it in a format that would survive the scrutiny of TSX-V investors. Zero margin for amateur design. The brand needed to feel premium, engineered, and unmistakable.",
+      "GCG had the geology. The challenge was building the capital narrative around it and delivering it in a format that would survive the scrutiny of TSX-V investors. Zero margin for amateur design. The brand needed to feel premium, engineered, and unmistakable — a resource company that commands institutional attention.",
     deliverables: [
-      { title: "Complete Brand System", description: "Charcoal, Copper, Gold palette. Montserrat Bold display. Full 17-page brand guidelines deck built in Canva." },
-      { title: "Investor Social Templates", description: "X (Twitter) investor social template series. Branded for capital markets distribution." },
-      { title: "Brand Standards Deck", description: "17-slide brand guidelines covering logo usage, colour system, typography, and application examples." },
+      { title: "Complete Brand System", description: "Charcoal Black (#202028), Deep Copper (#683018), Gold (#B09048) palette. Montserrat Bold display. Full 17-page brand guidelines deck built in Canva covering logo usage, colour system, typography, and application examples." },
+      { title: "Investor Social Templates", description: "X (Twitter) investor social template series. Branded for capital markets distribution with copper-gold gradient treatment and Montserrat typography." },
+      { title: "Brand Standards Deck", description: "17-slide brand guidelines covering logo usage, colour system, typography, and application examples. Designed to be used by sales teams, designers, and external partners." },
       { title: "Geological Cross-Section", description: "Custom SVG of the gold system at depth, with draw-on animation showing the structural trap and mineralised zones." },
       { title: "Belt Map & Jurisdiction Panel", description: "District-context map with adjacent properties, plus Namibia investment-grade jurisdiction explainer." },
-      { title: "Brand Collateral", description: "Letterhead, social media templates, LinkedIn banner. Full brand-deployment kit." },
+      { title: "Brand Collateral", description: "Letterhead, social media templates, LinkedIn banner. Full brand-deployment kit for capital markets use." },
     ],
     outcomes: [
       { metric: "17pp", label: "Brand Book" },
@@ -123,6 +129,7 @@ export const caseStudies: CaseStudy[] = [
       { metric: "6+", label: "Collateral Pieces" },
     ],
     canvaGallery: [
+      { url: "/manus-storage/gcg_site_be18de50.png", caption: "generalcoppergold.com — Live Website" },
       { url: "/manus-storage/gcg_brand_p1_5c0e65c5.png", caption: "GCG Brand Standards — Cover: Premium, Engineered, Unmistakable" },
       { url: "/manus-storage/gcg_brand_p2_a717f1b1.png", caption: "GCG Brand Standards — Colour System & Typography" },
       { url: "/manus-storage/gcg_brand_p3_2c90e31b.png", caption: "GCG Brand Standards — Logo Usage Rules" },
@@ -141,23 +148,24 @@ export const caseStudies: CaseStudy[] = [
     scope: "Product, brand, marketing, automation",
     description:
       "Product, brand, and automation stack for a B2B SaaS shipped end-to-end. URL-to-redesign pipeline for agencies closing more pitches.",
-    heroImage: "/manus-storage/ezsy_brand_p1_81529f18.png",
+    heroImage: "/manus-storage/ezsy_site_6f187961.png",
+    liveScreenshot: "/manus-storage/ezsy_site_6f187961.png",
     websiteUrl: "https://ezsywebs.com",
-    color: "#1565C0",
+    color: "#2563EB",
     brandColors: [
-      { name: "Navy", hex: "#1A237E" },
-      { name: "Electric Blue", hex: "#2196F3" },
-      { name: "White", hex: "#FFFFFF" },
-      { name: "Dark", hex: "#0D0D0D" },
+      { name: "Brand Blue", hex: "#2563EB" },
+      { name: "Deep Navy", hex: "#071236" },
+      { name: "Navy Blue", hex: "#0D2257" },
+      { name: "Steel Blue", hex: "#5B6FA6" },
     ],
     tags: ["SaaS", "Product Launch", "Automation", "Brand Identity"],
     brief:
-      "Agencies pitch website redesigns every day. The demo stage is where deals stall. Ezsy Webs solves exactly that: paste a URL, get a fully rendered modern redesign within minutes. The brand had to feel credible, tech-forward, and instantly trustworthy.",
+      "Agencies pitch website redesigns every day. The demo stage is where deals stall. Ezsy Webs solves exactly that: paste a URL, get a fully rendered modern redesign within minutes. The brand had to feel credible, tech-forward, and instantly trustworthy — a product that agencies could put in front of clients on day one.",
     deliverables: [
       { title: "The Product Itself", description: "Demo platform shipped on Lovable. URL-to-redesign pipeline. Tiered output: Homepage Refresh, Core Growth, Authority Build." },
-      { title: "Complete Brand Identity", description: "11-slide brand guidelines deck in Canva. Navy and electric blue palette. Montserrat typography. Planet/orbit logo mark." },
-      { title: "Marketing Site & Copy", description: "ezsywebs.com. Full positioning, three pricing tiers, agency-facing messaging, conversion path." },
-      { title: "Automation Backend", description: "Make.com workflows. Supabase database. Resend transactional email. Stripe billing. End-to-end integrated." },
+      { title: "Complete Brand Identity", description: "11-slide brand guidelines deck in Canva. Navy (#071236) and Brand Blue (#2563EB) palette. Montserrat typography throughout. Planet/orbit logo mark." },
+      { title: "Marketing Site & Copy", description: "ezsywebs.com — full positioning, three pricing tiers, agency-facing messaging, conversion path." },
+      { title: "Automation Backend", description: "Make.com workflows. Supabase database. Resend transactional email. Stripe billing. End-to-end integrated stack." },
       { title: "Content Engine", description: "n8n + Notion + Buffer + Claude API. LinkedIn and Instagram posting on a defined cadence with zero daily input." },
       { title: "Pricing & Go-To-Market", description: "Three productised tiers. Agency-targeted positioning. Platform-discovery effect drove early signups." },
     ],
@@ -167,6 +175,7 @@ export const caseStudies: CaseStudy[] = [
       { metric: "7+", label: "Tools Integrated" },
     ],
     canvaGallery: [
+      { url: "/manus-storage/ezsy_site_6f187961.png", caption: "ezsywebs.com — Live Website: Refresh Your Website" },
       { url: "/manus-storage/ezsy_brand_p1_81529f18.png", caption: "Ezsy Webs Brand Guidelines — Cover: Refresh Your Website" },
       { url: "/manus-storage/ezsy_brand_p2_013d1037.png", caption: "Ezsy Webs Brand Guidelines — Visual Identity System" },
     ],
@@ -183,11 +192,12 @@ export const caseStudies: CaseStudy[] = [
     scope: "Brand, content, growth, IR",
     description:
       "Brand and growth work across Vertui, Roc-Kon Concrete, Elev8 ProspectorAI, Quest Critical Metals, Oroco Resource Corp, and Moovly. Different sectors, one operating system.",
-    heroImage: "/manus-storage/vertui_proposal_p1_474d7a87.png",
+    heroImage: "/manus-storage/vertui_site_9093bff6.png",
+    liveScreenshot: "/manus-storage/vertui_site_9093bff6.png",
     websiteUrl: undefined,
-    color: "#4CAF50",
+    color: "#2AA8A0",
     brandColors: [
-      { name: "Vertui Green", hex: "#4CAF50" },
+      { name: "Vertui Teal", hex: "#2AA8A0" },
       { name: "Roc-Kon Pink", hex: "#E91E8C" },
       { name: "Elev8 Teal", hex: "#00695C" },
       { name: "Elev8 Gold", hex: "#FFA000" },
@@ -196,8 +206,8 @@ export const caseStudies: CaseStudy[] = [
     brief:
       "Working across six distinct companies in two years sharpened one thing above all: a repeatable operating system for marketing engagements. The discipline transfers. What changes is the language, the design accent, and the commercial benchmark.",
     deliverables: [
-      { title: "Vertui Horticulture", description: "Full B2C ecosystem proposal, Amazon launch strategy, packaging direction, paid media plan. Translated a complex product range into a clear, conversion-ready narrative." },
-      { title: "Roc-Kon Concrete", description: "Complete marketing ecosystem overview, social media strategy, SEO, lead generation, CRM automation. LinkedIn content strategy and carousel design for technical buyers." },
+      { title: "Vertui Horticulture", description: "Full B2C marketing ecosystem proposal. Teal-to-lime-green brand identity. Channel plan, content strategy, and growth roadmap for a horticulture brand." },
+      { title: "Roc-Kon Concrete", description: "Complete social media and marketing strategy plan. Content pillars, platform strategy, and brand revival for a concrete services company." },
       { title: "Elev8 ProspectorAI", description: "Brand positioning, social media content series, AI-led automation architecture. Social posts for the ProspectorAI lead enrichment platform." },
       { title: "Quest Critical Metals", description: "Rebrand, investor awareness, website, social rollout for a critical metals exploration company." },
       { title: "Oroco Resource Corp", description: "3-month digital marketing strategy and investor communications for a TSX-listed resource company." },
@@ -209,15 +219,20 @@ export const caseStudies: CaseStudy[] = [
       { metric: "1", label: "Operating System" },
     ],
     canvaGallery: [
+      { url: "/manus-storage/vertui_site_9093bff6.png", caption: "vertui.com — Live Website" },
       { url: "/manus-storage/vertui_proposal_p1_474d7a87.png", caption: "Vertui Marketing B2C Ecosystem — Full Proposal Cover" },
       { url: "/manus-storage/vertui_proposal_p2_9bd90aad.png", caption: "Vertui Marketing Ecosystem — Strategy Overview" },
       { url: "/manus-storage/vertui_proposal_p3_124b2eff.png", caption: "Vertui Marketing Ecosystem — Channel Plan" },
+      { url: "/manus-storage/rockon_site_9a4278f1.png", caption: "roc-kon-revive.vercel.app — Live Website" },
       { url: "/manus-storage/rockon_strategy_p1_45c79cb0.png", caption: "Roc-Kon Concrete Social Media & Strategy Plan — Cover" },
-      { url: "/manus-storage/rockon_strategy_p2_45c79cb0.png", caption: "Roc-Kon Concrete — Strategy Objectives" },
-      { url: "/manus-storage/rockon_ecosystem_p1_9a793393.png", caption: "Roc-Kon Complete Marketing Ecosystem — Overview" },
+      { url: "/manus-storage/rockon_strategy_p2_de4a024b.png", caption: "Roc-Kon Concrete — Strategy Objectives" },
+      { url: "/manus-storage/rockon_ecosystem_p1_fe4d4b74.png", caption: "Roc-Kon Complete Marketing Ecosystem — Overview" },
       { url: "/manus-storage/elev8_social_p1_93979f1b.png", caption: "Elev8 ProspectorAI — Brand Identity" },
       { url: "/manus-storage/elev8_social_p2_7c3fbfd1.png", caption: "Elev8 ProspectorAI — Lead Enrichment Social Post" },
       { url: "/manus-storage/elev8_social_p3_d39bd89c.png", caption: "Elev8 ProspectorAI — Social Content Series" },
+      { url: "/manus-storage/project_overview_1_9b1a6e89.png", caption: "Project Overview — Client Strategy Slide" },
+      { url: "/manus-storage/project_overview_2_ccfb29fb.png", caption: "Project Overview — Campaign Architecture" },
+      { url: "/manus-storage/project_overview_3_10ec3f9c.png", caption: "Project Overview — Results & Outcomes" },
     ],
     nextSlug: "social",
     nextClient: "Always-On Content Engine",
@@ -232,7 +247,7 @@ export const caseStudies: CaseStudy[] = [
     scope: "Strategy, design, motion, copy",
     description:
       "Four content pillars. Branded carousels, motion assets, daily rhythm. Built for B2B leadership LinkedIn readers.",
-    heroImage: "/manus-storage/rockon_strategy_p3_866e5a05.png",
+    heroImage: "/manus-storage/fire-particles_e97f2648.jpg",
     websiteUrl: undefined,
     color: "#E91E8C",
     brandColors: [
@@ -243,7 +258,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     tags: ["Content Strategy", "LinkedIn", "Social Media", "B2B"],
     brief:
-      "LinkedIn for B2B leadership audiences is a craft. Most social marketers treat it like B2C. The tone is wrong, the visual language is wrong, the cadence is wrong. IDP's content engine had to land with executives who can spot generic content in seconds.",
+      "LinkedIn for B2B leadership audiences is a craft. Most social marketers treat it like B2C. The tone is wrong, the visual language is wrong, the cadence is wrong. IDP's content engine had to land with executives who can spot generic content in seconds. The goal was a system that runs without daily input and compounds credibility over time.",
     deliverables: [
       { title: "Systems & Strategy Pillar", description: "The signature pillar. Communication systems, narrative architecture, infrastructure thinking. The IDP point of view, made shareable." },
       { title: "Brand & Credibility Pillar", description: "Positioning, narrative, brand systems. Aimed at leadership teams who understand that visibility without structure is noise." },
@@ -258,10 +273,11 @@ export const caseStudies: CaseStudy[] = [
       { metric: "3", label: "Channels" },
     ],
     canvaGallery: [
-      { url: "/manus-storage/rockon_strategy_p1_45c79cb0.png", caption: "Roc-Kon Concrete — Social Media Strategy Plan" },
-      { url: "/manus-storage/rockon_strategy_p2_45c79cb0.png", caption: "Roc-Kon Concrete — Content Objectives" },
-      { url: "/manus-storage/rockon_strategy_p3_866e5a05.png", caption: "Roc-Kon Concrete — Platform Strategy" },
+      { url: "/manus-storage/rockon_strategy_p1_1010f3be.png", caption: "Roc-Kon Concrete — Social Media Strategy Plan" },
+      { url: "/manus-storage/rockon_strategy_p2_de4a024b.png", caption: "Roc-Kon Concrete — Content Objectives" },
+      { url: "/manus-storage/rockon_strategy_p3_c5b32155.png", caption: "Roc-Kon Concrete — Platform Strategy" },
       { url: "/manus-storage/elev8_social_p2_7c3fbfd1.png", caption: "Elev8 ProspectorAI — LinkedIn Social Post" },
+      { url: "/manus-storage/elev8_social_p3_d39bd89c.png", caption: "Elev8 ProspectorAI — Social Content Series" },
     ],
     nextSlug: "brand-systems",
     nextClient: "Brand Systems Practice",
@@ -276,22 +292,22 @@ export const caseStudies: CaseStudy[] = [
     scope: "Brand books, palettes, typography, guidelines",
     description:
       "From positioning to typography to deployed templates. The full stack. Three complete brand systems across B2B, mining, and SaaS.",
-    heroImage: "/manus-storage/gcg_brand_p2_a717f1b1.png",
+    heroImage: "/manus-storage/hero-network-nodes_027f0b8d.jpg",
     websiteUrl: undefined,
-    color: "#B87333",
+    color: "#B06838",
     brandColors: [
-      { name: "IDP Orange", hex: "#FF6B00" },
-      { name: "GCG Copper", hex: "#B87333" },
-      { name: "Ezsy Navy", hex: "#1A237E" },
-      { name: "Ezsy Blue", hex: "#2196F3" },
+      { name: "IDP Orange", hex: "#E8650A" },
+      { name: "GCG Copper", hex: "#B06838" },
+      { name: "Ezsy Navy", hex: "#071236" },
+      { name: "Ezsy Blue", hex: "#2563EB" },
     ],
     tags: ["Brand Identity", "Design Systems", "Typography", "Guidelines"],
     brief:
-      "Most brand guidelines decks die in someone's Downloads folder. The systems I build are designed to be used by sales teams, designers, founders, and external partners. A brand system is an operating manual, not a decoration.",
+      "Most brand guidelines decks die in someone's Downloads folder. The systems I build are designed to be used by sales teams, designers, founders, and external partners. A brand system is an operating manual, not a decoration. Three complete systems built across B2B marketing, capital markets mining, and B2B SaaS.",
     deliverables: [
-      { title: "IDP Brand System", description: "Obsidian and copper. The flame mark. Liquid-metal hero aesthetic. 13-page brand book for the Ecosystem framework." },
-      { title: "GCG Brand System", description: "Charcoal, copper, gold. Montserrat Bold. 17-page brand system for a TSX-V listed exploration company." },
-      { title: "Ezsy Webs Brand System", description: "Navy and electric blue. Montserrat throughout. 11-page brand system for a product-led B2B SaaS." },
+      { title: "IDP Brand System", description: "Obsidian and copper. The flame mark. Liquid-metal hero aesthetic. Montserrat + Open Sans typography. 13-page brand book for the Ecosystem framework." },
+      { title: "GCG Brand System", description: "Charcoal Black (#202028), Copper (#B06838), Gold (#B09048). Montserrat Bold. 17-page brand system for a TSX-V listed exploration company." },
+      { title: "Ezsy Webs Brand System", description: "Deep Navy (#071236) and Brand Blue (#2563EB). Montserrat throughout. 11-page brand system for a product-led B2B SaaS." },
       { title: "Colour System Architecture", description: "Primary, secondary, and neutral palettes. Contrast ratios. Dark and light mode application rules." },
       { title: "Typography System", description: "Display, body, and caption hierarchy. Web-safe and brand-font pairings. Size scale and line-height rules." },
       { title: "Logo System", description: "Primary mark, secondary marks, lock-ups, clear space, minimum sizes, what not to do." },
@@ -308,7 +324,7 @@ export const caseStudies: CaseStudy[] = [
       { url: "/manus-storage/gcg_brand_p3_2c90e31b.png", caption: "GCG Brand System — Logo Standards" },
       { url: "/manus-storage/ezsy_brand_p1_81529f18.png", caption: "Ezsy Webs Brand System — Cover" },
       { url: "/manus-storage/ezsy_brand_p2_013d1037.png", caption: "Ezsy Webs Brand System — Visual Identity" },
-      { url: "/manus-storage/idp_proposal_p1_b07cab7d.png", caption: "IDP Proposal Template — Branded System in Action" },
+      { url: "/manus-storage/idp_proposal_p1_47285106.png", caption: "IDP Proposal Template — Branded System in Action" },
     ],
     nextSlug: "idp",
     nextClient: "Ignite Digital Partners",
