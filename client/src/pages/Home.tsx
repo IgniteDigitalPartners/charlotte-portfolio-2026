@@ -497,6 +497,37 @@ function Credentials() {
 // ── Contact ───────────────────────────────────────────────────────────────────
 function Contact() {
   const { ref, visible } = useReveal();
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  function validate() {
+    const e: typeof errors = {};
+    if (!form.name.trim()) e.name = "Please enter your name.";
+    if (!form.email.trim()) e.email = "Please enter your email.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Please enter a valid email address.";
+    if (!form.message.trim()) e.message = "Please include a brief message.";
+    return e;
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    setErrors({});
+    setStatus("sending");
+    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
+    window.location.href = `mailto:charlotte_smith@outlook.com?subject=${subject}&body=${body}`;
+    setTimeout(() => {
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+    }, 600);
+  }
+
+  const inputBase =
+    "w-full bg-transparent border-b border-white/15 focus:border-[#C87941] outline-none font-['Outfit'] text-sm text-[#F2EFEA] placeholder-[#F2EFEA]/25 py-3 transition-colors duration-200";
+
   return (
     <section id="contact" className="py-28 bg-[#0A0A0A]">
       <div className="container">
@@ -510,48 +541,161 @@ function Contact() {
               Let's Talk
             </span>
           </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left: heading + contact details */}
             <div>
               <h2 className="font-['Cormorant_Garamond'] text-[clamp(2.5rem,5vw,4.5rem)] font-600 text-[#F2EFEA] leading-tight mb-6">
                 Currently exploring
                 <br />
                 <em className="italic text-[#C87941]">senior roles.</em>
               </h2>
-              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md">
+              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
                 Open to permanent, contract, and fractional engagements where strategic range,
                 hands-on delivery, and commercial discipline matter equally.
               </p>
-            </div>
-            <div className="space-y-4">
-              {[
-                { icon: Mail, label: "Email", value: "charlotte_smith@outlook.com", href: "mailto:charlotte_smith@outlook.com" },
-                { icon: Phone, label: "Phone", value: "+356 99020986", href: "tel:+35699020986" },
-                { icon: Linkedin, label: "LinkedIn", value: "/charlotte-smith-marketing", href: "https://www.linkedin.com/in/charlotte-smith-marketing/" },
-                { icon: MapPin, label: "Location", value: "Birkirkara, Malta · Remote", href: undefined },
-              ].map(({ icon: Icon, label, value, href }) => (
-                <div key={label} className="flex items-center gap-4 py-4 border-b border-white/5">
-                  <div className="w-8 h-8 border border-[#C87941]/30 flex items-center justify-center shrink-0">
-                    <Icon size={14} className="text-[#C87941]" />
-                  </div>
-                  <div>
-                    <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 mb-0.5">
-                      {label}
+              <div className="space-y-0">
+                {[
+                  { icon: Mail, label: "Email", value: "charlotte_smith@outlook.com", href: "mailto:charlotte_smith@outlook.com" },
+                  { icon: Phone, label: "Phone", value: "+356 99020986", href: "tel:+35699020986" },
+                  { icon: Linkedin, label: "LinkedIn", value: "/charlotte-smith-marketing", href: "https://www.linkedin.com/in/charlotte-smith-marketing/" },
+                  { icon: MapPin, label: "Location", value: "Birkirkara, Malta · Remote", href: undefined },
+                ].map(({ icon: Icon, label, value, href }) => (
+                  <div key={label} className="flex items-center gap-4 py-4 border-b border-white/5">
+                    <div className="w-8 h-8 border border-[#C87941]/30 flex items-center justify-center shrink-0">
+                      <Icon size={14} className="text-[#C87941]" />
                     </div>
-                    {href ? (
-                      <a
-                        href={href}
-                        target={href.startsWith("http") ? "_blank" : undefined}
-                        rel="noopener noreferrer"
-                        className="font-['Outfit'] text-sm text-[#F2EFEA] hover:text-[#C87941] transition-colors duration-200"
-                      >
-                        {value}
-                      </a>
-                    ) : (
-                      <span className="font-['Outfit'] text-sm text-[#F2EFEA]">{value}</span>
+                    <div>
+                      <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 mb-0.5">
+                        {label}
+                      </div>
+                      {href ? (
+                        <a
+                          href={href}
+                          target={href.startsWith("http") ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className="font-['Outfit'] text-sm text-[#F2EFEA] hover:text-[#C87941] transition-colors duration-200"
+                        >
+                          {value}
+                        </a>
+                      ) : (
+                        <span className="font-['Outfit'] text-sm text-[#F2EFEA]">{value}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: contact form */}
+            <div className="border border-white/8 p-8">
+              {status === "sent" ? (
+                <div className="flex flex-col items-start justify-center min-h-[380px] gap-5">
+                  <div className="w-10 h-10 border border-[#C87941]/40 flex items-center justify-center">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M3 9l4.5 4.5L15 5" stroke="#C87941" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <h3 className="font-['Cormorant_Garamond'] text-3xl font-600 text-[#F2EFEA]">
+                    Message sent.
+                  </h3>
+                  <p className="font-['Outfit'] text-sm text-[#F2EFEA]/55 leading-relaxed">
+                    Your email client has opened with the message pre-filled. Charlotte will be in touch shortly.
+                  </p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="font-['Outfit'] text-xs font-600 tracking-[0.15em] uppercase text-[#C87941] hover:text-[#d4894e] transition-colors duration-200 mt-2"
+                  >
+                    Send another
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate className="space-y-7">
+                  <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-2">
+                    Send a message
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Your full name"
+                      value={form.name}
+                      onChange={(e) => { setForm((f) => ({ ...f, name: e.target.value })); setErrors((er) => ({ ...er, name: undefined })); }}
+                      className={inputBase}
+                      autoComplete="name"
+                    />
+                    {errors.name && (
+                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.name}</p>
                     )}
                   </div>
-                </div>
-              ))}
+
+                  {/* Email */}
+                  <div>
+                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={form.email}
+                      onChange={(e) => { setForm((f) => ({ ...f, email: e.target.value })); setErrors((er) => ({ ...er, email: undefined })); }}
+                      className={inputBase}
+                      autoComplete="email"
+                    />
+                    {errors.email && (
+                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.email}</p>
+                    )}
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Tell me about the role or project..."
+                      value={form.message}
+                      onChange={(e) => { setForm((f) => ({ ...f, message: e.target.value })); setErrors((er) => ({ ...er, message: undefined })); }}
+                      className={`${inputBase} resize-none`}
+                    />
+                    {errors.message && (
+                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.message}</p>
+                    )}
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Outfit'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {status === "sending" ? (
+                      <>
+                        <svg className="animate-spin" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                          <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="20" strokeDashoffset="10" />
+                        </svg>
+                        Opening email client...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <ArrowUpRight size={16} />
+                      </>
+                    )}
+                  </button>
+
+                  {status === "error" && (
+                    <p className="font-['Outfit'] text-[0.65rem] text-red-400 text-center">
+                      Something went wrong. Please email directly at charlotte_smith@outlook.com
+                    </p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -559,7 +703,6 @@ function Contact() {
     </section>
   );
 }
-
 // ── Footer ────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
