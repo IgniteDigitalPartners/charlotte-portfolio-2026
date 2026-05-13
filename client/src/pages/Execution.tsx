@@ -573,7 +573,7 @@ export default function Execution() {
               <em className="italic text-[#C87941]">Hands-on delivery.</em>
             </h2>
             <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45 leading-relaxed max-w-sm md:text-right">
-              Tool stack, motion campaigns, social content, infographic design, and live content systems. Built and shipped.
+              Tool stack, motion campaigns, social content, and infographic design. Built and shipped.
             </p>
           </div>
         </div>
@@ -596,10 +596,6 @@ export default function Execution() {
           </div>
           <div className="bg-[#080808] p-10 lg:p-14 border-t border-white/5 border-l-0 lg:border-l">
             <InfographicDesign />
-          </div>
-          {/* Row 3 — full width */}
-          <div className="bg-[#080808] p-10 lg:p-14 border-t border-white/5 lg:col-span-2">
-            <ContentCalendar />
           </div>
         </div>
       </div>
