@@ -520,17 +520,26 @@ export default function Execution() {
           </div>
         </div>
 
-        {/* Sub-sections stacked with dividers */}
-        <div className="space-y-24">
-          <ToolStack />
-          <div className="border-t border-white/5" />
-          <MotionCampaign />
-          <div className="border-t border-white/5" />
-          <SocialContent />
-          <div className="border-t border-white/5" />
-          <InfographicDesign />
-          <div className="border-t border-white/5" />
-          <ContentCalendar />
+        {/* Sub-sections: 2 per row grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
+          {/* Row 1 */}
+          <div className="bg-[#080808] p-10 lg:p-14">
+            <ToolStack />
+          </div>
+          <div className="bg-[#080808] p-10 lg:p-14 border-l-0 lg:border-l border-white/5">
+            <MotionCampaign />
+          </div>
+          {/* Row 2 */}
+          <div className="bg-[#080808] p-10 lg:p-14 border-t border-white/5">
+            <SocialContent />
+          </div>
+          <div className="bg-[#080808] p-10 lg:p-14 border-t border-white/5 border-l-0 lg:border-l">
+            <InfographicDesign />
+          </div>
+          {/* Row 3 — full width */}
+          <div className="bg-[#080808] p-10 lg:p-14 border-t border-white/5 lg:col-span-2">
+            <ContentCalendar />
+          </div>
         </div>
       </div>
     </section>
