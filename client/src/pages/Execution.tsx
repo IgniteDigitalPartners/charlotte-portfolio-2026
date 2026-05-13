@@ -490,6 +490,64 @@ function ContentCalendar() {
   );
 }
 
+// ── Growth Wins metrics bar ─────────────────────────────────────────────────
+const growthStats = [
+  { value: "42%", label: "Avg Engagement Lift", detail: "Across LinkedIn campaigns" },
+  { value: "15+", label: "Brands Built", detail: "From positioning to launch" },
+  { value: "8", label: "Weeks Automated", detail: "Content calendar, zero daily input" },
+  { value: "5", label: "Sectors Served", detail: "Mining · Capital Markets · SaaS · Hospitality · Industrial" },
+  { value: "3", label: "Continents Active", detail: "EU · UK · CA" },
+  { value: "20+", label: "Tools Deployed", detail: "Hands-on, not just listed" },
+];
+
+function GrowthWins() {
+  const { ref, visible } = useReveal(100);
+
+  return (
+    <div
+      ref={ref}
+      className={`mb-0 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+    >
+      {/* Label row */}
+      <div className="flex items-center gap-3 mb-6">
+        <span className="block w-6 h-px bg-[#C87941]/50" />
+        <span className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.18em] uppercase text-[#C87941]/70">
+          Growth Wins
+        </span>
+      </div>
+
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-white/5">
+        {growthStats.map((stat, i) => (
+          <div
+            key={stat.label}
+            className="bg-[#0A0A0A] p-6 group relative overflow-hidden transition-colors duration-300 hover:bg-[#111111]"
+            style={{ transitionDelay: `${i * 60}ms` }}
+          >
+            {/* Copper accent line on hover */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-[#C87941] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+
+            {/* Value */}
+            <div className="font-['Cormorant_Garamond'] text-[clamp(2rem,3.5vw,2.8rem)] font-700 text-[#C87941] leading-none mb-2">
+              {stat.value}
+            </div>
+
+            {/* Label */}
+            <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.1em] uppercase text-[#F2EFEA]/70 mb-1.5 leading-tight">
+              {stat.label}
+            </div>
+
+            {/* Detail — visible on hover */}
+            <div className="font-['Open_Sans'] text-[0.6rem] text-[#F2EFEA]/30 leading-snug max-h-0 overflow-hidden group-hover:max-h-10 transition-all duration-300">
+              {stat.detail}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Main Execution Section ────────────────────────────────────────────────────
 export default function Execution() {
   const { ref, visible } = useReveal();
@@ -519,6 +577,9 @@ export default function Execution() {
             </p>
           </div>
         </div>
+
+        {/* Growth Wins metrics bar */}
+        <GrowthWins />
 
         {/* Sub-sections: 2 per row grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
