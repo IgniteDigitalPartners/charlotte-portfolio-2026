@@ -653,7 +653,7 @@ function Contact() {
 
               {/* Download CV button */}
               <a
-                href="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/hPrYpilqdqsrlqqM.pdf"
+                href="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/HVxJIetBGncQTqgA.pdf"
                 download="Charlotte_Smith_CV_2026.pdf"
                 className="inline-flex items-center gap-3 mt-8 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
