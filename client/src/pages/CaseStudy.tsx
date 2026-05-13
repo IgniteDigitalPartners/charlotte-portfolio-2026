@@ -375,10 +375,10 @@ export default function CaseStudy() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
               {[
-                { src: "/manus-storage/vertui_site_35c79282.png", label: "Vertui Horticulture", url: "https://www.vertui.com" },
-                { src: "/manus-storage/rockon_site_31bb53a3.png", label: "Roc-Kon Concrete", url: "https://roc-kon-revive.vercel.app" },
-                { src: "/manus-storage/ezsy_site_65e8c6cf.png", label: "Ezsy Webs", url: "https://ezsywebs.com" },
-                { src: "/manus-storage/gcg_site_0fb84cb0.png", label: "General Copper Gold", url: "https://www.generalcoppergold.com" },
+                { src: "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/JVNEpgqkYSoVqqwu.png", label: "Vertui Horticulture", url: "https://www.vertui.com" },
+                { src: "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/FzGoxQZSWZVGQlqE.png", label: "Roc-Kon Concrete", url: "https://roc-kon-revive.vercel.app" },
+                { src: "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/kbRqjKEfyGCsliwq.png", label: "Ezsy Webs", url: "https://ezsywebs.com" },
+                { src: "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/JLOMFZkalaYVkvhd.png", label: "General Copper Gold", url: "https://www.generalcoppergold.com" },
               ].map(({ src, label, url }) => (
                 <div key={label} className="relative overflow-hidden group border border-white/5" style={{ aspectRatio: "16/9" }}>
                   <img
