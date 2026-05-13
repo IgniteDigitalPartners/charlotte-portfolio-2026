@@ -10,19 +10,28 @@ import { ArrowUpRight, Mail, Phone, Linkedin, MapPin, ExternalLink } from "lucid
 import { caseStudies, stats, capabilities, experience, operatingEnvironments } from "@/lib/data";
 
 // ── Scroll-reveal hook ────────────────────────────────────────────────────────
-function useReveal() {
+function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (delay > 0) {
+            setTimeout(() => setVisible(true), delay);
+          } else {
+            setVisible(true);
+          }
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.15 }
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [delay]);
   return { ref, visible };
 }
 
@@ -546,6 +555,12 @@ function Credentials() {
 // ── Contact ───────────────────────────────────────────────────────────────────
 function Contact() {
   const { ref, visible } = useReveal();
+  // Staggered reveal refs for each form field
+  const { ref: refLabel, visible: visLabel } = useReveal(0);
+  const { ref: refName, visible: visName } = useReveal(80);
+  const { ref: refEmail, visible: visEmail } = useReveal(160);
+  const { ref: refMsg, visible: visMsg } = useReveal(240);
+  const { ref: refSubmit, visible: visSubmit } = useReveal(320);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -671,12 +686,27 @@ function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} noValidate className="space-y-7">
-                  <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-2">
+                  <div
+                    ref={refLabel}
+                    style={{
+                      opacity: visLabel ? 1 : 0,
+                      transform: visLabel ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                    className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-2"
+                  >
                     Send a message
                   </div>
 
                   {/* Name */}
-                  <div>
+                  <div
+                    ref={refName}
+                    style={{
+                      opacity: visName ? 1 : 0,
+                      transform: visName ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                  >
                     <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Name
                     </label>
@@ -694,7 +724,14 @@ function Contact() {
                   </div>
 
                   {/* Email */}
-                  <div>
+                  <div
+                    ref={refEmail}
+                    style={{
+                      opacity: visEmail ? 1 : 0,
+                      transform: visEmail ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                  >
                     <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Email
                     </label>
@@ -712,7 +749,14 @@ function Contact() {
                   </div>
 
                   {/* Message */}
-                  <div>
+                  <div
+                    ref={refMsg}
+                    style={{
+                      opacity: visMsg ? 1 : 0,
+                      transform: visMsg ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                  >
                     <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Message
                     </label>
@@ -729,6 +773,14 @@ function Contact() {
                   </div>
 
                   {/* Submit */}
+                  <div
+                    ref={refSubmit}
+                    style={{
+                      opacity: visSubmit ? 1 : 0,
+                      transform: visSubmit ? "translateY(0)" : "translateY(10px)",
+                      transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
+                    }}
+                  >
                   <button
                     type="submit"
                     disabled={status === "sending"}
@@ -754,6 +806,7 @@ function Contact() {
                       Something went wrong. Please email directly at charlotte_smith@outlook.com
                     </p>
                   )}
+                  </div>
                 </form>
               )}
             </div>
