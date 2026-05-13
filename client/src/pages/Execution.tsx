@@ -571,7 +571,7 @@ export default function Execution() {
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-10 h-px bg-[#C87941]" />
             <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
-              No. 04 / Execution
+              No. 04 / Campaigns
             </span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
