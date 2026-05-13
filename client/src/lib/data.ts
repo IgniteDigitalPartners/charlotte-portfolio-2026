@@ -397,3 +397,4 @@ export const operatingEnvironments = [
   { title: "Capital Markets & IR", detail: "TSX, TSX-V, and ASX-listed clients." },
   { title: "Hospitality & Lifestyle", detail: "Consumer-facing brand and growth." },
 ];
+
