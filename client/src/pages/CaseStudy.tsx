@@ -253,6 +253,67 @@ export default function CaseStudy() {
         </section>
       )}
 
+      {/* IDP Ignition Loop — special section for IDP case study */}
+      {cs.slug === "idp" && (
+        <section className="py-20 bg-[#060606]">
+          <div className="container">
+            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2" style={{ color: accent }}>
+              The Ignition Loop
+            </div>
+            <p className="font-['Cormorant_Garamond'] text-2xl text-[#F2EFEA]/70 mb-12 max-w-2xl">
+              A four-phase continuous intelligence system. Each phase feeds measurable intelligence into the next.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+              {[
+                {
+                  phase: "01",
+                  name: "Clarity",
+                  symbol: "◈",
+                  description: "Define brand positioning, messaging architecture, and strategic foundations. Audit existing infrastructure. Establish narrative architecture and analytics baselines.",
+                  timeline: "Month 1",
+                },
+                {
+                  phase: "02",
+                  name: "Activation",
+                  symbol: "◇",
+                  description: "Deploy CRM, tracking, and campaign infrastructure. Launch initial audience acquisition. Remove vendor chaos and activate the system.",
+                  timeline: "Month 2",
+                },
+                {
+                  phase: "03",
+                  name: "Growth",
+                  symbol: "△",
+                  description: "Execute 90-day content cycles. Expand retargeting pools. Optimise funnels against benchmarks. Compound search authority and stakeholder familiarity.",
+                  timeline: "Months 3-6",
+                },
+                {
+                  phase: "04",
+                  name: "Insight",
+                  symbol: "○",
+                  description: "Continuous KPI benchmarking, sentiment tracking, and strategic recalibration each cycle. Removes uncertainty. Feeds intelligence back into Clarity.",
+                  timeline: "Ongoing",
+                },
+              ].map((p) => (
+                <div key={p.phase} className="bg-[#060606] p-8 hover:bg-[#0f0f0f] transition-colors duration-200">
+                  <div className="flex items-start justify-between mb-6">
+                    <span className="font-['Cormorant_Garamond'] text-5xl" style={{ color: accent + "33" }}>{p.symbol}</span>
+                    <span className="font-['Outfit'] text-[0.55rem] tracking-[0.15em] uppercase text-[#F2EFEA]/25 mt-1">{p.timeline}</span>
+                  </div>
+                  <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-1" style={{ color: accent }}>Phase {p.phase}</div>
+                  <h3 className="font-['Cormorant_Garamond'] text-2xl font-600 text-[#F2EFEA] mb-4">{p.name}</h3>
+                  <p className="font-['Outfit'] text-sm text-[#F2EFEA]/45 leading-relaxed">{p.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 pt-8 border-t border-white/5">
+              <p className="font-['Outfit'] text-sm text-[#F2EFEA]/30 max-w-2xl">
+                Unlike campaign-based agencies that reset each quarter, the Ignition Loop is a continuous architecture. It captures data, refines narrative, compounds audience quality, and delivers executive-grade intelligence. Every cycle builds on the last.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Multi-client live website gallery */}
       {cs.slug === "multi-client" && (
         <section className="py-12 bg-[#080808]">
