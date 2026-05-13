@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { ArrowUpRight, Mail, Phone, Linkedin, MapPin, ExternalLink } from "lucide-react";
 import { caseStudies, stats, capabilities, experience, operatingEnvironments } from "@/lib/data";
+import ExecutionSection from "./Execution";
 
 // ── Scroll-reveal hook ────────────────────────────────────────────────────────
 function useReveal(delay = 0) {
@@ -901,6 +902,7 @@ export default function Home() {
       <Approach />
       <Work />
       <Capabilities />
+      <ExecutionSection />
       <Credentials />
       <Contact />
       <Footer />
