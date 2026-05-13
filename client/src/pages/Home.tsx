@@ -802,6 +802,42 @@ function Footer() {
   );
 }
 
+// ── Scroll To Top ───────────────────────────────────────────────────────────
+function ScrollToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handler = () => {
+      // Fade in after user scrolls past ~100vh (the hero section)
+      setVisible(window.scrollY > window.innerHeight * 0.8);
+    };
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <button
+      onClick={scrollTop}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-50 w-11 h-11 flex items-center justify-center border border-[#C87941]/50 bg-[#0A0A0A]/80 backdrop-blur-sm text-[#C87941] hover:bg-[#C87941] hover:text-[#0A0A0A] hover:border-[#C87941] active:scale-[0.94] transition-all duration-300"
+      style={{
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+        transform: visible ? "translateY(0)" : "translateY(12px)",
+        transition: "opacity 300ms cubic-bezier(0.23,1,0.32,1), transform 300ms cubic-bezier(0.23,1,0.32,1), background-color 200ms ease, color 200ms ease, border-color 200ms ease",
+      }}
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 11V3M7 3L3 7M7 3l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
@@ -815,6 +851,7 @@ export default function Home() {
       <Credentials />
       <Contact />
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
