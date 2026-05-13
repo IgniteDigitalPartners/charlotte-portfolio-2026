@@ -1,5 +1,5 @@
 /**
- * Charlotte Smith Portfolio 2026 — Case Study Page
+ * Charlotte Smith Portfolio 2026 - Case Study Page
  * Design: Cinematic Dark Luxury
  * Palette: Obsidian · Copper · Cream
  * Each case study uses its own brand accent color from data.ts
@@ -71,7 +71,7 @@ export default function CaseStudy() {
         </div>
       </nav>
 
-      {/* Hero — real Canva design as full-bleed background */}
+      {/* Hero, real Canva design as full-bleed background */}
       <section className="relative pt-16 overflow-hidden">
         <div className="relative" style={{ minHeight: "75vh" }}>
           <img
@@ -199,7 +199,7 @@ export default function CaseStudy() {
               className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
               style={{ color: accent }}
             >
-              Real Work — From Canva
+              Real Work, From Canva
             </div>
             <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/35 mb-8">
               Actual design deliverables produced for this engagement. Click any image to enlarge.
@@ -253,7 +253,7 @@ export default function CaseStudy() {
         </section>
       )}
 
-      {/* IDP Ignition Loop — special section for IDP case study */}
+      {/* IDP Ignition Loop, special section for IDP case study */}
       {cs.slug === "idp" && (
         <section className="py-20 bg-[#060606]">
           <div className="container">
@@ -283,7 +283,7 @@ export default function CaseStudy() {
                   phase: "03",
                   name: "Growth",
                   symbol: "△",
-                  description: "Execute 90-day content cycles. Expand retargeting pools. Optimise funnels against benchmarks. Compound search authority and stakeholder familiarity.",
+                  description: "Execute 90-day content cycles. Expand retargeting pools. Optimise funnels against benchmarks. Build search authority and stakeholder familiarity.",
                   timeline: "Months 3-6",
                 },
                 {
@@ -307,7 +307,7 @@ export default function CaseStudy() {
             </div>
             <div className="mt-8 pt-8 border-t border-white/5">
               <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/30 max-w-2xl">
-                Unlike campaign-based agencies that reset each quarter, the Ignition Loop is a continuous architecture. It captures data, refines narrative, compounds audience quality, and delivers executive-grade intelligence. Every cycle builds on the last.
+                Unlike campaign-based agencies that reset each quarter, the Ignition Loop is a continuous architecture. It captures data, refines narrative, improves audience quality, and delivers executive-grade intelligence. Every cycle builds on the last.
               </p>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function CaseStudy() {
       )}
 
       {/* Multi-client live website gallery */}
-      {/* Live website screenshot — for case studies with a liveScreenshot (not multi-client) */}
+      {/* Live website screenshot, for case studies with a liveScreenshot (not multi-client) */}
       {cs.liveScreenshot && cs.slug !== "multi-client" && (
         <section className="py-12 bg-[#080808] border-t border-white/5">
           <div className="container">
@@ -335,7 +335,7 @@ export default function CaseStudy() {
             >
               <img
                 src={cs.liveScreenshot}
-                alt={`${cs.client} — live website`}
+                alt={`${cs.client}, live website`}
                 className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />

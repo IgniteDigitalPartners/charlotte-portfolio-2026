@@ -1,5 +1,5 @@
 /**
- * Charlotte Smith Portfolio 2026 — Home Page
+ * Charlotte Smith Portfolio 2026 - Home Page
  * Design: Cinematic Dark Luxury
  * Palette: Obsidian (#0D0D0D) · Copper (#C87941) · Cream (#F2EFEA)
  * Typography: Cormorant Garamond (display) + Open Sans (body)
@@ -79,7 +79,7 @@ function Hero() {
       id="top"
       className="relative min-h-screen flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Real IDP brand hero background — hero-liquid-metal.jpg */}
+      {/* Real IDP brand hero background, hero-liquid-metal.jpg */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -111,7 +111,7 @@ function Hero() {
             </h1>
             <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
               A senior marketing and brand strategist working at the intersection of brand, content,
-              and growth. Nine years building communication systems that compound credibility, for
+              and growth. Nine years building communication systems that build credibility, for
               founders, agencies, and listed companies across the EU, UK, and Canada.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -144,7 +144,7 @@ function Hero() {
                 <div className="w-full h-full border border-[#C87941]/50 overflow-hidden group/headshot">
                   <img
                     src="/manus-storage/charlotte_headshot_a4fbb299.webp"
-                    alt="Charlotte Smith — Senior Marketing & Brand Strategist"
+                    alt="Charlotte Smith, Senior Marketing and Brand Strategist"
                     className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/headshot:scale-[1.06]"
                   />
                 </div>
@@ -192,7 +192,7 @@ function Hero() {
               <div className="relative overflow-hidden border border-[#C87941]/20 group/idp" style={{ aspectRatio: "16/9" }}>
                 <img
                   src="/manus-storage/idp_home_b0eb3df4.png"
-                  alt="ignitedigitalpartners.com — live website"
+                  alt="ignitedigitalpartners.com live website"
                   className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/idp:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-transparent" />
@@ -266,7 +266,7 @@ function Approach() {
               <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
                 Most marketing fails not because the tactics are wrong, but because it's run as
                 campaigns instead of systems. Campaigns create moments. Systems create momentum. I
-                spend my time bridging that gap: brand work that compounds, content that earns its
+                spend my time bridging that gap: brand work that delivers, content that earns its
                 place in the system, measurement that connects activity to confidence.
               </p>
               <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
@@ -289,7 +289,7 @@ function Approach() {
                 {[
                   { num: "i.", label: "Clarity", desc: "Strategic foundation, brand positioning, messaging architecture." },
                   { num: "ii.", label: "Activation", desc: "System deployment across channels and content." },
-                  { num: "iii.", label: "Growth", desc: "Compounding momentum from consistent execution." },
+                  { num: "iii.", label: "Growth", desc: "Sustained momentum from consistent execution." },
                   { num: "iv.", label: "Insight", desc: "Intelligence gathering that feeds back into strategy." },
                   { num: "∞", label: "Back to Clarity", desc: "Continuous improvement, not reset." },
                 ].map((item) => (
