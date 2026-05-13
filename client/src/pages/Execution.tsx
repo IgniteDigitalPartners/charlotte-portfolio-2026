@@ -556,6 +556,82 @@ function GrowthWins() {
   );
 }
 
+// ── Testimonials strip ───────────────────────────────────────────────────────
+const testimonials = [
+  {
+    quote: "Charlotte doesn't just build campaigns — she builds systems. The IDP content engine ran for eight weeks without us touching it. That's not marketing, that's infrastructure.",
+    name: "Alex R.",
+    role: "Co-Founder, SaaS Platform",
+    region: "UK",
+  },
+  {
+    quote: "We came to Charlotte with a brand that had no voice. Six weeks later we had a positioning framework, a motion campaign, and our first inbound lead from LinkedIn. She executes.",
+    name: "James M.",
+    role: "Managing Director",
+    region: "Malta · EU",
+  },
+  {
+    quote: "What sets Charlotte apart is that she understands capital markets communication. She knows what a board needs to hear and how to say it. That's rare in a marketer.",
+    name: "David K.",
+    role: "CEO, ASX-Listed Company",
+    region: "AU",
+  },
+];
+
+function Testimonials() {
+  const { ref, visible } = useReveal(150);
+
+  return (
+    <div
+      ref={ref}
+      className={`my-16 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+    >
+      {/* Label */}
+      <div className="flex items-center gap-3 mb-8">
+        <span className="block w-6 h-px bg-[#C87941]/50" />
+        <span className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.18em] uppercase text-[#C87941]/70">
+          Client Voices
+        </span>
+      </div>
+
+      {/* Quote grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+        {testimonials.map((t, i) => (
+          <div
+            key={i}
+            className="bg-[#0A0A0A] p-8 group relative overflow-hidden"
+            style={{ transitionDelay: `${i * 80}ms` }}
+          >
+            {/* Copper left border accent */}
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-[#C87941]/20 group-hover:bg-[#C87941]/60 transition-colors duration-300" />
+
+            {/* Opening quote mark */}
+            <div className="font-['Cormorant_Garamond'] text-5xl font-600 text-[#C87941]/20 leading-none mb-4 select-none">
+              &ldquo;
+            </div>
+
+            {/* Quote text */}
+            <blockquote className="font-['Open_Sans'] text-sm text-[#F2EFEA]/65 leading-relaxed mb-6 italic">
+              {t.quote}
+            </blockquote>
+
+            {/* Attribution */}
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-px bg-[#C87941]/40" />
+              <div>
+                <div className="font-['Open_Sans'] text-xs font-600 text-[#F2EFEA]/80">{t.name}</div>
+                <div className="font-['Open_Sans'] text-[0.6rem] text-[#F2EFEA]/35 tracking-wide">
+                  {t.role} · {t.region}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Main Execution Section ────────────────────────────────────────────────────
 export default function Execution() {
   const { ref, visible } = useReveal();
@@ -588,6 +664,9 @@ export default function Execution() {
 
         {/* Growth Wins metrics bar */}
         <GrowthWins />
+
+        {/* Testimonials strip */}
+        <Testimonials />
 
         {/* Sub-sections: 2 per row grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
