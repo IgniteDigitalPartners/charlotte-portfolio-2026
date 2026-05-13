@@ -375,10 +375,10 @@ export default function CaseStudy() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
               {[
-                { src: "https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/vertui_site.png", label: "Vertui Horticulture", url: "https://www.vertui.com" },
-                { src: "https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/rockon_site.png", label: "Roc-Kon Concrete", url: "https://roc-kon-revive.vercel.app" },
-                { src: "https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/ezsy_site.png", label: "Ezsy Webs", url: "https://ezsywebs.com" },
-                { src: "https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/gcg_site.png", label: "General Copper Gold", url: "https://www.generalcoppergold.com" },
+                { src: "/manus-storage/vertui_site_35c79282.png", label: "Vertui Horticulture", url: "https://www.vertui.com" },
+                { src: "/manus-storage/rockon_site_31bb53a3.png", label: "Roc-Kon Concrete", url: "https://roc-kon-revive.vercel.app" },
+                { src: "/manus-storage/ezsy_site_65e8c6cf.png", label: "Ezsy Webs", url: "https://ezsywebs.com" },
+                { src: "/manus-storage/gcg_site_0fb84cb0.png", label: "General Copper Gold", url: "https://www.generalcoppergold.com" },
               ].map(({ src, label, url }) => (
                 <div key={label} className="relative overflow-hidden group border border-white/5" style={{ aspectRatio: "16/9" }}>
                   <img

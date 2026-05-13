@@ -83,7 +83,7 @@ function Hero() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "url('https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/hero-liquid-metal.jpg')",
+          backgroundImage: "url('/manus-storage/hero-liquid-metal_3c7c1f8d.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.55,
@@ -143,7 +143,7 @@ function Hero() {
                 {/* Main frame */}
                 <div className="w-full h-full border border-[#C87941]/50 overflow-hidden group/headshot">
                   <img
-                    src="https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/charlotte_headshot.webpa4fbb299.webp"
+                    src="/manus-storage/charlotte_headshot_57a38930.webp"
                     alt="Charlotte Smith, Senior Marketing and Brand Strategist"
                     className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/headshot:scale-[1.06]"
                   />
@@ -184,14 +184,14 @@ function Hero() {
             <div className="relative">
               <div className="mb-3 flex items-center gap-3">
                 <img
-                  src="https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/ignite-wordmark-white.png7e55b079.png"
+                  src="/manus-storage/ignite-wordmark-white_8404e0d6.png"
                   alt="Ignite Digital Partners"
                   className="h-6 w-auto opacity-80"
                 />
               </div>
               <div className="relative overflow-hidden border border-[#C87941]/20 group/idp" style={{ aspectRatio: "16/9" }}>
                 <img
-                  src="https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/idp_home.png"
+                  src="/manus-storage/idp_home_15765785.png"
                   alt="ignitedigitalpartners.com live website"
                   className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover/idp:scale-[1.04]"
                 />
@@ -652,7 +652,7 @@ function Contact() {
 
               {/* Download CV button */}
               <a
-                href="https://raw.githubusercontent.com/IgniteDigitalPartners/charlotte-portfolio-2026/main/public/assets/Charlotte_Smith_CV_2026.pdf"
+                href="/manus-storage/Charlotte_Smith_CV_2026_9941974f.pdf"
                 download="Charlotte_Smith_CV_2026.pdf"
                 className="inline-flex items-center gap-3 mt-8 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
