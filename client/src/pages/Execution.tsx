@@ -12,6 +12,7 @@
  *  5. Content Calendar — live link + screenshot to the Ignite content calendar
  */
 import { useState, useRef, useEffect } from "react";
+import { Link } from "wouter";
 import { ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 // ── Scroll-reveal hook (local copy) ──────────────────────────────────────────
@@ -70,16 +71,16 @@ const toolCategories = ["AI & Automation", "Content & Design", "Web & Product", 
 
 // ── Motion videos data ────────────────────────────────────────────────────────
 const motionVideos = [
-  { src: "/manus-storage/ignite-v9-curve_3a5022b0.mp4", title: "The Curve", subtitle: "Growth trajectory narrative" },
-  { src: "/manus-storage/ignite-v10-stages_92ccf87f.mp4", title: "Stages", subtitle: "Ignition Loop phase reveal" },
-  { src: "/manus-storage/ignite-v11-noise_abbd3ce4.mp4", title: "Noise", subtitle: "Signal vs noise positioning" },
-  { src: "/manus-storage/ignite-v12-boards_8cfb1974.mp4", title: "Boards", subtitle: "Capital markets communication" },
-  { src: "/manus-storage/ignite-v13-trust_36e6e790.mp4", title: "Trust", subtitle: "Credibility infrastructure" },
-  { src: "/manus-storage/ignite-v14-spark_0b05d500.mp4", title: "Spark", subtitle: "Brand activation moment" },
-  { src: "/manus-storage/ignite-v15-industry_d494cf27.mp4", title: "Industry", subtitle: "Sector-specific positioning" },
-  { src: "/manus-storage/ignite-v16-refusal_f616d5da.mp4", title: "Refusal", subtitle: "Against generic marketing" },
-  { src: "/manus-storage/ignite-v17-os_18c13a25.mp4", title: "Operating System", subtitle: "The IDP methodology" },
-  { src: "/manus-storage/ignite-v18-iq_60945521.mp4", title: "IQ", subtitle: "Intelligence-led growth" },
+  { src: "/manus-storage/ignite-v9-curve_3a5022b0.mp4", title: "The Curve", subtitle: "Growth trajectory narrative", slug: "the-curve" },
+  { src: "/manus-storage/ignite-v10-stages_92ccf87f.mp4", title: "Stages", subtitle: "Ignition Loop phase reveal", slug: "stages" },
+  { src: "/manus-storage/ignite-v11-noise_abbd3ce4.mp4", title: "Noise", subtitle: "Signal vs noise positioning", slug: "noise" },
+  { src: "/manus-storage/ignite-v12-boards_8cfb1974.mp4", title: "Boards", subtitle: "Capital markets communication", slug: "boards" },
+  { src: "/manus-storage/ignite-v13-trust_36e6e790.mp4", title: "Trust", subtitle: "Credibility infrastructure", slug: "trust" },
+  { src: "/manus-storage/ignite-v14-spark_0b05d500.mp4", title: "Spark", subtitle: "Brand activation moment", slug: "spark" },
+  { src: "/manus-storage/ignite-v15-industry_d494cf27.mp4", title: "Industry", subtitle: "Sector-specific positioning", slug: "industry" },
+  { src: "/manus-storage/ignite-v16-refusal_f616d5da.mp4", title: "Refusal", subtitle: "Against generic marketing", slug: "refusal" },
+  { src: "/manus-storage/ignite-v17-os_18c13a25.mp4", title: "Operating System", subtitle: "The IDP methodology", slug: "operating-system" },
+  { src: "/manus-storage/ignite-v18-iq_60945521.mp4", title: "IQ", subtitle: "Intelligence-led growth", slug: "iq" },
 ];
 
 // ── Social content images ─────────────────────────────────────────────────────
@@ -235,33 +236,40 @@ function MotionCampaign() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {motionVideos.map((v, i) => (
-          <div
-            key={i}
-            className="group relative overflow-hidden bg-[#111111] border border-white/5 hover:border-[#C87941]/30 transition-all duration-300"
-            style={{ aspectRatio: "9/16" }}
-          >
-            <video
-              src={v.src}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-3">
-              <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.1em] uppercase text-[#C87941] mb-0.5">
-                V{i + 9}
+          <Link key={i} href={`/motion/${v.slug}`}>
+            <div
+              className="group relative overflow-hidden bg-[#111111] border border-white/5 hover:border-[#C87941]/40 transition-all duration-300 cursor-pointer"
+              style={{ aspectRatio: "9/16" }}
+            >
+              <video
+                src={v.src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-transparent to-transparent" />
+              {/* View case study indicator */}
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="bg-[#C87941] p-1.5">
+                  <ExternalLink size={10} className="text-[#0A0A0A]" />
+                </div>
               </div>
-              <div className="font-['Open_Sans'] text-xs font-500 text-[#F2EFEA] leading-tight">
-                {v.title}
-              </div>
-              <div className="font-['Open_Sans'] text-[0.6rem] text-[#F2EFEA]/40 leading-tight mt-0.5">
-                {v.subtitle}
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.1em] uppercase text-[#C87941] mb-0.5">
+                  V{i + 9}
+                </div>
+                <div className="font-['Open_Sans'] text-xs font-500 text-[#F2EFEA] leading-tight">
+                  {v.title}
+                </div>
+                <div className="font-['Open_Sans'] text-[0.6rem] text-[#F2EFEA]/40 leading-tight mt-0.5 group-hover:text-[#C87941]/60 transition-colors duration-200">
+                  View case study
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
