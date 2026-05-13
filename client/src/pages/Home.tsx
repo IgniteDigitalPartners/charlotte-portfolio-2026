@@ -2,7 +2,7 @@
  * Charlotte Smith Portfolio 2026 — Home Page
  * Design: Cinematic Dark Luxury
  * Palette: Obsidian (#0D0D0D) · Copper (#C87941) · Cream (#F2EFEA)
- * Typography: Cormorant Garamond (display) + Outfit (body)
+ * Typography: Cormorant Garamond (display) + Open Sans (body)
  */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
@@ -53,7 +53,7 @@ function Nav() {
       }`}
     >
       <div className="container flex items-center justify-between h-16">
-        <a href="#top" className="font-['Outfit'] text-sm font-500 tracking-wide text-[#F2EFEA]">
+        <a href="#top" className="font-['Open_Sans'] text-sm font-500 tracking-wide text-[#F2EFEA]">
           Charlotte Smith <span className="text-[#C87941]">/</span> Senior Marketing
         </a>
         <div className="hidden md:flex items-center gap-8">
@@ -61,7 +61,7 @@ function Nav() {
             <a
               key={s}
               href={`#${s}`}
-              className="font-['Outfit'] text-xs font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/60 hover:text-[#C87941] transition-colors duration-200"
+              className="font-['Open_Sans'] text-xs font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/60 hover:text-[#C87941] transition-colors duration-200"
             >
               {s}
             </a>
@@ -97,7 +97,7 @@ function Hero() {
           <div>
             <div className="flex items-center gap-3 mb-8">
               <span className="block w-10 h-px bg-[#C87941]" />
-              <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+              <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
                 Portfolio · 2026
               </span>
             </div>
@@ -109,7 +109,7 @@ function Hero() {
               <br />
               outcomes.
             </h1>
-            <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
+            <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
               A senior marketing and brand strategist working at the intersection of brand, content,
               and growth. Nine years building communication systems that compound credibility, for
               founders, agencies, and listed companies across the EU, UK, and Canada.
@@ -117,14 +117,14 @@ function Hero() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Outfit'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97]"
               >
                 View Selected Work
                 <ArrowUpRight size={16} />
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-[#F2EFEA]/20 text-[#F2EFEA] font-['Outfit'] text-sm font-500 tracking-wide hover:border-[#C87941] hover:text-[#C87941] transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-[#F2EFEA]/20 text-[#F2EFEA] font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#C87941] hover:text-[#C87941] transition-colors duration-200"
               >
                 Get in Touch
               </a>
@@ -159,8 +159,8 @@ function Hero() {
               <div className="pt-2 flex flex-col gap-3">
                 <div>
                   <p className="font-['Cormorant_Garamond'] text-2xl font-600 text-[#F2EFEA] leading-tight">Charlotte Smith</p>
-                  <p className="font-['Outfit'] text-[0.65rem] tracking-[0.14em] uppercase text-[#C87941] mt-1">Executive Partner</p>
-                  <p className="font-['Outfit'] text-[0.65rem] tracking-[0.14em] uppercase text-[#F2EFEA]/35">Ignite Digital Partners</p>
+                  <p className="font-['Open_Sans'] text-[0.65rem] tracking-[0.14em] uppercase text-[#C87941] mt-1">Executive Partner</p>
+                  <p className="font-['Open_Sans'] text-[0.65rem] tracking-[0.14em] uppercase text-[#F2EFEA]/35">Ignite Digital Partners</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
                   {[
@@ -170,12 +170,12 @@ function Hero() {
                   ].map((stat) => (
                     <div key={stat} className="flex items-center gap-2">
                       <span className="w-1 h-1 bg-[#C87941] shrink-0" />
-                      <span className="font-['Outfit'] text-[0.6rem] tracking-[0.08em] text-[#F2EFEA]/50">{stat}</span>
+                      <span className="font-['Open_Sans'] text-[0.6rem] tracking-[0.08em] text-[#F2EFEA]/50">{stat}</span>
                     </div>
                   ))}
                 </div>
                 <div className="mt-auto pt-2 border-t border-white/8">
-                  <p className="font-['Outfit'] text-[0.5rem] tracking-[0.12em] uppercase text-[#F2EFEA]/20">Malta · Remote · EU · UK · CA</p>
+                  <p className="font-['Open_Sans'] text-[0.5rem] tracking-[0.12em] uppercase text-[#F2EFEA]/20">Malta · Remote · EU · UK · CA</p>
                 </div>
               </div>
             </div>
@@ -197,14 +197,14 @@ function Hero() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                  <span className="font-['Outfit'] text-[0.55rem] tracking-[0.15em] uppercase text-[#C87941]">
+                  <span className="font-['Open_Sans'] text-[0.55rem] tracking-[0.15em] uppercase text-[#C87941]">
                     ignitedigitalpartners.com
                   </span>
                   <a
                     href="https://www.ignitedigitalpartners.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-['Outfit'] text-[0.55rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-[#C87941] transition-colors flex items-center gap-1"
+                    className="font-['Open_Sans'] text-[0.55rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-[#C87941] transition-colors flex items-center gap-1"
                   >
                     Visit <ExternalLink size={9} />
                   </a>
@@ -231,7 +231,7 @@ function StatsBar() {
               <div className="font-['Cormorant_Garamond'] text-4xl font-600 text-[#C87941] mb-1">
                 {s.value}
               </div>
-              <div className="font-['Outfit'] text-[0.65rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/40">
+              <div className="font-['Open_Sans'] text-[0.65rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/40">
                 {s.label}
               </div>
             </div>
@@ -254,7 +254,7 @@ function Approach() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-10 h-px bg-[#C87941]" />
-            <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+            <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
               No. 01 / Approach
             </span>
           </div>
@@ -263,18 +263,18 @@ function Approach() {
               <h2 className="font-['Cormorant_Garamond'] text-[clamp(2.5rem,5vw,4rem)] font-600 text-[#F2EFEA] leading-tight mb-8">
                 How I work, briefly.
               </h2>
-              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
+              <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
                 Most marketing fails not because the tactics are wrong, but because it's run as
                 campaigns instead of systems. Campaigns create moments. Systems create momentum. I
                 spend my time bridging that gap: brand work that compounds, content that earns its
                 place in the system, measurement that connects activity to confidence.
               </p>
-              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
+              <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed mb-6">
                 My background spans nine years across performance marketing, brand positioning,
                 investor relations, and capital markets communications. I work equally with founders
                 preparing for growth and listed companies positioning to capital.
               </p>
-              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed">
+              <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed">
                 Beyond client work, I run two businesses: Ignite Digital Partners, the strategic
                 communication systems consultancy I founded, and Ezsy Webs, an AI-powered website
                 platform for agencies. Both inform how I think about marketing as a commercial
@@ -283,7 +283,7 @@ function Approach() {
             </div>
             <div className="space-y-6">
               <div className="border border-white/8 p-6">
-                <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-4">
+                <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-4">
                   IDP · The Ignition Loop
                 </div>
                 {[
@@ -298,8 +298,8 @@ function Approach() {
                       {item.num}
                     </span>
                     <div>
-                      <span className="font-['Outfit'] text-sm font-500 text-[#F2EFEA]">{item.label}. </span>
-                      <span className="font-['Outfit'] text-sm text-[#F2EFEA]/55">{item.desc}</span>
+                      <span className="font-['Open_Sans'] text-sm font-500 text-[#F2EFEA]">{item.label}. </span>
+                      <span className="font-['Open_Sans'] text-sm text-[#F2EFEA]/55">{item.desc}</span>
                     </div>
                   </div>
                 ))}
@@ -336,7 +336,7 @@ function WorkCard({ cs, index }: { cs: typeof caseStudies[0]; index: number }) {
             {/* Case number */}
             <div className="absolute top-4 left-4">
               <span
-                className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase bg-[#0A0A0A]/70 px-2 py-1"
+                className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase bg-[#0A0A0A]/70 px-2 py-1"
                 style={{ color: cs.color }}
               >
                 Case No. {cs.number}
@@ -352,7 +352,7 @@ function WorkCard({ cs, index }: { cs: typeof caseStudies[0]; index: number }) {
           {/* Text */}
           <div className="p-6">
             <div
-              className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-2"
+              className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-2"
               style={{ color: cs.color }}
             >
               {cs.category}
@@ -360,14 +360,14 @@ function WorkCard({ cs, index }: { cs: typeof caseStudies[0]; index: number }) {
             <h3 className="font-['Cormorant_Garamond'] text-2xl font-600 text-[#F2EFEA] mb-2 leading-tight">
               {cs.client}
             </h3>
-            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/55 leading-relaxed mb-4">
+            <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/55 leading-relaxed mb-4">
               {cs.description}
             </p>
             <div className="flex flex-wrap gap-2">
               {cs.tags.slice(0, 3).map((t) => (
                 <span
                   key={t}
-                  className="font-['Outfit'] text-[0.6rem] font-500 tracking-wide uppercase px-2 py-1 border border-white/10 text-[#F2EFEA]/40"
+                  className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-wide uppercase px-2 py-1 border border-white/10 text-[#F2EFEA]/40"
                 >
                   {t}
                 </span>
@@ -386,7 +386,7 @@ function Work() {
       <div className="container">
         <div className="flex items-center gap-3 mb-4">
           <span className="block w-10 h-px bg-[#C87941]" />
-          <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+          <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
             No. 02 / Selected Work
           </span>
         </div>
@@ -396,7 +396,7 @@ function Work() {
             <br />
             each its own story.
           </h2>
-          <p className="hidden md:block font-['Outfit'] text-sm text-[#F2EFEA]/40 max-w-xs text-right">
+          <p className="hidden md:block font-['Open_Sans'] text-sm text-[#F2EFEA]/40 max-w-xs text-right">
             Click any case study to read the full story, deliverables, and outcomes.
           </p>
         </div>
@@ -422,7 +422,7 @@ function Capabilities() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-10 h-px bg-[#C87941]" />
-            <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+            <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
               No. 03 / Capabilities
             </span>
           </div>
@@ -437,10 +437,10 @@ function Capabilities() {
                 <div className="font-['Cormorant_Garamond'] text-3xl text-[#C87941]/40 mb-4 group-hover:text-[#C87941]/70 transition-colors duration-200">
                   {cap.roman}
                 </div>
-                <h3 className="font-['Outfit'] text-sm font-600 text-[#F2EFEA] mb-3 tracking-wide">
+                <h3 className="font-['Open_Sans'] text-sm font-600 text-[#F2EFEA] mb-3 tracking-wide">
                   {cap.title}
                 </h3>
-                <p className="font-['Outfit'] text-sm text-[#F2EFEA]/45 leading-relaxed">
+                <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45 leading-relaxed">
                   {cap.detail}
                 </p>
               </div>
@@ -464,7 +464,7 @@ function Credentials() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-10 h-px bg-[#C87941]" />
-            <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+            <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
               No. 04 / Credentials
             </span>
           </div>
@@ -477,7 +477,7 @@ function Credentials() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Experience timeline */}
             <div>
-              <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-6">
+              <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-6">
                 Experience
               </div>
               <div className="relative">
@@ -486,13 +486,13 @@ function Credentials() {
                   {experience.map((e, i) => (
                     <div key={i} className="relative pl-6 pb-8 last:pb-0">
                       <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-[#C87941]" />
-                      <div className="font-['Outfit'] text-[0.65rem] font-500 tracking-[0.1em] uppercase text-[#F2EFEA]/35 mb-1">
+                      <div className="font-['Open_Sans'] text-[0.65rem] font-500 tracking-[0.1em] uppercase text-[#F2EFEA]/35 mb-1">
                         {e.period}
                       </div>
-                      <div className="font-['Outfit'] text-base font-500 text-[#F2EFEA] mb-0.5">
+                      <div className="font-['Open_Sans'] text-base font-500 text-[#F2EFEA] mb-0.5">
                         {e.title}
                       </div>
-                      <div className="font-['Outfit'] text-sm text-[#C87941]">
+                      <div className="font-['Open_Sans'] text-sm text-[#C87941]">
                         {e.url ? (
                           <a
                             href={e.url}
@@ -518,7 +518,7 @@ function Credentials() {
 
             {/* Operating environments */}
             <div>
-              <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-6">
+              <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.15em] uppercase text-[#C87941] mb-6">
                 Operating Environments
               </div>
               <div className="space-y-0">
@@ -529,10 +529,10 @@ function Credentials() {
                   >
                     <div className="w-1.5 h-1.5 rounded-full bg-[#C87941] mt-2 shrink-0" />
                     <div>
-                      <div className="font-['Outfit'] text-sm font-500 text-[#F2EFEA] mb-0.5">
+                      <div className="font-['Open_Sans'] text-sm font-500 text-[#F2EFEA] mb-0.5">
                         {env.title}
                       </div>
-                      <div className="font-['Outfit'] text-sm text-[#F2EFEA]/45">
+                      <div className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45">
                         {env.detail}
                       </div>
                     </div>
@@ -540,7 +540,7 @@ function Credentials() {
                 ))}
               </div>
               <div className="mt-8 p-6 border border-white/8">
-                <p className="font-['Outfit'] text-sm text-[#F2EFEA]/45 italic">
+                <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45 italic">
                   Full references available on request.
                 </p>
               </div>
@@ -590,7 +590,7 @@ function Contact() {
   }
 
   const inputBase =
-    "w-full bg-transparent border-b border-white/15 focus:border-[#C87941] outline-none font-['Outfit'] text-sm text-[#F2EFEA] placeholder-[#F2EFEA]/25 py-3 transition-colors duration-200";
+    "w-full bg-transparent border-b border-white/15 focus:border-[#C87941] outline-none font-['Open_Sans'] text-sm text-[#F2EFEA] placeholder-[#F2EFEA]/25 py-3 transition-colors duration-200";
 
   return (
     <section id="contact" className="py-28 bg-[#0A0A0A]">
@@ -601,7 +601,7 @@ function Contact() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-10 h-px bg-[#C87941]" />
-            <span className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
+            <span className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941]">
               Let's Talk
             </span>
           </div>
@@ -614,7 +614,7 @@ function Contact() {
                 <br />
                 <em className="italic text-[#C87941]">senior roles.</em>
               </h2>
-              <p className="font-['Outfit'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
+              <p className="font-['Open_Sans'] text-base text-[#F2EFEA]/65 leading-relaxed max-w-md mb-10">
                 Open to permanent, contract, and fractional engagements where strategic range,
                 hands-on delivery, and commercial discipline matter equally.
               </p>
@@ -630,7 +630,7 @@ function Contact() {
                       <Icon size={14} className="text-[#C87941]" />
                     </div>
                     <div>
-                      <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 mb-0.5">
+                      <div className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 mb-0.5">
                         {label}
                       </div>
                       {href ? (
@@ -638,12 +638,12 @@ function Contact() {
                           href={href}
                           target={href.startsWith("http") ? "_blank" : undefined}
                           rel="noopener noreferrer"
-                          className="font-['Outfit'] text-sm text-[#F2EFEA] hover:text-[#C87941] transition-colors duration-200"
+                          className="font-['Open_Sans'] text-sm text-[#F2EFEA] hover:text-[#C87941] transition-colors duration-200"
                         >
                           {value}
                         </a>
                       ) : (
-                        <span className="font-['Outfit'] text-sm text-[#F2EFEA]">{value}</span>
+                        <span className="font-['Open_Sans'] text-sm text-[#F2EFEA]">{value}</span>
                       )}
                     </div>
                   </div>
@@ -654,7 +654,7 @@ function Contact() {
               <a
                 href="/manus-storage/Charlotte_Smith_CV_2026_93601f9f.pdf"
                 download="Charlotte_Smith_CV_2026.pdf"
-                className="inline-flex items-center gap-3 mt-8 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Outfit'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center gap-3 mt-8 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 1v9M8 10l-3-3M8 10l3-3M2 13h12" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -674,12 +674,12 @@ function Contact() {
                   <h3 className="font-['Cormorant_Garamond'] text-3xl font-600 text-[#F2EFEA]">
                     Message sent.
                   </h3>
-                  <p className="font-['Outfit'] text-sm text-[#F2EFEA]/55 leading-relaxed">
+                  <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/55 leading-relaxed">
                     Your email client has opened with the message pre-filled. Charlotte will be in touch shortly.
                   </p>
                   <button
                     onClick={() => setStatus("idle")}
-                    className="font-['Outfit'] text-xs font-600 tracking-[0.15em] uppercase text-[#C87941] hover:text-[#d4894e] transition-colors duration-200 mt-2"
+                    className="font-['Open_Sans'] text-xs font-600 tracking-[0.15em] uppercase text-[#C87941] hover:text-[#d4894e] transition-colors duration-200 mt-2"
                   >
                     Send another
                   </button>
@@ -693,7 +693,7 @@ function Contact() {
                       transform: visLabel ? "translateY(0)" : "translateY(10px)",
                       transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
                     }}
-                    className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-2"
+                    className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#C87941] mb-2"
                   >
                     Send a message
                   </div>
@@ -707,7 +707,7 @@ function Contact() {
                       transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
                     }}
                   >
-                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                    <label className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Name
                     </label>
                     <input
@@ -719,7 +719,7 @@ function Contact() {
                       autoComplete="name"
                     />
                     {errors.name && (
-                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.name}</p>
+                      <p className="font-['Open_Sans'] text-[0.6rem] text-red-400 mt-1.5">{errors.name}</p>
                     )}
                   </div>
 
@@ -732,7 +732,7 @@ function Contact() {
                       transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
                     }}
                   >
-                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                    <label className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Email
                     </label>
                     <input
@@ -744,7 +744,7 @@ function Contact() {
                       autoComplete="email"
                     />
                     {errors.email && (
-                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.email}</p>
+                      <p className="font-['Open_Sans'] text-[0.6rem] text-red-400 mt-1.5">{errors.email}</p>
                     )}
                   </div>
 
@@ -757,7 +757,7 @@ function Contact() {
                       transition: "opacity 500ms cubic-bezier(0.23,1,0.32,1), transform 500ms cubic-bezier(0.23,1,0.32,1)",
                     }}
                   >
-                    <label className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
+                    <label className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/30 block mb-2">
                       Message
                     </label>
                     <textarea
@@ -768,7 +768,7 @@ function Contact() {
                       className={`${inputBase} resize-none`}
                     />
                     {errors.message && (
-                      <p className="font-['Outfit'] text-[0.6rem] text-red-400 mt-1.5">{errors.message}</p>
+                      <p className="font-['Open_Sans'] text-[0.6rem] text-red-400 mt-1.5">{errors.message}</p>
                     )}
                   </div>
 
@@ -784,7 +784,7 @@ function Contact() {
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Outfit'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {status === "sending" ? (
                       <>
@@ -802,7 +802,7 @@ function Contact() {
                   </button>
 
                   {status === "error" && (
-                    <p className="font-['Outfit'] text-[0.65rem] text-red-400 text-center">
+                    <p className="font-['Open_Sans'] text-[0.65rem] text-red-400 text-center">
                       Something went wrong. Please email directly at charlotte_smith@outlook.com
                     </p>
                   )}
@@ -821,7 +821,7 @@ function Footer() {
   return (
     <footer className="py-8 bg-[#080808] border-t border-white/5">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
-        <span className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25">
+        <span className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25">
           Charlotte Smith · Portfolio MMXXVI · Crafted in Malta
         </span>
         <div className="flex items-center gap-6">
@@ -829,7 +829,7 @@ function Footer() {
             href="https://www.linkedin.com/in/charlotte-smith-marketing/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
+            className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
           >
             LinkedIn
           </a>
@@ -837,7 +837,7 @@ function Footer() {
             href="https://ignitedigitalpartners.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
+            className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
           >
             IDP
           </a>
@@ -845,7 +845,7 @@ function Footer() {
             href="https://ezsywebs.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
+            className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200"
           >
             Ezsy Webs
           </a>

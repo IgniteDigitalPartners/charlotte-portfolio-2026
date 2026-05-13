@@ -18,9 +18,9 @@ export default function CaseStudy() {
     return (
       <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
         <div className="text-center">
-          <p className="font-['Outfit'] text-[#F2EFEA]/40 mb-4">Case study not found.</p>
+          <p className="font-['Open_Sans'] text-[#F2EFEA]/40 mb-4">Case study not found.</p>
           <Link href="/">
-            <span className="font-['Outfit'] text-sm text-[#C87941] hover:underline cursor-pointer">
+            <span className="font-['Open_Sans'] text-sm text-[#C87941] hover:underline cursor-pointer">
               Back to portfolio
             </span>
           </Link>
@@ -46,7 +46,7 @@ export default function CaseStudy() {
             onClick={(e) => e.stopPropagation()}
           />
           <button
-            className="absolute top-6 right-6 text-white/60 hover:text-white font-['Outfit'] text-sm tracking-widest uppercase"
+            className="absolute top-6 right-6 text-white/60 hover:text-white font-['Open_Sans'] text-sm tracking-widest uppercase"
             onClick={() => setLightboxImg(null)}
           >
             Close
@@ -58,13 +58,13 @@ export default function CaseStudy() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-sm border-b border-white/5">
         <div className="container flex items-center justify-between h-16">
           <Link href="/">
-            <span className="font-['Outfit'] text-sm text-[#F2EFEA]/60 hover:text-[#C87941] transition-colors duration-200 cursor-pointer flex items-center gap-2">
+            <span className="font-['Open_Sans'] text-sm text-[#F2EFEA]/60 hover:text-[#C87941] transition-colors duration-200 cursor-pointer flex items-center gap-2">
               <ArrowLeft size={14} />
               Charlotte Smith / Portfolio
             </span>
           </Link>
           <Link href="/#work">
-            <span className="font-['Outfit'] text-xs font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/40 hover:text-[#C87941] transition-colors duration-200 cursor-pointer">
+            <span className="font-['Open_Sans'] text-xs font-600 tracking-[0.15em] uppercase text-[#F2EFEA]/40 hover:text-[#C87941] transition-colors duration-200 cursor-pointer">
               All Work
             </span>
           </Link>
@@ -90,7 +90,7 @@ export default function CaseStudy() {
             <div className="flex items-center gap-3 mb-6">
               <span className="block w-10 h-px" style={{ backgroundColor: accent }} />
               <span
-                className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase"
+                className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase"
                 style={{ color: accent }}
               >
                 Case Study No. {cs.number} · {cs.category}
@@ -118,12 +118,12 @@ export default function CaseStudy() {
                 ].map(({ label, value }) => (
                   <div key={label} className="flex items-baseline gap-4 py-3 border-b border-white/10">
                     <span
-                      className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase w-20 shrink-0"
+                      className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase w-20 shrink-0"
                       style={{ color: accent }}
                     >
                       {label}
                     </span>
-                    <span className="font-['Outfit'] text-sm italic text-[#F2EFEA]/80">{value}</span>
+                    <span className="font-['Open_Sans'] text-sm italic text-[#F2EFEA]/80">{value}</span>
                   </div>
                 ))}
                 {cs.websiteUrl && (
@@ -132,7 +132,7 @@ export default function CaseStudy() {
                       href={cs.websiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-['Outfit'] text-xs font-600 tracking-[0.12em] uppercase transition-colors duration-200"
+                      className="inline-flex items-center gap-2 font-['Open_Sans'] text-xs font-600 tracking-[0.12em] uppercase transition-colors duration-200"
                       style={{ color: accent }}
                     >
                       Visit Live Site
@@ -151,7 +151,7 @@ export default function CaseStudy() {
         <section className="py-10 bg-[#0A0A0A] border-b border-white/5">
           <div className="container">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-5"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-5"
               style={{ color: accent }}
             >
               Brand Palette
@@ -164,8 +164,8 @@ export default function CaseStudy() {
                     style={{ backgroundColor: c.hex }}
                   />
                   <div>
-                    <div className="font-['Outfit'] text-[0.65rem] font-600 text-[#F2EFEA]/70">{c.name}</div>
-                    <div className="font-['Outfit'] text-[0.55rem] tracking-widest text-[#F2EFEA]/30 uppercase">{c.hex}</div>
+                    <div className="font-['Open_Sans'] text-[0.65rem] font-600 text-[#F2EFEA]/70">{c.name}</div>
+                    <div className="font-['Open_Sans'] text-[0.55rem] tracking-widest text-[#F2EFEA]/30 uppercase">{c.hex}</div>
                   </div>
                 </div>
               ))}
@@ -179,7 +179,7 @@ export default function CaseStudy() {
         <div className="container">
           <div className="max-w-3xl">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-6"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-6"
               style={{ color: accent }}
             >
               The Brief
@@ -196,12 +196,12 @@ export default function CaseStudy() {
         <section className="py-20 bg-[#060606]">
           <div className="container">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
               style={{ color: accent }}
             >
               Real Work — From Canva
             </div>
-            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-8">
+            <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/35 mb-8">
               Actual design deliverables produced for this engagement. Click any image to enlarge.
             </p>
             <div
@@ -229,7 +229,7 @@ export default function CaseStudy() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                      <p className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.1em] uppercase text-white/80">
+                      <p className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.1em] uppercase text-white/80">
                         {item.caption}
                       </p>
                     </div>
@@ -244,7 +244,7 @@ export default function CaseStudy() {
                     </div>
                   </div>
                   <div className="p-3 bg-[#0A0A0A]">
-                    <p className="font-['Outfit'] text-[0.6rem] text-[#F2EFEA]/40 truncate">{item.caption}</p>
+                    <p className="font-['Open_Sans'] text-[0.6rem] text-[#F2EFEA]/40 truncate">{item.caption}</p>
                   </div>
                 </div>
               ))}
@@ -257,7 +257,7 @@ export default function CaseStudy() {
       {cs.slug === "idp" && (
         <section className="py-20 bg-[#060606]">
           <div className="container">
-            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2" style={{ color: accent }}>
+            <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2" style={{ color: accent }}>
               The Ignition Loop
             </div>
             <p className="font-['Cormorant_Garamond'] text-2xl text-[#F2EFEA]/70 mb-12 max-w-2xl">
@@ -297,16 +297,16 @@ export default function CaseStudy() {
                 <div key={p.phase} className="bg-[#060606] p-8 hover:bg-[#0f0f0f] transition-colors duration-200">
                   <div className="flex items-start justify-between mb-6">
                     <span className="font-['Cormorant_Garamond'] text-5xl" style={{ color: accent + "33" }}>{p.symbol}</span>
-                    <span className="font-['Outfit'] text-[0.55rem] tracking-[0.15em] uppercase text-[#F2EFEA]/25 mt-1">{p.timeline}</span>
+                    <span className="font-['Open_Sans'] text-[0.55rem] tracking-[0.15em] uppercase text-[#F2EFEA]/25 mt-1">{p.timeline}</span>
                   </div>
-                  <div className="font-['Outfit'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-1" style={{ color: accent }}>Phase {p.phase}</div>
+                  <div className="font-['Open_Sans'] text-[0.6rem] font-600 tracking-[0.15em] uppercase mb-1" style={{ color: accent }}>Phase {p.phase}</div>
                   <h3 className="font-['Cormorant_Garamond'] text-2xl font-600 text-[#F2EFEA] mb-4">{p.name}</h3>
-                  <p className="font-['Outfit'] text-sm text-[#F2EFEA]/45 leading-relaxed">{p.description}</p>
+                  <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45 leading-relaxed">{p.description}</p>
                 </div>
               ))}
             </div>
             <div className="mt-8 pt-8 border-t border-white/5">
-              <p className="font-['Outfit'] text-sm text-[#F2EFEA]/30 max-w-2xl">
+              <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/30 max-w-2xl">
                 Unlike campaign-based agencies that reset each quarter, the Ignition Loop is a continuous architecture. It captures data, refines narrative, compounds audience quality, and delivers executive-grade intelligence. Every cycle builds on the last.
               </p>
             </div>
@@ -320,12 +320,12 @@ export default function CaseStudy() {
         <section className="py-12 bg-[#080808] border-t border-white/5">
           <div className="container">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
               style={{ color: accent }}
             >
               Live Website
             </div>
-            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-6">
+            <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/35 mb-6">
               Real screenshot of the live website as delivered.
             </p>
             <div
@@ -340,7 +340,7 @@ export default function CaseStudy() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                <span className="font-['Outfit'] text-[0.6rem] tracking-[0.15em] uppercase" style={{ color: accent }}>
+                <span className="font-['Open_Sans'] text-[0.6rem] tracking-[0.15em] uppercase" style={{ color: accent }}>
                   {cs.websiteUrl?.replace("https://", "").replace("www.", "")}
                 </span>
                 {cs.websiteUrl && (
@@ -348,7 +348,7 @@ export default function CaseStudy() {
                     href={cs.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-['Outfit'] text-[0.6rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-white transition-colors flex items-center gap-1"
+                    className="font-['Open_Sans'] text-[0.6rem] tracking-[0.12em] uppercase text-[#F2EFEA]/50 hover:text-white transition-colors flex items-center gap-1"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Visit <ExternalLink size={10} />
@@ -365,12 +365,12 @@ export default function CaseStudy() {
         <section className="py-12 bg-[#080808]">
           <div className="container">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-2"
               style={{ color: accent }}
             >
               Live Client Websites
             </div>
-            <p className="font-['Outfit'] text-sm text-[#F2EFEA]/35 mb-8">
+            <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/35 mb-8">
               Real screenshots of live websites built and managed across this client portfolio.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
@@ -389,12 +389,12 @@ export default function CaseStudy() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span className="font-['Outfit'] text-[0.55rem] font-600 tracking-[0.12em] uppercase" style={{ color: accent }}>{label}</span>
+                    <span className="font-['Open_Sans'] text-[0.55rem] font-600 tracking-[0.12em] uppercase" style={{ color: accent }}>{label}</span>
                     <a
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-['Outfit'] text-[0.5rem] tracking-widest uppercase text-[#F2EFEA]/40 hover:text-white transition-colors flex items-center gap-1"
+                      className="font-['Open_Sans'] text-[0.5rem] tracking-widest uppercase text-[#F2EFEA]/40 hover:text-white transition-colors flex items-center gap-1"
                     >
                       Visit <ExternalLink size={9} />
                     </a>
@@ -410,7 +410,7 @@ export default function CaseStudy() {
       <section className="py-20 bg-[#080808]">
         <div className="container">
           <div
-            className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
+            className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
             style={{ color: accent }}
           >
             What Was Built
@@ -424,8 +424,8 @@ export default function CaseStudy() {
                 >
                   {String(i + 1).padStart(2, "0")}
                 </div>
-                <h3 className="font-['Outfit'] text-sm font-600 text-[#F2EFEA] mb-3">{d.title}</h3>
-                <p className="font-['Outfit'] text-sm text-[#F2EFEA]/45 leading-relaxed">{d.description}</p>
+                <h3 className="font-['Open_Sans'] text-sm font-600 text-[#F2EFEA] mb-3">{d.title}</h3>
+                <p className="font-['Open_Sans'] text-sm text-[#F2EFEA]/45 leading-relaxed">{d.description}</p>
               </div>
             ))}
           </div>
@@ -437,7 +437,7 @@ export default function CaseStudy() {
         <section className="py-20 bg-[#0A0A0A]">
           <div className="container">
             <div
-              className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
+              className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase mb-8"
               style={{ color: accent }}
             >
               Selected Artefacts
@@ -451,7 +451,7 @@ export default function CaseStudy() {
                   >
                     {o.metric}
                   </div>
-                  <div className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/35">
+                  <div className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/35">
                     {o.label}
                   </div>
                 </div>
@@ -465,7 +465,7 @@ export default function CaseStudy() {
       {cs.nextSlug && (
         <section className="py-20 bg-[#080808] border-t border-white/5">
           <div className="container">
-            <div className="font-['Outfit'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#F2EFEA]/25 mb-4">
+            <div className="font-['Open_Sans'] text-[0.65rem] font-600 tracking-[0.18em] uppercase text-[#F2EFEA]/25 mb-4">
               Next Case Study
             </div>
             <Link href={`/work/${cs.nextSlug}`}>
@@ -488,11 +488,11 @@ export default function CaseStudy() {
       {/* Footer */}
       <footer className="py-8 bg-[#080808] border-t border-white/5">
         <div className="container flex items-center justify-between">
-          <span className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25">
+          <span className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25">
             Charlotte Smith · Portfolio MMXXVI
           </span>
           <Link href="/">
-            <span className="font-['Outfit'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200 cursor-pointer">
+            <span className="font-['Open_Sans'] text-[0.6rem] font-500 tracking-[0.15em] uppercase text-[#F2EFEA]/25 hover:text-[#C87941] transition-colors duration-200 cursor-pointer">
               Back to Portfolio
             </span>
           </Link>
