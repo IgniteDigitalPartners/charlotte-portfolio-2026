@@ -671,17 +671,29 @@ function Contact() {
                 ))}
                </div>
 
-              {/* Download CV button */}
-              <a
-                href="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/HVxJIetBGncQTqgA.pdf"
-                download="Charlotte_Smith_CV_2026.pdf"
-                className="inline-flex items-center gap-3 mt-8 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 1v9M8 10l-3-3M8 10l3-3M2 13h12" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Download CV
-              </a>
+              {/* Download buttons row */}
+              <div className="flex flex-wrap gap-3 mt-8">
+                <a
+                  href="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/HVxJIetBGncQTqgA.pdf"
+                  download="Charlotte_Smith_CV_2026.pdf"
+                  className="inline-flex items-center gap-3 px-6 py-3.5 bg-[#C87941] hover:bg-[#d4894e] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1v9M8 10l-3-3M8 10l3-3M2 13h12" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Download CV
+                </a>
+                <a
+                  href="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030957850/bFReHTwhFFEcabgB.pdf"
+                  download="Charlotte_Smith_Portfolio_2026.pdf"
+                  className="inline-flex items-center gap-3 px-6 py-3.5 border border-[#C87941]/60 hover:border-[#C87941] text-[#C87941] hover:text-[#d4894e] font-['Open_Sans'] text-sm font-600 tracking-[0.08em] uppercase transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1v9M8 10l-3-3M8 10l3-3M2 13h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Download Portfolio
+                </a>
+              </div>
             </div>
             {/* Right: contact form */}
             <div className="border border-white/8 p-8">
