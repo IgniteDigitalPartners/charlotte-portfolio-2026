@@ -131,56 +131,63 @@ function Hero() {
               and growth. Nine years building communication systems that build credibility, for
               founders, agencies, and listed companies across the EU, UK, and Canada.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="#work"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97]"
-              >
-                View Selected Work
-                <ArrowUpRight size={16} />
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-[#F2EFEA]/20 text-[#F2EFEA] font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#C87941] hover:text-[#C87941] transition-colors duration-200"
-              >
-                Get in Touch
-              </a>
-              {/* Share on LinkedIn — hero */}
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://charlotte-smith-cv-portfolio-2026.vercel.app')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 border border-white/10 text-[#F2EFEA]/40 font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#0A66C2]/60 hover:text-[#0A66C2] transition-all duration-200"
-                title="Share this portfolio on LinkedIn"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                Share
-              </a>
-              {/* Copy Link — hero */}
-              <button
-                onClick={copyHeroLink}
-                className="inline-flex items-center gap-2 px-5 py-3 border border-white/10 text-[#F2EFEA]/40 font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#F2EFEA]/30 hover:text-[#F2EFEA]/70 transition-all duration-200"
-                title="Copy portfolio link to clipboard"
-              >
-                {heroCopied ? (
-                  <>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                    </svg>
-                    Copy Link
-                  </>
-                )}
-              </button>
+            {/* Row 1 on mobile: primary CTAs — stacks full-width, side-by-side from sm */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+              {/* Primary row */}
+              <div className="flex gap-3 sm:contents">
+                <a
+                  href="#work"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#C87941] text-[#0A0A0A] font-['Open_Sans'] text-sm font-600 tracking-wide hover:bg-[#d4894e] transition-colors duration-200 active:scale-[0.97]"
+                >
+                  View Selected Work
+                  <ArrowUpRight size={16} />
+                </a>
+                <a
+                  href="#contact"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#F2EFEA]/20 text-[#F2EFEA] font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#C87941] hover:text-[#C87941] transition-colors duration-200"
+                >
+                  Get in Touch
+                </a>
+              </div>
+              {/* Secondary row on mobile: share utilities */}
+              <div className="flex gap-3 sm:contents">
+                {/* Share on LinkedIn — hero */}
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://charlotte-smith-cv-portfolio-2026.vercel.app')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 border border-white/10 text-[#F2EFEA]/40 font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#0A66C2]/60 hover:text-[#0A66C2] transition-all duration-200"
+                  title="Share this portfolio on LinkedIn"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  Share
+                </a>
+                {/* Copy Link — hero */}
+                <button
+                  onClick={copyHeroLink}
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 border border-white/10 text-[#F2EFEA]/40 font-['Open_Sans'] text-sm font-500 tracking-wide hover:border-[#F2EFEA]/30 hover:text-[#F2EFEA]/70 transition-all duration-200"
+                  title="Copy portfolio link to clipboard"
+                >
+                  {heroCopied ? (
+                    <>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                      </svg>
+                      Copy Link
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
