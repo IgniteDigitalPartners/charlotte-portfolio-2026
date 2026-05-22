@@ -5,6 +5,7 @@
  * Typography: Cormorant Garamond (display) + Open Sans (body)
  */
 import { useEffect, useRef, useState } from "react";
+import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { ArrowUpRight, Mail, Phone, Linkedin, MapPin, ExternalLink } from "lucide-react";
 import { caseStudies, stats, capabilities, experience, operatingEnvironments } from "@/lib/data";
@@ -632,6 +633,16 @@ function Contact() {
   const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
+  const submitContact = trpc.contact.submit.useMutation({
+    onSuccess: () => {
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+    },
+    onError: () => {
+      setStatus("error");
+    },
+  });
+
   function validate() {
     const e: typeof errors = {};
     if (!form.name.trim()) e.name = "Please enter your name.";
@@ -647,26 +658,11 @@ function Contact() {
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
     setStatus("sending");
-    try {
-      const res = await fetch("https://formspree.io/f/charlotte_smith@outlook.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          message: form.message,
-          _subject: `Portfolio enquiry from ${form.name}`,
-        }),
-      });
-      if (res.ok) {
-        setStatus("sent");
-        setForm({ name: "", email: "", message: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    submitContact.mutate({
+      name: form.name,
+      email: form.email,
+      message: form.message,
+    });
   }
 
   const inputBase =
