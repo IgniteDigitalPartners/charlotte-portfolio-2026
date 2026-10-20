@@ -1,0 +1,150 @@
+---
+import Base from "../../layouts/Base.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { services, type Service } from "../../data/services";
+import { projects } from "../../data/projects";
+import { packages, euro } from "../../data/packages";
+import { site } from "../../data/site";
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+const { service: s } = Astro.props as { service: Service };
+const pk = (s.ways.packages ?? []).map((id) => packages.find((p) => p.id === id)!);
+const work = projects.filter((p) => p.services.includes(s.slug) && !p.thin).slice(0, 2);
+const workAll = work.length ? work : projects.filter((p) => p.services.includes(s.slug)).slice(0, 2);
+const others = services.filter((x) => x.slug !== s.slug);
+const siteUrl = Astro.site!;
+const ld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.name,
+    serviceType: s.name,
+    description: s.metaDescription,
+    provider: { "@id": new URL("/#business", siteUrl).href },
+    areaServed: [{ "@type": "Country", name: "Malta" }, "Worldwide"],
+    url: new URL(`/services/${s.slug}/`, siteUrl).href,
+    ...(pk.length
+      ? { offers: pk.map((p) => ({ "@type": "Offer", name: p.name, price: p.price, priceCurrency: "EUR", url: new URL(`/packages/#${p.id}`, siteUrl).href })) }
+      : {}),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: s.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+---
+<Base title={s.metaTitle} description={s.metaDescription} crumbs={[{ name: "Services", href: "/services/" }, { name: s.name, href: `/services/${s.slug}/` }]} jsonLd={ld}>
+  <section class="page-hero">
+    <div class="wrap stack" style="gap: 22px; max-width: 1000px; margin-inline: 0;">
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Service · {site.location}</p>
+      <h1 class="display">{s.name}</h1>
+      <p class="lead">{s.short}</p>
+      <div class="btn-row">
+        {pk.length ? <a class="btn btn-dark" href="#packages">See prices</a> : <a class="btn btn-dark" href="/contact/">Request a quote</a>}
+        <a class="btn btn-line" href="/contact/">Ask a question</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap two">
+      <div class="stack" style="gap: 20px;">
+        {s.intro.map((t, i) => <p class={i === 0 ? "lead" : ""} style="max-width: none;">{t}</p>)}
+        <div class="for-you">
+          <h2 class="h3">This is for you if</h2>
+          <ul class="ticks">{s.forYou.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+      <div class="card inc">
+        <h2 class="h3">What's included</h2>
+        <ul class="ticks">{s.includes.map((x) => <li>{x}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="packages" class="section" aria-labelledby="ways">
+    <div class="wrap stack-lg">
+      <h2 id="ways" class="h2">Ways to <span class="accent">get started</span></h2>
+      {pk.length > 0 && (
+        <ul class="pk">
+          {pk.map((p) => (
+            <li class="card">
+              <div class="pk-top"><h3>{p.name}</h3><span class="price">{euro(p.price)}</span></div>
+              <p>{p.headline}</p>
+              <p class="pk-meta">{p.delivery} · {p.revisions}</p>
+              <a class="btn btn-line btn-sm" href={`/packages/order/?package=${p.id}`}>Order this package<span class="sr-only">: {p.name}</span></a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="grid-2">
+        <div class="way"><h3 class="h3">Bespoke project</h3><p>{s.ways.bespoke}</p><a class="textlink" href="/contact/"><span>Request a quote</span></a></div>
+        {s.ways.retainer && <div class="way"><h3 class="h3">Monthly retainer</h3><p>{s.ways.retainer}</p><a class="textlink" href="/contact/"><span>Discuss a retainer</span></a></div>}
+      </div>
+    </div>
+  </section>
+
+  {workAll.length > 0 && (
+    <section class="section band" aria-labelledby="work">
+      <div class="wrap stack-lg">
+        <div class="head-row"><h2 id="work" class="h2">Related <span class="accent">work</span></h2><a class="textlink" href="/work/"><span>All projects</span></a></div>
+        <div class="grid-2">{workAll.map((p) => <ProjectCard project={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="faq">
+    <div class="wrap narrow stack" style="gap: 24px; margin-inline: auto;">
+      <h2 id="faq" class="h2">Questions</h2>
+      <div class="faqs">
+        {s.faqs.map((f) => (
+          <details>
+            <summary><span>{f.q}</span><span class="plus" aria-hidden="true"></span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight band" aria-labelledby="more">
+    <div class="wrap stack" style="gap: 20px;">
+      <h2 id="more" class="eyebrow">Other services</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        {others.map((o) => <a class="chip svc-chip" href={`/services/${o.slug}/`}>{o.name}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+  @media (max-width: 960px) { .two { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .for-you { margin-top: 20px; display: grid; gap: 18px; padding-top: 28px; border-top: 1px solid var(--champagne); }
+  .inc { padding: 36px; display: grid; gap: 20px; }
+  .pk { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+  .pk li { padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .pk-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .pk h3 { font-size: 20px; }
+  .price { font-family: var(--italic); font-style: italic; font-size: 32px; color: var(--espresso); }
+  .pk-meta { font-size: 13px; color: #5E5853; }
+  .pk .btn { margin-top: auto; align-self: flex-start; }
+  .way { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 24px; border-top: 1px solid var(--champagne); }
+  .faqs { border-top: 1px solid var(--dove); }
+  details { border-bottom: 1px solid var(--dove); }
+  summary { list-style: none; display: flex; justify-content: space-between; gap: 24px; align-items: center; padding: 22px 0; cursor: pointer; font-family: var(--serif); font-size: 20px; font-weight: 500; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  .plus { position: relative; width: 16px; height: 16px; flex: none; }
+  .plus::before, .plus::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--espresso); transition: transform 240ms var(--ease); }
+  .plus::after { transform: rotate(90deg); }
+  details[open] .plus::after { transform: rotate(0); }
+  details p { padding: 0 0 24px; max-width: 720px; }
+  .svc-chip { text-decoration: none; color: var(--charcoal); min-height: 44px; }
+  .svc-chip:hover { background: var(--linen); }
+</style>

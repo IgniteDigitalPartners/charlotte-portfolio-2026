@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { site } from "../data/site";
+import photo from "../assets/photos/charlotte-smith-linen.png";
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": new URL("/about/#charlotte", Astro.site!).href,
+  name: "Charlotte Smith",
+  jobTitle: "Brand & Marketing Consultant",
+  url: new URL("/about/", Astro.site!).href,
+  image: new URL("/og.png", Astro.site!).href,
+  email: site.email,
+  homeLocation: { "@type": "Country", name: "Malta" },
+  knowsAbout: ["Brand strategy", "Social media marketing", "Website design", "SEO", "Paid advertising", "Email marketing", "CRM", "B2B lead generation"],
+  sameAs: site.sameAs,
+};
+---
+<Base
+  title="About Charlotte Smith | Brand & Marketing Consultant in Malta"
+  description="Meet Charlotte Smith, a Malta-based brand and marketing consultant with 9+ years across brand strategy, social media, websites, campaigns, email and CRM."
+  crumbs={[{ name: "About", href: "/about/" }]}
+  jsonLd={person}
+>
+  <section class="page-hero">
+    <div class="wrap about-grid">
+      <div class="stack" style="gap: 24px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>About me</p>
+        <h1 class="display">Hello, <span class="accent">I'm Charlotte.</span></h1>
+        <p class="lead">I'm a marketing and growth consultant based in Malta. For more than nine years I've helped businesses look polished, sound clear and grow, from first logo to full lead generation.</p>
+        <p>My work has taken me from senior marketing at Moovly, a SaaS video creation platform, to building brand systems for listed companies in the capital markets and websites for local businesses. Along the way I've worked across brand strategy, social media, content, websites, campaigns, email and CRM.</p>
+        <p>That breadth is the point. I see how the pieces connect, so the marketing I create feels like one brand everywhere it appears.</p>
+      </div>
+      <div class="photo">
+        <span class="panel" aria-hidden="true"></span>
+        <span class="panel-line" aria-hidden="true"></span>
+        <Image src={photo} alt="Charlotte Smith smiling, hand resting at her collarbone, in a white linen top with gold jewellery" widths={[360, 540, 800]} sizes="(max-width: 960px) 80vw, 420px" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="approach">
+    <div class="wrap stack-lg">
+      <h2 id="approach" class="h2">How I <span class="accent">work</span></h2>
+      <div class="grid-3 principles">
+        <div><span class="roman" aria-hidden="true">i.</span><h3 class="h3">Clear strategy first</h3><p>Before anything is designed, we agree who it's for and what it needs to achieve.</p></div>
+        <div><span class="roman" aria-hidden="true">ii.</span><h3 class="h3">Design with polish</h3><p>Every piece is considered, consistent and true to your brand, down to the smallest graphic.</p></div>
+        <div><span class="roman" aria-hidden="true">iii.</span><h3 class="h3">Honest, calm delivery</h3><p>Clear scope, agreed timings and straightforward advice about what's worth your budget.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills">
+    <div class="wrap two">
+      <div class="stack" style="gap: 18px;">
+        <h2 id="skills" class="h2">What I <span class="accent">bring</span></h2>
+        <p>Strategy and hands-on making, in one person. I plan the work and I create it, so nothing gets lost between the idea and the finished piece.</p>
+        <a class="textlink" href="/work/"><span>See my work</span></a>
+      </div>
+      <ul class="skill-list rule-list">
+        <li><strong>Brand &amp; identity</strong><span>Positioning, logos, palettes, brand books</span></li>
+        <li><strong>Websites</strong><span>Wix and custom builds, landing pages, SEO foundations</span></li>
+        <li><strong>Content &amp; social</strong><span>Content engines, carousels, captions, Canva templates</span></li>
+        <li><strong>Growth</strong><span>Paid ads, email, CRM and B2B lead generation</span></li>
+        <li><strong>Tools</strong><span>Canva, Photoshop, Illustrator, Wix, Make, n8n, Notion</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Would you like to" accent="work together?" />
+</Base>
+
+<style>
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+  @media (max-width: 960px) { .about-grid { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+  .photo { position: relative; display: flex; justify-content: center; max-width: 440px; width: 100%; margin-inline: auto; }
+  .photo img { position: relative; width: 100%; height: auto; }
+  .panel { position: absolute; inset: 40px 4% 0; background: var(--blush); border-radius: 220px 220px 4px 4px; }
+  .panel-line { position: absolute; inset: 24px calc(4% - 16px) -16px; border: 1px solid var(--champagne); border-radius: 236px 236px 4px 4px; }
+  .principles > div { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid var(--champagne); }
+  .roman { font-family: var(--italic); font-style: italic; font-size: 30px; line-height: 1; color: var(--bronze); }
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 64px; }
+  @media (max-width: 960px) { .two { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+  .skill-list li { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 16px; padding: 20px 0; }
+  .skill-list strong { font-family: var(--serif); font-weight: 500; font-size: 19px; }
+  .skill-list span { font-size: 15px; color: #5E5853; }
+  @media (max-width: 560px) { .skill-list li { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+</style>

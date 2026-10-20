@@ -1,0 +1,114 @@
+---
+import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/500.css";
+import "@fontsource/montserrat/300.css";
+import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/500.css";
+import "@fontsource/cormorant-garamond/400-italic.css";
+import "@fontsource/cormorant-garamond/500-italic.css";
+import "@fontsource/pinyon-script/400.css";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[];
+  crumbs?: { name: string; href: string }[];
+  type?: "website" | "article";
+}
+const { title, description, image = "/og.png", noindex = false, jsonLd, crumbs, type = "website" } = Astro.props;
+const siteUrl = Astro.site!;
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = new URL(image, siteUrl).href;
+
+const business = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": new URL("/#business", siteUrl).href,
+  name: "Charlotte Smith, Brand & Marketing Consultant",
+  url: siteUrl.href,
+  image: new URL("/og.png", siteUrl).href,
+  logo: new URL("/icon-512.png", siteUrl).href,
+  email: site.email,
+  description: site.description,
+  areaServed: [{ "@type": "Country", name: "Malta" }, "Worldwide"],
+  address: { "@type": "PostalAddress", addressCountry: "MT" },
+  priceRange: "€45 to €210 for fixed-price packages",
+  founder: { "@id": new URL("/about/#charlotte", siteUrl).href },
+  sameAs: site.sameAs,
+};
+const breadcrumbLd = crumbs && {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [{ name: "Home", href: "/" }, ...crumbs].map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: c.name,
+    item: new URL(c.href, siteUrl).href,
+  })),
+};
+const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])].filter(Boolean);
+---
+<!doctype html>
+<html lang="en-MT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#F7F3EE" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Charlotte Smith" />
+    <meta property="og:locale" content="en_MT" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {ld.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      {crumbs && (
+        <nav class="crumbs wrap" aria-label="Breadcrumb" style="padding-top: 28px;">
+          <ol>
+            <li><a href="/">Home</a></li>
+            {crumbs.map((c, i) => (
+              <li>{i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.href}>{c.name}</a>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      const els = document.querySelectorAll<HTMLElement>(".reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } }),
+          { rootMargin: "0px 0px -8% 0px" }
+        );
+        els.forEach((el) => io.observe(el));
+      } else els.forEach((el) => el.classList.add("is-visible"));
+    </script>
+  </body>
+</html>

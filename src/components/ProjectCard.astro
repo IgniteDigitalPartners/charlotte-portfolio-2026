@@ -1,0 +1,60 @@
+---
+import type { Project } from "../data/projects";
+interface Props { project: Project; size?: "lg" | "md"; eager?: boolean; headingLevel?: "h2" | "h3" }
+const { project: p, size = "md", eager = false, headingLevel = "h3" } = Astro.props;
+const H = headingLevel;
+---
+<article class={`pcard card tone-${p.tone} ${size}`}>
+  <a class="cover-link" href={`/work/${p.slug}/`} tabindex="-1" aria-hidden="true">
+    <div class="cover">
+      {p.cover ? (
+        <img src={p.cover.media.src} width={p.cover.media.width} height={p.cover.media.height} alt="" loading={eager ? "eager" : "lazy"} decoding="async" />
+      ) : (
+        <div class="type-cover">
+          <span class="frame"></span>
+          <span class="type-name">{p.client}</span>
+        </div>
+      )}
+    </div>
+  </a>
+  <div class="meta">
+    <div class="txt">
+      <p class="cat">{p.category}</p>
+      <H class="title"><a href={`/work/${p.slug}/`}>{p.client}</a></H>
+      <p class="sum">{p.summary}</p>
+    </div>
+    <span class="arrow" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+  </div>
+</article>
+
+<style>
+  .pcard { position: relative; display: flex; flex-direction: column; overflow: hidden; height: 100%; }
+  .cover { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--linen); }
+  .lg .cover { aspect-ratio: auto; flex: 1 1 auto; min-height: 340px; }
+  .lg .meta { flex-grow: 0; }
+  .lg .cover-link { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .lg .cover img { position: absolute; inset: 0; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: opacity 480ms var(--ease); }
+  .pcard:hover .cover img { opacity: 0.92; }
+  .type-cover { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 32px; text-align: center; }
+  .tone-blush .type-cover { background: var(--blush); }
+  .tone-linen .type-cover { background: var(--linen); }
+  .tone-espresso .type-cover { background: var(--espresso); }
+  .frame { position: absolute; inset: 18px; border: 1px solid var(--champagne); border-radius: 4px; }
+  .type-name { position: relative; font-family: var(--italic); font-style: italic; font-weight: 500; font-size: clamp(34px, 4vw, 56px); line-height: 1.05; color: var(--espresso); }
+  .tone-espresso .type-name { color: var(--champagne); }
+  .meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: 24px 28px 28px; flex-grow: 1; }
+  .txt { display: flex; flex-direction: column; gap: 8px; }
+  .cat { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); }
+  .title { font-size: 26px; line-height: 1.2; }
+  .lg .title { font-size: clamp(26px, 2.6vw, 34px); }
+  .title a { text-decoration: none; color: inherit; }
+  .title a::after { content: ""; position: absolute; inset: 0; }
+  .title a:focus-visible { outline: none; }
+  .pcard:has(.title a:focus-visible) { outline: 2px solid var(--bronze); outline-offset: 4px; }
+  .sum { font-size: 15px; color: #5E5853; }
+  .arrow { flex: none; display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--dove); border-radius: 50%; color: var(--espresso); transition: background 240ms var(--ease), color 240ms var(--ease), border-color 240ms var(--ease); }
+  .pcard:hover .arrow { background: var(--espresso); color: var(--warm-white); border-color: var(--espresso); }
+</style>

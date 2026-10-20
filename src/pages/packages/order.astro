@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro";
+import EnquiryForm from "../../components/EnquiryForm.astro";
+import { site } from "../../data/site";
+---
+<Base
+  title="Order a Package | Send Your Brief | Charlotte Smith"
+  description="Send your brief for a fixed-price social design, Wix support or focused marketing package. I'll confirm the details and send a secure PayPal payment link."
+  crumbs={[{ name: "Packages", href: "/packages/" }, { name: "Order", href: "/packages/order/" }]}
+>
+  <section class="page-hero">
+    <div class="wrap order-grid">
+      <div class="stack" style="gap: 22px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Order a package</p>
+        <h1 class="display" style="font-size: clamp(38px, 4.6vw, 64px);">Tell me what you need, <span class="accent">I'll take it from there.</span></h1>
+        <ol class="flow">
+          <li><span>i.</span><div><strong>Send your brief</strong><p>Choose your package and tell me about the work.</p></div></li>
+          <li><span>ii.</span><div><strong>I confirm and send payment details</strong><p>I reply by email to confirm scope and timing, with a secure PayPal payment link.</p></div></li>
+          <li><span>iii.</span><div><strong>Work begins</strong><p>Delivery times start once payment and your assets are received.</p></div></li>
+        </ol>
+        <div class="notice" role="note">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A3B33" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+          <span>Online checkout isn't available yet. Sending this form does not take a payment or commit you to buy.</span>
+        </div>
+        <p style="font-size: 15px;">Prefer email? <a href={`mailto:${site.email}?subject=Package%20order`}>{site.email}</a></p>
+      </div>
+      <div class="card" style="padding: clamp(24px, 4vw, 44px);">
+        <EnquiryForm mode="order" id="order-form" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .order-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: start; padding-bottom: 48px; }
+  @media (max-width: 960px) { .order-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .flow { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 18px; }
+  .flow li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; }
+  .flow span { font-family: var(--italic); font-style: italic; font-size: 26px; color: var(--bronze); line-height: 1.1; }
+  .flow strong { font-family: var(--serif); font-weight: 500; font-size: 19px; }
+  .flow p { font-size: 15px; color: #5E5853; }
+</style>

@@ -1,0 +1,61 @@
+---
+import { nav } from "../data/site";
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Charlotte Smith, home">
+      <span class="brand-name">Charlotte Smith</span>
+      <span class="brand-line">Brand &amp; marketing</span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="sr-only">Menu</span>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M3 7h18"></path><path class="l2" d="M3 12h18"></path><path class="l3" d="M3 17h18"></path></svg>
+    </button>
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn-dark btn-sm nav-cta" href="/packages/">View packages</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(251, 250, 247, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--dove); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; }
+  .brand { display: flex; flex-direction: column; line-height: 1; text-decoration: none; padding: 8px 0; }
+  .brand-name { font-family: var(--serif); font-size: 24px; font-weight: 500; color: var(--charcoal); }
+  .brand-line { margin-top: 6px; font-size: 10px; font-weight: 400; letter-spacing: 0.32em; text-transform: uppercase; color: var(--espresso); }
+  .nav { display: flex; align-items: center; gap: 36px; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 32px; }
+  .nav ul a { display: inline-block; padding: 12px 0; font-size: 13px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--charcoal); border-bottom: 1px solid transparent; transition: border-color 240ms var(--ease); }
+  .nav ul a:hover, .nav ul a[aria-current="page"] { border-bottom-color: var(--champagne); }
+  .menu-btn { display: none; width: 48px; height: 48px; align-items: center; justify-content: center; background: none; border: 0; color: var(--charcoal); cursor: pointer; margin-right: -10px; }
+  .menu-btn path { transition: transform 240ms var(--ease), opacity 240ms var(--ease); transform-origin: center; }
+  @media (max-width: 900px) {
+    .menu-btn { display: inline-flex; }
+    .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 20px; padding: 16px var(--gutter) 28px; background: var(--warm-white); border-bottom: 1px solid var(--dove); box-shadow: var(--shadow-lifted); }
+    .nav.open { display: flex; }
+    .nav ul { flex-direction: column; gap: 0; }
+    .nav ul li { border-bottom: 1px solid var(--dove); }
+    .nav ul a { display: block; padding: 16px 0; font-size: 14px; border-bottom: 0; }
+    .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
+    .menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
+    .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>(".menu-btn");
+  const menu = document.getElementById("site-nav");
+  if (btn && menu) {
+    const set = (open: boolean) => { btn.setAttribute("aria-expanded", String(open)); menu.classList.toggle("open", open); };
+    btn.addEventListener("click", () => set(btn.getAttribute("aria-expanded") !== "true"));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu.classList.contains("open")) { set(false); btn.focus(); } });
+    menu.addEventListener("click", (e) => { if ((e.target as HTMLElement).closest("a")) set(false); });
+  }
+</script>

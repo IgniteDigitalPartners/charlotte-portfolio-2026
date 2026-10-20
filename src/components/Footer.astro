@@ -1,0 +1,57 @@
+---
+import { site } from "../data/site";
+import { services } from "../data/services";
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div class="about">
+        <a href="/" class="name">Charlotte Smith</a>
+        <p>Brand &amp; marketing consultant in Malta. Strategy, design and growth, softly considered.</p>
+        <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+      <nav aria-label="Services">
+        <h2>Services</h2>
+        <ul>{services.map((s) => <li><a href={`/services/${s.slug}/`}>{s.name}</a></li>)}</ul>
+      </nav>
+      <nav aria-label="Explore">
+        <h2>Explore</h2>
+        <ul>
+          <li><a href="/work/">Work</a></li>
+          <li><a href="/packages/">Packages</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Find me elsewhere">
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href={site.sameAs[2]} rel="me noopener" target="_blank">Facebook</a></li>
+          <li><a href={site.sameAs[1]} rel="me noopener" target="_blank">Upwork</a></li>
+          <li><a href={site.sameAs[0]} rel="me noopener" target="_blank">Fiverr</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="base">
+      <span>© {year} Charlotte Smith · Malta</span>
+      <span>Brand · Marketing · Growth</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--charcoal); color: var(--warm-white); padding: 72px 0 32px; }
+  .cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.8fr); gap: 40px; }
+  @media (max-width: 960px) { .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+  .name { font-family: var(--serif); font-size: 28px; font-weight: 500; text-decoration: none; background: linear-gradient(180deg, #DCC18A 0%, #C8A96A 45%, #A88566 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .about { display: flex; flex-direction: column; gap: 14px; }
+  .about p { font-size: 14px; max-width: 320px; }
+  .mail { color: var(--warm-white); font-size: 14px; overflow-wrap: anywhere; text-decoration-color: var(--champagne); text-underline-offset: 4px; }
+  h2 { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--champagne); margin-bottom: 14px; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  ul a { display: inline-block; padding: 4px 0; font-size: 14px; color: var(--warm-white); text-decoration: none; border-bottom: 1px solid transparent; }
+  ul a:hover { border-bottom-color: var(--champagne); color: var(--warm-white); }
+  .base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(213, 208, 203, 0.25); font-size: 12px; letter-spacing: 0.08em; color: var(--dove); }
+</style>

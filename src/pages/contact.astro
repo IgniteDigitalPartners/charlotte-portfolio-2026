@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro";
+import EnquiryForm from "../components/EnquiryForm.astro";
+import { site } from "../data/site";
+---
+<Base
+  title="Contact Charlotte Smith | Marketing Consultant in Malta"
+  description="Enquire about a brand, website, social media or marketing project, ongoing support or a fixed-price package. Based in Malta, working worldwide."
+  crumbs={[{ name: "Contact", href: "/contact/" }]}
+>
+  <section class="page-hero">
+    <div class="wrap contact-grid">
+      <div class="stack" style="gap: 22px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Contact</p>
+        <h1 class="display">Let's start <span class="accent">a conversation.</span></h1>
+        <p class="lead">Tell me about your project, the support you need or a package you'd like. I'll reply personally with clear next steps.</p>
+        <dl class="details">
+          <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Based in</dt><dd>Malta, working with clients worldwide</dd></div>
+          <div><dt>Prefer a fixed price?</dt><dd><a href="/packages/">Browse packages</a></dd></div>
+        </dl>
+      </div>
+      <div class="card" style="padding: clamp(24px, 4vw, 44px);">
+        <h2 class="h3" style="margin-bottom: 24px;">Send an enquiry</h2>
+        <EnquiryForm mode="contact" id="contact-form" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 64px; align-items: start; padding-bottom: 56px; }
+  @media (max-width: 960px) { .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .details { margin: 12px 0 0; border-top: 1px solid var(--dove); }
+  .details div { padding: 16px 0; border-bottom: 1px solid var(--dove); display: grid; gap: 4px; }
+  .details dt { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); }
+  .details dd { margin: 0; overflow-wrap: anywhere; }
+  .details a { text-decoration-color: var(--champagne); text-underline-offset: 4px; }
+</style>

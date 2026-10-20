@@ -1,0 +1,125 @@
+---
+import Base from "../../layouts/Base.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { packages, groups, euro } from "../../data/packages";
+
+const keys = Object.keys(groups) as (keyof typeof groups)[];
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  name: "Fixed-price marketing packages",
+  itemListElement: packages.map((p) => ({
+    "@type": "Offer",
+    name: p.name,
+    description: `${p.headline}. ${p.includes.join(", ")}.`,
+    price: p.price,
+    priceCurrency: "EUR",
+    url: new URL(`/packages/#${p.id}`, Astro.site!).href,
+    seller: { "@id": new URL("/#business", Astro.site!).href },
+  })),
+};
+---
+<Base
+  title="Fixed-Price Marketing Packages | Social Graphics, Wix Support & Audits | Charlotte Smith"
+  description="Fixed-price marketing packages in euros: social media graphics from €45, Wix website support from €45, profile audits, LinkedIn refresh and strategy sessions."
+  crumbs={[{ name: "Packages", href: "/packages/" }]}
+  jsonLd={ld}
+>
+  <section class="page-hero">
+    <div class="wrap stack center" style="gap: 20px; max-width: 900px; text-align: center;">
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Fixed-price packages</p>
+      <h1 class="display">Simple to choose, <span class="accent">lovely to receive.</span></h1>
+      <p class="lead" style="margin-inline: auto;">Clear scope, set delivery times and a fixed number of revisions. All prices are in euros.</p>
+      <nav class="jump" aria-label="Package groups">
+        {keys.map((k) => <a class="chip" href={`#${k}`}>{groups[k].name}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="notice" role="note">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A3B33" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+      <span><strong>Online checkout is not available yet.</strong> Choose a package and send your order brief. I'll confirm the details and send you a secure PayPal payment link by email. No payment is taken on this website.</span>
+    </div>
+  </div>
+
+  {keys.map((k, gi) => {
+    const g = groups[k];
+    const list = packages.filter((p) => p.group === k);
+    return (
+      <section id={k} class={`section ${gi % 2 === 1 ? "band" : ""}`} aria-labelledby={`${k}-title`}>
+        <div class="wrap stack-lg">
+          <div class="head-row">
+            <div class="stack" style="gap: 12px; max-width: 620px;">
+              <h2 id={`${k}-title`} class="h2">{g.name}</h2>
+              <p class="lead">{g.intro}</p>
+            </div>
+            <dl class="g-notes">
+              <div><dt>You provide</dt><dd>{g.youProvide}</dd></div>
+              <div><dt>Good to know</dt><dd>{g.notes}</dd></div>
+            </dl>
+          </div>
+          <ul class="pk">
+            {list.map((p, i) => (
+              <li id={p.id} class={`pkc ${k === "social" && i === 1 ? "feature" : "card"}`}>
+                <h3>{p.name}</h3>
+                <p class="price"><span class="sr-only">Price: </span>{euro(p.price)}</p>
+                <p class="headline">{p.headline}</p>
+                <ul class="ticks">{p.includes.map((x) => <li>{x}</li>)}</ul>
+                <dl class="pk-facts">
+                  <div><dt>Delivery</dt><dd>{p.delivery}</dd></div>
+                  <div><dt>Revisions</dt><dd>{p.revisions}</dd></div>
+                </dl>
+                {p.paypalUrl ? (
+                  <a class="btn btn-dark" href={p.paypalUrl} rel="noopener">Buy with PayPal<span class="sr-only">: {p.name}</span></a>
+                ) : (
+                  <a class={`btn ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} href={`/packages/order/?package=${p.id}`}>{k === "wix" ? "Send my task list" : "Order this package"}<span class="sr-only">: {p.name}</span></a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="section-tight" aria-labelledby="custom">
+    <div class="wrap card custom">
+      <div class="stack" style="gap: 12px;">
+        <h2 id="custom" class="h3">Need something bigger?</h2>
+        <p>Brand identities, websites, SEO, paid advertising, email and CRM are quoted to your scope, or available as a monthly retainer.</p>
+      </div>
+      <a class="btn btn-line" href="/contact/">Request a quote</a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; }
+  .jump a { text-decoration: none; color: var(--charcoal); min-height: 44px; }
+  .jump a:hover { background: var(--linen); }
+  .g-notes { margin: 0; max-width: 460px; display: grid; gap: 14px; }
+  .g-notes dt { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); }
+  .g-notes dd { margin: 2px 0 0; font-size: 15px; }
+  .pk { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; align-items: stretch; }
+  .pkc { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 36px 32px; border-radius: 8px; scroll-margin-top: 110px; }
+  .pkc h3 { font-size: 24px; }
+  .price { font-family: var(--italic); font-style: italic; font-size: 52px; line-height: 1; color: var(--espresso); }
+  .headline { font-size: 15px; color: #5E5853; }
+  .pkc .ticks { font-size: 15px; padding-top: 16px; border-top: 1px solid var(--dove); }
+  .pk-facts { margin: 0; display: grid; gap: 6px; font-size: 14px; }
+  .pk-facts div { display: flex; justify-content: space-between; gap: 12px; }
+  .pk-facts dt { color: #5E5853; }
+  .pk-facts dd { margin: 0; text-align: right; }
+  .pkc .btn { margin-top: auto; }
+  .feature { background: var(--espresso); color: var(--warm-white); box-shadow: var(--shadow-lifted); }
+  .feature h3 { color: var(--champagne); }
+  .feature .price { color: var(--blush); }
+  .feature .headline, .feature .pk-facts dt { color: var(--dove); }
+  .feature .ticks { border-top-color: rgba(200, 169, 106, 0.45); }
+  .feature .ticks li::before { border-color: var(--champagne); }
+  .badge { position: absolute; top: -13px; left: 32px; padding: 4px 12px; background: var(--champagne); color: var(--charcoal); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; border-radius: 2px; }
+  .custom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: 36px; }
+</style>

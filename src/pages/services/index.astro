@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { services } from "../../data/services";
+import photo from "../../assets/photos/charlotte-smith-black.png";
+---
+<Base
+  title="Marketing Services in Malta | Branding, Websites, SEO & Social | Charlotte Smith"
+  description="Brand strategy, social media, website design, SEO, paid ads, email marketing, CRM and B2B lead generation from a Malta-based marketing consultant."
+  crumbs={[{ name: "Services", href: "/services/" }]}
+>
+  <section class="page-hero">
+    <div class="wrap hero-grid">
+      <div class="stack" style="gap: 22px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Services</p>
+        <h1 class="display">Marketing services, <span class="accent">thoughtfully joined up.</span></h1>
+        <p class="lead">Eight services that work on their own or together. Buy a fixed-price package, commission a bespoke project or keep me on hand each month.</p>
+        <div class="btn-row"><a class="btn btn-dark" href="/packages/">See packages</a><a class="btn btn-line" href="/contact/">Ask for a quote</a></div>
+      </div>
+      <div class="photo">
+        <span class="arch" aria-hidden="true"></span>
+        <Image src={photo} alt="Charlotte Smith in a black top with arms folded" widths={[360, 540, 720]} sizes="(max-width: 960px) 70vw, 380px" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-label="All services">
+    <div class="wrap">
+      <ul class="svc-grid">
+        {services.map((s, i) => (
+          <li class="card reveal">
+            <span class="num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <h2 class="h3"><a href={`/services/${s.slug}/`}>{s.name}</a></h2>
+            <p>{s.short}</p>
+            <ul class="mini">{s.includes.slice(0, 3).map((x) => <li>{x}</li>)}</ul>
+            <span class="more" aria-hidden="true">Explore <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ways-title">
+    <div class="wrap stack-lg">
+      <h2 id="ways-title" class="h2">Three ways <span class="accent">to work with me</span></h2>
+      <div class="grid-3">
+        <div class="stack way"><h3 class="h3">Fixed-price packages</h3><p>Defined scope, delivery time and revisions. Ideal for social graphics, Wix updates, audits and strategy sessions.</p><a class="textlink" href="/packages/"><span>Browse packages</span></a></div>
+        <div class="stack way"><h3 class="h3">Bespoke projects</h3><p>Brand identities, websites, campaigns and marketing plans, quoted to your goals, scope and timeline.</p><a class="textlink" href="/contact/"><span>Request a quote</span></a></div>
+        <div class="stack way"><h3 class="h3">Ongoing retainers</h3><p>Regular monthly support for social media, SEO, ads, email and CRM, with an agreed plan and reporting.</p><a class="textlink" href="/contact/"><span>Discuss a retainer</span></a></div>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+  .photo { position: relative; display: flex; justify-content: center; max-width: 380px; margin-inline: auto; width: 100%; }
+  .photo img { position: relative; width: 100%; height: auto; }
+  .arch { position: absolute; bottom: 0; left: 8%; right: 8%; height: 82%; background: var(--linen); border: 1px solid var(--champagne); border-bottom: 0; border-radius: 200px 200px 0 0; }
+  @media (max-width: 960px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } .photo { max-width: 300px; } }
+  .svc-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  @media (max-width: 760px) { .svc-grid { grid-template-columns: minmax(0, 1fr); } }
+  .svc-grid > li { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 36px; }
+  .svc-grid h2 a { text-decoration: none; color: inherit; }
+  .svc-grid h2 a::after { content: ""; position: absolute; inset: 0; }
+  .svc-grid > li:has(a:focus-visible) { outline: 2px solid var(--bronze); outline-offset: 4px; }
+  .svc-grid h2 a:focus-visible { outline: none; }
+  .num { font-family: var(--italic); font-style: italic; font-size: 26px; color: var(--bronze); line-height: 1; }
+  .mini { margin: 4px 0 0; padding-left: 18px; font-size: 14px; color: #5E5853; }
+  .mini li::marker { color: var(--champagne); }
+  .more { margin-top: auto; padding-top: 8px; display: inline-flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); }
+  .way { padding-top: 24px; border-top: 1px solid var(--champagne); gap: 14px; }
+</style>

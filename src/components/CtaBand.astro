@@ -1,0 +1,29 @@
+---
+import { site } from "../data/site";
+interface Props { title?: string; accent?: string; text?: string }
+const {
+  title = "Let's make your marketing",
+  accent = "feel effortless.",
+  text = "Tell me about a project, a package or the ongoing support you need. I'll reply with clear next steps.",
+} = Astro.props;
+---
+<section class="dark cta" aria-labelledby="cta-title">
+  <div class="wrap stack center" style="max-width: 900px;">
+    <span class="star" aria-hidden="true">✦</span>
+    <h2 id="cta-title" class="h2">{title} <span class="accent">{accent}</span></h2>
+    <p class="lead" style="margin-inline: auto;">{text}</p>
+    <div class="btn-row" style="justify-content: center; margin-top: 8px;">
+      <a class="btn btn-light" href="/contact/">Start a project</a>
+      <a class="btn btn-line on-dark" href="/packages/">Browse packages</a>
+    </div>
+    <p style="font-size: 15px;">Or email <a href={`mailto:${site.email}`}>{site.email}</a></p>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: clamp(80px, 9vw, 112px); }
+  .star { color: var(--champagne); font-size: 18px; }
+  .on-dark { border-color: var(--champagne); color: var(--warm-white); }
+  .on-dark:hover { background: rgba(251, 250, 247, 0.08); color: var(--warm-white); }
+  a:not(.btn) { text-decoration-color: var(--champagne); text-underline-offset: 4px; overflow-wrap: anywhere; }
+</style>

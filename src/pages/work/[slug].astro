@@ -1,0 +1,157 @@
+---
+import Base from "../../layouts/Base.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { projects, type Project } from "../../data/projects";
+import { getService } from "../../data/services";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+const { project: p } = Astro.props as { project: Project };
+const idx = projects.findIndex((x) => x.slug === p.slug);
+const next = projects[(idx + 1) % projects.length];
+const related = p.services.map((s) => getService(s)!).filter(Boolean);
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: `${p.client}: ${p.category}`,
+  description: p.summary,
+  creator: { "@id": new URL("/about/#charlotte", Astro.site!).href },
+  ...(p.cover ? { image: p.cover.media.src.startsWith("http") ? p.cover.media.src : new URL(p.cover.media.src, Astro.site!).href } : {}),
+  ...(p.period ? { dateCreated: p.period } : {}),
+};
+---
+<Base
+  title={`${p.client} | ${p.category.split(" · ")[0]} Case Study | Charlotte Smith`}
+  description={`${p.summary} See the brief, my role and the work delivered.`}
+  noindex={p.thin}
+  crumbs={[{ name: "Work", href: "/work/" }, { name: p.client, href: `/work/${p.slug}/` }]}
+  jsonLd={ld}
+  type="article"
+>
+  <article>
+    <header class="page-hero">
+      <div class="wrap cs-head">
+        <div class="stack" style="gap: 20px;">
+          <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Case study</p>
+          <h1 class="display">{p.client}</h1>
+          <p class="lead">{p.summary}</p>
+        </div>
+        <dl class="cs-meta">
+          <div><dt>Services</dt><dd>{p.category}</dd></div>
+          <div><dt>My role</dt><dd>{p.role}</dd></div>
+          {p.period && <div><dt>When</dt><dd>{p.period}</dd></div>}
+          {p.website && <div><dt>Website</dt><dd><a href={p.website.url} target="_blank" rel="noopener">{p.website.label}<span class="sr-only"> (opens in a new tab)</span></a></dd></div>}
+        </dl>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <figure class={`cs-cover tone-${p.tone}`}>
+        {p.cover ? (
+          <>
+            <img src={p.cover.media.src} width={p.cover.media.width} height={p.cover.media.height} alt={p.cover.alt} fetchpriority="high" />
+            <figcaption class="sr-only">{p.cover.alt}</figcaption>
+          </>
+        ) : (
+          <div class="type-cover"><span class="frame" aria-hidden="true"></span><span class="type-name">{p.client}</span></div>
+        )}
+      </figure>
+    </div>
+
+    <section class="section" aria-labelledby="brief">
+      <div class="wrap cs-body">
+        <div class="stack" style="gap: 18px;">
+          <h2 id="brief" class="h3">The brief</h2>
+          {p.brief.map((t) => <p class="lead" style="max-width: none;">{t}</p>)}
+          {p.facts && (
+            <dl class="facts">
+              {p.facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
+            </dl>
+          )}
+        </div>
+        <div class="stack" style="gap: 18px;">
+          <h2 class="h3">What I delivered</h2>
+          <ul class="rule-list deliv">
+            {p.delivered.map((d) => <li><h3>{d.title}</h3><p>{d.text}</p></li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {p.gallery && p.gallery.length > 0 && (
+      <section class="section band" aria-labelledby="gallery">
+        <div class="wrap stack-lg">
+          <h2 id="gallery" class="h2">From the <span class="accent">project</span></h2>
+          <div class="gallery">
+            {p.gallery.map((g) => (
+              <figure class="reveal">
+                <img src={g.media.src} width={g.media.width} height={g.media.height} alt={`${p.client}: ${g.caption}`} loading="lazy" decoding="async" />
+                <figcaption>{g.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <section class="section-tight" aria-labelledby="related">
+        <div class="wrap stack" style="gap: 20px;">
+          <h2 id="related" class="eyebrow">Related services</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            {related.map((s) => <a class="chip svc-chip" href={`/services/${s.slug}/`}>{s.name}</a>)}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+
+  <section class="section band" aria-labelledby="next" style="padding-top: 72px;">
+    <div class="wrap stack-lg">
+      <div class="head-row">
+        <h2 id="next" class="h2">Next <span class="accent">project</span></h2>
+        <a class="textlink" href="/work/"><span>All projects</span></a>
+      </div>
+      <div style="max-width: 720px;"><ProjectCard project={next} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .cs-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: end; }
+  @media (max-width: 960px) { .cs-head { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+  .cs-meta { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--dove); }
+  .cs-meta div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--dove); }
+  .cs-meta dt { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); padding-top: 3px; }
+  .cs-meta dd { margin: 0; font-size: 15px; }
+  .cs-cover { margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--dove); background: var(--linen); box-shadow: var(--shadow-whisper); }
+  .cs-cover img { width: 100%; max-height: 760px; object-fit: cover; object-position: top center; }
+  .type-cover { position: relative; aspect-ratio: 21 / 9; display: flex; align-items: center; justify-content: center; padding: 32px; }
+  @media (max-width: 640px) { .type-cover { aspect-ratio: 4 / 3; } }
+  .tone-blush .type-cover { background: var(--blush); }
+  .tone-linen .type-cover { background: var(--linen); }
+  .tone-espresso .type-cover { background: var(--espresso); }
+  .frame { position: absolute; inset: 22px; border: 1px solid var(--champagne); border-radius: 4px; }
+  .type-name { position: relative; font-family: var(--italic); font-style: italic; font-weight: 500; font-size: clamp(44px, 7vw, 96px); line-height: 1; color: var(--espresso); text-align: center; }
+  .tone-espresso .type-name { color: var(--champagne); }
+  .cs-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; }
+  @media (max-width: 960px) { .cs-body { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+  .deliv li { padding: 20px 0; display: grid; gap: 6px; }
+  .deliv h3 { font-size: 20px; }
+  .deliv p { font-size: 15px; color: #5E5853; }
+  .facts { display: flex; flex-wrap: wrap; gap: 20px 48px; margin: 16px 0 0; padding-top: 24px; border-top: 1px solid var(--champagne); }
+  .facts div { display: flex; flex-direction: column-reverse; }
+  .facts dd { margin: 0; font-family: var(--serif); font-size: 40px; line-height: 1.1; }
+  .facts dt { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--espresso); }
+  .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  @media (max-width: 760px) { .gallery { grid-template-columns: minmax(0, 1fr); } }
+  .gallery figure { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .gallery img { width: 100%; border-radius: 4px; border: 1px solid var(--dove); background: var(--linen); box-shadow: var(--shadow-whisper); }
+  .gallery figcaption { font-size: 14px; color: #5E5853; }
+  .svc-chip { text-decoration: none; color: var(--charcoal); min-height: 44px; }
+  .svc-chip:hover { background: var(--linen); }
+</style>
