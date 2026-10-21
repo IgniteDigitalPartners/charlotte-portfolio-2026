@@ -14,14 +14,13 @@ const person = {
   url: new URL("/about/", Astro.site!).href,
   image: new URL("/og.jpg", Astro.site!).href,
   email: site.email,
-  homeLocation: { "@type": "Country", name: "Malta" },
   knowsAbout: ["Brand strategy", "Social media marketing", "Website design", "SEO", "Paid advertising", "Email marketing", "CRM", "B2B lead generation"],
   sameAs: site.sameAs,
 };
 ---
 <Base
-  title="About Charlotte Smith | Brand & Marketing Consultant in Malta"
-  description="Meet Charlotte Smith, a Malta-based brand and marketing consultant with 9+ years across brand strategy, social media, websites, campaigns, email and CRM."
+  title="About Charlotte Smith | Brand & Marketing Consultant"
+  description="Meet Charlotte Smith, a brand and marketing consultant with 9+ years across brand strategy, social media, websites, campaigns, email and CRM."
   crumbs={[{ name: "About", href: "/about/" }]}
   jsonLd={person}
 >
@@ -30,7 +29,7 @@ const person = {
       <div class="stack" style="gap: 24px;">
         <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>About me</p>
         <h1 class="display">Hello, <span class="accent">I'm Charlotte.</span></h1>
-        <p class="lead">I'm a marketing and growth consultant based in Malta. For more than nine years I've helped businesses look polished, sound clear and grow, from first logo to full lead generation.</p>
+        <p class="lead">I'm a marketing and growth consultant working with businesses worldwide. For more than nine years I've helped businesses look polished, sound clear and grow, from first logo to full lead generation.</p>
         <p>My work has taken me from senior marketing at Moovly, a SaaS video creation platform, to building brand systems for listed companies in the capital markets and websites for local businesses. Along the way I've worked across brand strategy, social media, content, websites, campaigns, email and CRM.</p>
         <p>That breadth is the point. I see how the pieces connect, so the marketing I create feels like one brand everywhere it appears.</p>
       </div>

@@ -16,9 +16,9 @@ export const services: Service[] = [
     slug: "social-media",
     name: "Social media design, content & management",
     short: "Polished graphics, thoughtful content and calm, consistent management.",
-    metaTitle: "Social Media Design & Management in Malta | Charlotte Smith",
+    metaTitle: "Social Media Design & Management | Charlotte Smith",
     metaDescription:
-      "On-brand social media graphics, content and management for Malta businesses. Fixed-price design packs from €45, or ongoing monthly support.",
+      "On-brand social media graphics, content and management for businesses of every size. Fixed-price design packs from €45, or ongoing monthly support.",
     intro: [
       "Your social channels are often the first place people check before they get in touch. I make sure what they find looks polished, sounds like you and shows up consistently.",
       "Start with a fixed-price design pack if you just need graphics, or let me plan, create and manage your content each month.",
@@ -50,9 +50,9 @@ export const services: Service[] = [
     slug: "brand-strategy-identity",
     name: "Brand strategy & identity",
     short: "Positioning, logo, palette and a brand guide your whole team can follow.",
-    metaTitle: "Brand Strategy & Logo Design in Malta | Charlotte Smith",
+    metaTitle: "Brand Strategy & Logo Design | Charlotte Smith",
     metaDescription:
-      "Brand strategy, logo design and visual identity for businesses in Malta and beyond. Positioning, palettes, typography and practical brand guidelines.",
+      "Brand strategy, logo design and visual identity for growing businesses. Positioning, palettes, typography and practical brand guidelines.",
     intro: [
       "A strong brand makes every other piece of marketing easier. People recognise you, trust you sooner and understand what you stand for.",
       "I start with strategy: who you serve, what makes you different and how you should sound. Then I design the identity that carries it, and document it so it stays consistent.",
@@ -82,9 +82,9 @@ export const services: Service[] = [
     slug: "marketing-strategy-consultancy",
     name: "Marketing strategy & consultancy",
     short: "A clear plan, the right channels and an experienced eye on what matters.",
-    metaTitle: "Marketing Consultant in Malta | Strategy Sessions & Plans | Charlotte Smith",
+    metaTitle: "Marketing Consultant | Strategy Sessions & Plans | Charlotte Smith",
     metaDescription:
-      "Marketing strategy and consultancy from a Malta-based consultant with 9+ years' experience. Book a €95 strategy session or a full marketing plan.",
+      "Marketing strategy and consultancy from a consultant with 9+ years' experience. Book a €95 strategy session or a full marketing plan.",
     intro: [
       "Most businesses don't need more marketing. They need the right marketing, in the right order. I help you decide where to focus and what to stop doing.",
       "Book a single strategy session for a clear action list, or work with me on a full plan with channels, content and measurement.",
@@ -109,16 +109,16 @@ export const services: Service[] = [
     },
     faqs: [
       { q: "What happens in a strategy session?", a: "We spend 60 minutes on your goals and current marketing. Afterwards you receive a written summary with prioritised actions." },
-      { q: "Do you work with businesses outside Malta?", a: "Yes. I'm based in Malta and work with clients internationally online." },
+      { q: "Where are your clients based?", a: "Anywhere. I work online with businesses around the world, so location is never a barrier." },
     ],
   },
   {
     slug: "website-design",
     name: "Website design, optimisation & updates",
     short: "Elegant sites that load fast, read clearly and invite people to get in touch.",
-    metaTitle: "Website Design & Website Support in Malta | Charlotte Smith",
+    metaTitle: "Website Design & Website Support | Charlotte Smith",
     metaDescription:
-      "Website design, landing pages, optimisation and updates for Malta businesses. Fixed-price website support from €45 and bespoke website builds.",
+      "Website design, landing pages, optimisation and updates for growing businesses. Fixed-price website support from €45 and bespoke website builds.",
     intro: [
       "Your website should do more than look good. It should make it obvious what you offer, build trust quickly and make getting in touch effortless.",
       "I design and build new sites, refresh existing ones and handle the smaller updates that keep a site current.",
@@ -150,9 +150,9 @@ export const services: Service[] = [
     slug: "seo",
     name: "SEO",
     short: "Structure, content and local search, so the right people find you first.",
-    metaTitle: "SEO Services in Malta | Local SEO & Google Business Profile | Charlotte Smith",
+    metaTitle: "SEO Services | Local SEO & Google Business Profile | Charlotte Smith",
     metaDescription:
-      "SEO for Malta businesses: technical fixes, on-page optimisation, content and Google Business Profile setup to help local clients find you first.",
+      "SEO for growing businesses: technical fixes, on-page optimisation, content and Google Business Profile setup to help local clients find you first.",
     intro: [
       "When someone searches for what you do, you want to be the business they find. Good SEO is a mix of a sound website, useful content and a strong local presence.",
       "I focus on the changes that make the biggest difference for your type of business, and explain them in plain language.",
@@ -183,9 +183,9 @@ export const services: Service[] = [
     slug: "paid-advertising",
     name: "Paid advertising",
     short: "Meta and Google campaigns planned around your budget and your goals.",
-    metaTitle: "Paid Advertising in Malta | Meta & Google Ads | Charlotte Smith",
+    metaTitle: "Paid Advertising | Meta & Google Ads | Charlotte Smith",
     metaDescription:
-      "Meta and Google Ads campaigns for Malta businesses, planned around your budget: audiences, creative, landing pages and clear reporting.",
+      "Meta and Google Ads campaigns for businesses, planned around your budget: audiences, creative, landing pages and clear reporting.",
     intro: [
       "Paid ads can bring in enquiries quickly, or burn through budget just as fast. The difference is a clear goal, the right audience and a landing page that converts.",
       "I plan, set up and manage campaigns, and design the ad creative so it matches your brand.",
@@ -216,7 +216,7 @@ export const services: Service[] = [
     slug: "email-marketing-crm",
     name: "Email marketing & CRM",
     short: "Newsletters, automations and a tidy CRM that keeps every lead warm.",
-    metaTitle: "Email Marketing & CRM Setup in Malta | Charlotte Smith",
+    metaTitle: "Email Marketing & CRM Setup | Charlotte Smith",
     metaDescription:
       "Email newsletters, automated sequences and CRM setup that keep leads warm and customers coming back. Strategy, design and copy.",
     intro: [

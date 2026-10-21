@@ -1,10 +1,10 @@
 export const site = {
   name: "Charlotte Smith",
-  title: "Charlotte Smith | Brand & Marketing Consultant in Malta",
+  title: "Charlotte Smith | Brand & Marketing Consultant",
   description:
-    "Malta-based brand and marketing consultant with 9+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers.",
+    "Brand and marketing consultant with 9+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers.",
   email: "hello@ignitedigitalpartners.com",
-  location: "Malta",
+  location: "Worldwide",
   // Public Web3Forms access key (safe to expose). Set PUBLIC_WEB3FORMS_KEY in Vercel.
   formKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "",
   sameAs: [

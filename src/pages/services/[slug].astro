@@ -24,7 +24,7 @@ const ld = [
     serviceType: s.name,
     description: s.metaDescription,
     provider: { "@id": new URL("/#business", siteUrl).href },
-    areaServed: [{ "@type": "Country", name: "Malta" }, "Worldwide"],
+    areaServed: "Worldwide",
     url: new URL(`/services/${s.slug}/`, siteUrl).href,
     ...(pk.length
       ? { offers: pk.map((p) => ({ "@type": "Offer", name: p.name, price: p.price, priceCurrency: "EUR", url: new URL(`/packages/#${p.id}`, siteUrl).href })) }
@@ -40,7 +40,7 @@ const ld = [
 <Base title={s.metaTitle} description={s.metaDescription} crumbs={[{ name: "Services", href: "/services/" }, { name: s.name, href: `/services/${s.slug}/` }]} jsonLd={ld}>
   <section class="page-hero">
     <div class="wrap stack" style="gap: 22px; max-width: 1000px; margin-inline: 0;">
-      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Service · {site.location}</p>
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Marketing service</p>
       <h1 class="display">{s.name}</h1>
       <p class="lead">{s.short}</p>
       <div class="btn-row">

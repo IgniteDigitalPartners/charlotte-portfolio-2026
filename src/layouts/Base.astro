@@ -36,8 +36,7 @@ const business = {
   logo: new URL("/icon-512.png", siteUrl).href,
   email: site.email,
   description: site.description,
-  areaServed: [{ "@type": "Country", name: "Malta" }, "Worldwide"],
-  address: { "@type": "PostalAddress", addressCountry: "MT" },
+  areaServed: "Worldwide",
   priceRange: "€45 to €210 for fixed-price packages",
   founder: { "@id": new URL("/about/#charlotte", siteUrl).href },
   sameAs: site.sameAs,
@@ -55,7 +54,7 @@ const breadcrumbLd = crumbs && {
 const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])].filter(Boolean);
 ---
 <!doctype html>
-<html lang="en-MT">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -69,7 +68,7 @@ const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd 
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="Charlotte Smith" />
-    <meta property="og:locale" content="en_MT" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
