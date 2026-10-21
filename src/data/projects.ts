@@ -1,4 +1,5 @@
 import manifest from "./media-manifest.json";
+import moovlyShowcase from "../assets/work-moovly-showcase.webp";
 
 export type Media = { src: string; width: number; height: number };
 const m = (id: string): Media => (manifest as Record<string, Media>)[id];
@@ -67,6 +68,7 @@ export const projects: Project[] = [
     summary: "Senior marketing at a SaaS video creation platform: demand generation, social, content and brand campaigns.",
     period: "Jun 2021 to Sep 2024",
     website: { url: "https://www.moovly.com", label: "moovly.com" },
+    cover: { media: { src: moovlyShowcase.src, width: moovlyShowcase.width, height: moovlyShowcase.height }, alt: "Moovly marketing showcase: brand graphics, social posts and product visuals for the video creation platform" },
     tone: "espresso",
     brief: [
       "Moovly is a SaaS platform for creating videos online. As a senior member of the marketing team, I worked across the channels that bring in and develop new business.",

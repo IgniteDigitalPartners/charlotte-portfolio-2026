@@ -1,0 +1,110 @@
+---
+interface Props { headingLevel?: "h2" | "h3"; showHeader?: boolean }
+const { showHeader = true } = Astro.props;
+---
+<section class="bento-sec" aria-labelledby={showHeader ? "svc-title" : undefined} aria-label={showHeader ? undefined : "Marketing services"}>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    {showHeader && (
+      <div class="head">
+        <h2 id="svc-title" class="h2" style="font-weight: 400;">Everything, <span class="accent">in one place.</span></h2>
+        <p>Pick one, or let me join them up into one clear plan.</p>
+      </div>
+    )}
+    <div class="bento">
+      <a class="tile social" href="/services/social-media/">
+        <div class="tile-txt">
+          <span class="kicker">From €45</span>
+          <div><h3>Social media</h3><p>Branded posts, carousels and templates, or full monthly management.</p></div>
+        </div>
+        <div class="feed" aria-hidden="true">
+          <span class="p blush serif">Behind the scenes</span><span class="p gold"></span><span class="p ivory it">Offer</span>
+          <span class="p rose"></span><span class="p ivory serif">5 quick tips</span><span class="p blush"></span>
+          <span class="p gold"></span><span class="p noir it">Reel</span><span class="p ivory"></span>
+        </div>
+      </a>
+      <a class="tile marble" href="/services/brand-strategy-identity/">
+        <div class="vis brandvis" aria-hidden="true"><span class="aa">Aa</span><span class="dots"><i style="background:#1D1B1A"></i><i style="background:#C8A96A"></i><i style="background:#FBFAF7"></i></span></div>
+        <div><h3>Brand identity</h3><p>Logos, colours &amp; brand guides</p></div>
+      </a>
+      <a class="tile gold" href="/services/website-design/">
+        <div class="vis" aria-hidden="true"><div class="browser"><div class="bar"><i></i><i></i><i></i></div><div class="body"><b></b><s></s><u></u></div></div></div>
+        <div><h3>Websites</h3><p>Design, builds &amp; updates</p></div>
+      </a>
+      <a class="tile plain" href="/services/seo/">
+        <div class="vis" aria-hidden="true"><div class="search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A88566" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-5-5"></path></svg>best café in Sliema</div></div>
+        <div><h3>SEO</h3><p>Get found on Google</p></div>
+      </a>
+      <a class="tile satin" href="/services/paid-advertising/">
+        <div class="vis" aria-hidden="true"><div class="ad"><small>Sponsored</small><div class="adimg"></div><div class="adrow"><s></s><em>Learn more</em></div></div></div>
+        <div><h3>Paid ads</h3><p>Meta &amp; Google campaigns</p></div>
+      </a>
+      <a class="tile plain" href="/services/email-marketing-crm/">
+        <div class="vis inbox" aria-hidden="true"><span class="on">Welcome to the studio</span><span>Your monthly update</span></div>
+        <div><h3>Email &amp; CRM</h3><p>Newsletters &amp; automations</p></div>
+      </a>
+      <a class="tile plain" href="/services/marketing-strategy-consultancy/">
+        <div class="vis road" aria-hidden="true"><i class="f"></i><s></s><i class="g"></i><s></s><i></i><s></s><i></i></div>
+        <div><h3>Strategy</h3><p>Plans &amp; 1:1 sessions from €95</p></div>
+      </a>
+      <a class="tile plain wide" href="/services/b2b-lead-generation/">
+        <div><h3>B2B lead generation</h3><p>LinkedIn, outreach &amp; follow-up, from €79</p></div>
+        <div class="vis li" aria-hidden="true"><i></i><div><b></b><s></s></div><em>Connect</em></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento-sec { position: relative; background: var(--ivory); padding-block: clamp(80px, 9vw, 120px); overflow: hidden; }
+  .glow { position: absolute; left: 0; right: 0; top: 0; height: 420px; background: url("../assets/textures/blush-glow.webp") center / cover no-repeat; -webkit-mask-image: linear-gradient(180deg, #000 35%, transparent 100%); mask-image: linear-gradient(180deg, #000 35%, transparent 100%); pointer-events: none; }
+  .wrap { position: relative; }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: 52px; }
+  .head p { max-width: 320px; font-size: 17px; }
+  .bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(250px, auto); gap: 24px; }
+  .tile { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 30px; border-radius: 8px; text-decoration: none; color: var(--charcoal); box-shadow: var(--shadow-card); transition: transform 480ms var(--ease), box-shadow 480ms var(--ease); overflow: hidden; }
+  .tile:hover { transform: translateY(-4px); box-shadow: 0 30px 60px rgba(122, 74, 66, 0.2), 0 4px 10px rgba(59, 58, 56, 0.08); color: var(--charcoal); }
+  .tile:focus-visible { outline: 2px solid var(--bronze); outline-offset: 4px; }
+  .tile h3 { font-size: 28px; font-weight: 500; margin-bottom: 4px; }
+  .tile p { font-size: 15px; }
+  .plain { background: var(--white); border: 1px solid var(--gold-edge); }
+  .marble { background: #F6EFEC url("../assets/textures/rose-marble.webp") center / cover no-repeat; }
+  .gold { background: linear-gradient(150deg, #F1E1BE 0%, #D9BE84 45%, #C8A96A 70%, #E8D3A2 100%); color: #2E2A26; }
+  .satin { background: #E9D3C4 url("../assets/textures/rosegold-satin.webp") center / cover no-repeat; color: #2E2A26; }
+  .satin::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(251, 246, 242, 0.25) 0%, rgba(251, 246, 242, 0.88) 55%, rgba(251, 246, 242, 0.94) 100%); }
+  .satin > * { position: relative; }
+  .social { grid-column: span 2; grid-row: span 2; flex-direction: row; gap: 32px; padding: 44px; background: var(--noir) url("../assets/textures/noir-marble.webp") center / cover; color: var(--ivory); }
+  .social:hover { color: var(--ivory); }
+  .social h3 { font-size: clamp(40px, 4vw, 54px); line-height: 1; margin-bottom: 12px; color: var(--ivory); }
+  .social p { color: #E9E2DB; font-size: 16px; }
+  .tile-txt { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light); }
+  .feed { width: 210px; align-self: center; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; flex: none; }
+  .p { aspect-ratio: 4 / 5; border-radius: 2px; padding: 7px; font-size: 9px; line-height: 1.15; color: var(--charcoal); display: flex; }
+  .p.serif { font-family: var(--serif); }
+  .p.it { font-family: var(--italic); font-style: italic; font-size: 13px; align-items: center; justify-content: center; }
+  .blush { background: var(--blush); } .ivory { background: #FBFAF7; } .rose { background: var(--rose); }
+  .p.gold { background: #E8D3A2; } .noir { background: #3B3530; border: 1px solid var(--champagne); color: var(--gold-light) !important; }
+  .wide { grid-column: span 2; flex-direction: row; align-items: center; padding: 30px 40px; }
+  .wide h3 { font-size: 34px; }
+  .brandvis { display: flex; align-items: center; gap: 14px; }
+  .aa { font-family: var(--serif); font-size: 44px; line-height: 1; }
+  .dots { display: flex; gap: 5px; } .dots i { width: 22px; height: 22px; border-radius: 50%; display: block; box-shadow: 0 0 0 1px rgba(59, 58, 56, 0.08); }
+  .browser { width: 150px; border-radius: 4px; background: #FBFAF7; overflow: hidden; box-shadow: 0 8px 18px rgba(46, 42, 38, 0.18); }
+  .browser .bar { display: flex; gap: 3px; padding: 5px 7px; background: #EFE9E2; } .browser .bar i { width: 5px; height: 5px; border-radius: 50%; background: var(--rose); display: block; }
+  .browser .body { padding: 8px; display: grid; gap: 5px; } .browser b { height: 5px; width: 70%; background: var(--charcoal); border-radius: 2px; display: block; } .browser s { height: 4px; width: 90%; background: #E6DED7; display: block; } .browser u { width: 40px; height: 9px; background: var(--noir); display: block; }
+  .search { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid var(--dove); border-radius: 20px; font-size: 12px; background: #fff; }
+  .ad { width: 160px; border-radius: 4px; background: #FBFAF7; padding: 8px; box-shadow: 0 8px 18px rgba(46, 42, 38, 0.18); }
+  .ad small { font-size: 8px; color: #6B6560; display: block; margin-bottom: 4px; } .adimg { height: 42px; border-radius: 2px; background: linear-gradient(135deg, #1D1B1A, #4A3B33); margin-bottom: 6px; }
+  .adrow { display: flex; justify-content: space-between; align-items: center; } .adrow s { height: 4px; width: 60px; background: #E6DED7; display: block; } .adrow em { font-style: normal; font-size: 7px; padding: 2px 6px; border: 1px solid var(--charcoal); }
+  .inbox { display: flex; flex-direction: column; gap: 6px; width: 190px; } .inbox span { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 4px; background: var(--ivory); font-size: 10px; color: #6B6560; } .inbox span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dove); } .inbox .on { background: var(--blush); color: var(--charcoal); } .inbox .on::before { background: var(--bronze); }
+  .road { display: flex; align-items: center; } .road i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--charcoal); display: block; flex: none; } .road i.f { background: var(--noir); } .road i.g { background: var(--champagne); border-color: var(--champagne); } .road s { width: 40px; height: 1px; background: var(--charcoal); display: block; }
+  .li { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid #E6DED7; border-radius: 6px; background: var(--ivory); width: 250px; flex: none; } .li i { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(180deg, #E8D3A2, #C8A96A); flex: none; } .li div { flex: 1; display: grid; gap: 6px; } .li b { height: 6px; width: 80%; background: var(--charcoal); display: block; } .li s { height: 4px; width: 60%; background: var(--dove); display: block; } .li em { font-style: normal; font-size: 9px; padding: 4px 9px; background: var(--noir); color: #FBFAF7; border-radius: 2px; }
+  @media (max-width: 1100px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) {
+    .bento { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+    .social, .wide { grid-column: auto; grid-row: auto; flex-direction: column; align-items: flex-start; }
+    .social { padding: 32px; } .feed { align-self: flex-start; width: 180px; }
+    .tile { min-height: 210px; } .li { width: 100%; max-width: 260px; }
+  }
+</style>

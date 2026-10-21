@@ -1,0 +1,48 @@
+---
+import { packages, euro } from "../data/packages";
+const from = (g: string) => Math.min(...packages.filter((p) => p.group === g).map((p) => p.price));
+const cards = [
+  { dark: true, label: "Social media graphics", price: from("social"), line: "5, 10 or 20 branded graphics, ready to post.", btn: "View social packs", href: "/packages/#social" },
+  { dark: false, label: "Website support", price: from("website"), line: "1 to 6 hours of updates and fixes.", btn: "View website packs", href: "/packages/#website" },
+  { dark: false, label: "Audits & strategy", price: from("focused"), line: "Profile audits, LinkedIn refresh and 1:1 sessions.", btn: "View audits", href: "/packages/#focused" },
+];
+---
+<section class="pk-sec texture-satin" aria-labelledby="pk-title">
+  <div class="wrap grid">
+    <div class="intro">
+      <h2 id="pk-title" class="h2" style="font-weight: 400;">Marketing packages, <span class="accent">fixed prices.</span></h2>
+      <p>Choose, send your brief, done.</p>
+    </div>
+    <ul class="cards">
+      {cards.map((c) => (
+        <li>
+          <a class={`pk ${c.dark ? "dark-card" : ""}`} href={c.href}>
+            <span class="lab">{c.label}</span>
+            <span class="price">from {euro(c.price)}</span>
+            <span class="line">{c.line}</span>
+            <span class={`btn btn-sm ${c.dark ? "btn-gold" : "btn-dark"}`}>{c.btn}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .pk-sec { padding-block: clamp(80px, 9vw, 110px); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 40px; }
+  .intro p { font-size: 18px; }
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .pk { height: 100%; display: flex; flex-direction: column; gap: 16px; padding: 34px 30px 30px; background: var(--white); color: var(--charcoal); text-decoration: none; border-radius: 8px; border: 1px solid var(--gold-edge); box-shadow: 0 22px 44px rgba(122, 74, 66, 0.18), 0 3px 8px rgba(59, 58, 56, 0.08); transition: transform 480ms var(--ease); }
+  .pk:hover { transform: translateY(-4px); color: var(--charcoal); }
+  .lab { font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #7A5A3E; }
+  .price { font-family: var(--italic); font-style: italic; font-weight: 500; font-size: clamp(48px, 4.6vw, 64px); line-height: 1; white-space: nowrap; }
+  .line { font-size: 16px; line-height: 1.5; color: #4A4542; flex: 1; }
+  .pk .btn { margin-top: 6px; align-self: flex-start; white-space: nowrap; }
+  .dark-card { background: var(--noir); color: var(--ivory); border-color: #3A3532; }
+  .dark-card:hover { color: var(--ivory); }
+  .dark-card .lab { color: var(--gold-light); }
+  .dark-card .line { color: #E4DDD5; }
+    @media (max-width: 760px) { .cards { grid-template-columns: minmax(0, 1fr); } }
+</style>

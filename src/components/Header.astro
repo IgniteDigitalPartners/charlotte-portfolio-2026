@@ -1,17 +1,22 @@
 ---
+import { Image } from "astro:assets";
 import { nav } from "../data/site";
+import mono from "../assets/brand/cs-gold.png";
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
 ---
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="/" aria-label="Charlotte Smith, home">
-      <span class="brand-name">Charlotte Smith</span>
-      <span class="brand-line">Brand &amp; marketing</span>
+    <a class="brand" href="/" aria-label="Charlotte Smith, marketing consultant, home">
+      <Image src={mono} alt="" height={46} width={Math.round((46 * mono.width) / mono.height)} class="mono" loading="eager" />
+      <span class="brand-txt">
+        <span class="brand-name">Charlotte Smith</span>
+        <span class="brand-line">Marketing consultant</span>
+      </span>
     </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">
       <span class="sr-only">Menu</span>
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M3 7h18"></path><path class="l2" d="M3 12h18"></path><path class="l3" d="M3 17h18"></path></svg>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M3 7h18"></path><path class="l2" d="M3 12h18"></path><path class="l3" d="M3 17h18"></path></svg>
     </button>
     <nav id="site-nav" class="nav" aria-label="Main">
       <ul>
@@ -19,34 +24,39 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
           <li><a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a></li>
         ))}
       </ul>
-      <a class="btn btn-dark btn-sm nav-cta" href="/packages/">View packages</a>
+      <a class="btn btn-sm nav-cta" href="/contact/">Book a call</a>
     </nav>
   </div>
 </header>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(251, 250, 247, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--dove); }
-  .bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; }
-  .brand { display: flex; flex-direction: column; line-height: 1; text-decoration: none; padding: 8px 0; }
-  .brand-name { font-family: var(--serif); font-size: 24px; font-weight: 500; color: var(--charcoal); }
-  .brand-line { margin-top: 6px; font-size: 10px; font-weight: 400; letter-spacing: 0.32em; text-transform: uppercase; color: var(--espresso); }
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(29, 27, 26, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(200, 169, 106, 0.3); color: var(--ivory); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 80px; }
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; padding: 8px 0; }
+  .mono { height: 46px; width: auto; }
+  .brand-txt { display: flex; flex-direction: column; line-height: 1; }
+  .brand-name { font-family: var(--serif); font-size: 23px; font-weight: 500; background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .brand-line { margin-top: 7px; font-size: 10px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: #CFC6BC; }
   .nav { display: flex; align-items: center; gap: 36px; }
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 32px; }
-  .nav ul a { display: inline-block; padding: 12px 0; font-size: 13px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--charcoal); border-bottom: 1px solid transparent; transition: border-color 240ms var(--ease); }
-  .nav ul a:hover, .nav ul a[aria-current="page"] { border-bottom-color: var(--champagne); }
-  .menu-btn { display: none; width: 48px; height: 48px; align-items: center; justify-content: center; background: none; border: 0; color: var(--charcoal); cursor: pointer; margin-right: -10px; }
+  .nav ul a { display: inline-block; padding: 12px 0; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--ivory); border-bottom: 1px solid transparent; transition: border-color 240ms var(--ease), color 240ms var(--ease); }
+  .nav ul a:hover, .nav ul a[aria-current="page"] { border-bottom-color: var(--champagne); color: var(--gold-light); }
+  .nav-cta { border: 1px solid var(--champagne); color: var(--gold-light); background: transparent; }
+  .nav-cta:hover { background: rgba(200, 169, 106, 0.14); color: var(--gold-light); }
+  .menu-btn { display: none; width: 48px; height: 48px; align-items: center; justify-content: center; background: none; border: 0; color: var(--ivory); cursor: pointer; margin-right: -10px; }
   .menu-btn path { transition: transform 240ms var(--ease), opacity 240ms var(--ease); transform-origin: center; }
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .menu-btn { display: inline-flex; }
-    .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 20px; padding: 16px var(--gutter) 28px; background: var(--warm-white); border-bottom: 1px solid var(--dove); box-shadow: var(--shadow-lifted); }
+    .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 20px; padding: 12px var(--gutter) 28px; background: var(--noir); border-bottom: 1px solid rgba(200, 169, 106, 0.3); }
     .nav.open { display: flex; }
     .nav ul { flex-direction: column; gap: 0; }
-    .nav ul li { border-bottom: 1px solid var(--dove); }
+    .nav ul li { border-bottom: 1px solid rgba(213, 208, 203, 0.18); }
     .nav ul a { display: block; padding: 16px 0; font-size: 14px; border-bottom: 0; }
     .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
     .menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
     .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
   }
+  @media (max-width: 420px) { .brand-line { letter-spacing: 0.22em; } .brand-name { font-size: 20px; } .mono { height: 40px; } }
 </style>
 
 <script>

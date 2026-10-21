@@ -1,14 +1,16 @@
 ---
 import { site } from "../data/site";
 import { services } from "../data/services";
+import { Image } from "astro:assets";
+import mono from "../assets/brand/cs-gold.png";
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a href="/" class="name">Charlotte Smith</a>
-        <p>Brand &amp; marketing consultant in Malta. Strategy, design and growth, softly considered.</p>
+        <a href="/" class="name-row" aria-label="Charlotte Smith, home"><Image src={mono} alt="" height={56} width={Math.round((56 * mono.width) / mono.height)} /><span class="name">Charlotte Smith</span></a>
+        <p>Marketing consultant in Malta. Social media, branding, websites, SEO, ads and lead generation.</p>
         <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
       </div>
       <nav aria-label="Services">
@@ -35,16 +37,18 @@ const year = new Date().getFullYear();
     </div>
     <div class="base">
       <span>© {year} Charlotte Smith · Malta</span>
-      <span>Brand · Marketing · Growth</span>
+      <span>Marketing consultant · Malta &amp; worldwide</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .footer { background: var(--charcoal); color: var(--warm-white); padding: 72px 0 32px; }
+  .footer { background: var(--noir); border-top: 1px solid rgba(200, 169, 106, 0.35); color: var(--warm-white); padding: 72px 0 32px; }
   .cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.8fr); gap: 40px; }
   @media (max-width: 960px) { .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+  .name-row { display: inline-flex; align-items: center; gap: 14px; text-decoration: none; }
+  .name-row img { height: 56px; width: auto; }
   .name { font-family: var(--serif); font-size: 28px; font-weight: 500; text-decoration: none; background: linear-gradient(180deg, #DCC18A 0%, #C8A96A 45%, #A88566 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .about { display: flex; flex-direction: column; gap: 14px; }
   .about p { font-size: 14px; max-width: 320px; }

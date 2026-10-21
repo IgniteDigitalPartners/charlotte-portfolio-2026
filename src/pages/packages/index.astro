@@ -20,8 +20,8 @@ const ld = {
 };
 ---
 <Base
-  title="Fixed-Price Marketing Packages | Social Graphics, Wix Support & Audits | Charlotte Smith"
-  description="Fixed-price marketing packages in euros: social media graphics from €45, Wix website support from €45, profile audits, LinkedIn refresh and strategy sessions."
+  title="Fixed-Price Marketing Packages | Social Graphics, Website Support & Audits | Charlotte Smith"
+  description="Fixed-price marketing packages in euros: social media graphics from €45, website support from €45, profile audits, LinkedIn refresh and strategy sessions."
   crumbs={[{ name: "Packages", href: "/packages/" }]}
   jsonLd={ld}
 >
@@ -36,7 +36,7 @@ const ld = {
     </div>
   </section>
 
-  <div class="wrap">
+  <div class="wrap" style="padding-top: 40px;">
     <div class="notice" role="note">
       <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A3B33" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
       <span><strong>Online checkout is not available yet.</strong> Choose a package and send your order brief. I'll confirm the details and send you a secure PayPal payment link by email. No payment is taken on this website.</span>
@@ -73,7 +73,7 @@ const ld = {
                 {p.paypalUrl ? (
                   <a class="btn btn-dark" href={p.paypalUrl} rel="noopener">Buy with PayPal<span class="sr-only">: {p.name}</span></a>
                 ) : (
-                  <a class={`btn ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} href={`/packages/order/?package=${p.id}`}>{k === "wix" ? "Send my task list" : "Order this package"}<span class="sr-only">: {p.name}</span></a>
+                  <a class={`btn ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} href={`/packages/order/?package=${p.id}`}>{k === "website" ? "Send my task list" : "Order this package"}<span class="sr-only">: {p.name}</span></a>
                 )}
               </li>
             ))}

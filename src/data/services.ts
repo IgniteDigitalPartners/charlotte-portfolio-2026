@@ -116,9 +116,9 @@ export const services: Service[] = [
     slug: "website-design",
     name: "Website design, optimisation & updates",
     short: "Elegant sites that load fast, read clearly and invite people to get in touch.",
-    metaTitle: "Website Design & Wix Support in Malta | Charlotte Smith",
+    metaTitle: "Website Design & Website Support in Malta | Charlotte Smith",
     metaDescription:
-      "Website design, landing pages, optimisation and Wix updates for Malta businesses. Fixed-price Wix support from €45 and bespoke website builds.",
+      "Website design, landing pages, optimisation and updates for Malta businesses. Fixed-price website support from €45 and bespoke website builds.",
     intro: [
       "Your website should do more than look good. It should make it obvious what you offer, build trust quickly and make getting in touch effortless.",
       "I design and build new sites, refresh existing ones and handle the smaller updates that keep a site current.",
@@ -126,7 +126,7 @@ export const services: Service[] = [
     includes: [
       "New website design and build",
       "Landing pages for campaigns and offers",
-      "Wix updates, fixes and improvements",
+      "Updates, fixes and improvements to existing sites",
       "Speed, mobile and accessibility improvements",
       "Clearer messaging and calls to action",
       "On-page SEO foundations",
@@ -137,13 +137,13 @@ export const services: Service[] = [
       "You need small changes made quickly and properly",
     ],
     ways: {
-      packages: ["wix-quick-fix", "wix-update", "wix-improvement", "landing-page-review"],
+      packages: ["website-quick-fix", "website-update", "website-improvement", "landing-page-review"],
       bespoke: "New websites and redesigns, quoted to your pages and features.",
       retainer: "Monthly website care, updates and optimisation.",
     },
     faqs: [
-      { q: "Which platforms do you work with?", a: "I specialise in Wix for small business websites and also build custom sites when a project needs more flexibility." },
-      { q: "How do the Wix support packs work?", a: "We agree your task list before you buy, so you know exactly what's covered in your hours." },
+      { q: "Which platforms do you work with?", a: "I work across the popular website platforms and also build custom sites when a project needs more flexibility. Tell me what your site runs on and I'll confirm." },
+      { q: "How do the website support packs work?", a: "We agree your task list before you buy, so you know exactly what's covered in your hours." },
     ],
   },
   {

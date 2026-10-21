@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import moovly from "../assets/logos/moovly.png";
+import gcg from "../assets/logos/gcg.png";
+import ezsy from "../assets/logos/ezsy.png";
+import vertui from "../assets/logos/vertui.png";
+import quest from "../assets/logos/quest.png";
+import dar from "../assets/logos/dar.png";
+const logos = [
+  { img: moovly, alt: "Moovly", h: 32 },
+  { img: gcg, alt: "General Copper Gold", h: 60 },
+  { img: ezsy, alt: "Ezsy Webs", h: 66 },
+  { img: vertui, alt: "Vertui Horticulture", h: 56 },
+  { img: quest, alt: "Quest Critical Metals", h: 38 },
+  { img: dar, alt: "Dar il-Fwieħa", h: 62 },
+];
+---
+<section class="logos" aria-labelledby="logos-title">
+  <div class="wrap row">
+    <h2 id="logos-title" class="label">Brands I've worked with</h2>
+    <ul>
+      {logos.map((l) => (
+        <li><Image src={l.img} alt={l.alt} height={l.h} width={Math.round((l.h * l.img.width) / l.img.height)} style={`height:${l.h}px`} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .logos { background: var(--noir); border-bottom: 1px solid rgba(200, 169, 106, 0.35); padding-block: 36px; }
+  .row { display: flex; align-items: center; gap: 48px; }
+  .label { flex: none; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: #A39C96; }
+  ul { list-style: none; margin: 0; padding: 0; flex: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 28px 36px; }
+  li img { width: auto; opacity: 0.85; transition: opacity 240ms var(--ease); }
+  li img:hover { opacity: 1; }
+  @media (max-width: 960px) { .row { flex-direction: column; gap: 24px; } ul { justify-content: center; } li img { transform: scale(0.8); } }
+</style>

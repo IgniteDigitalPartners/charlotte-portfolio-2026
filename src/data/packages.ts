@@ -2,7 +2,7 @@ export interface Package {
   id: string;
   name: string;
   price: number; // EUR
-  group: "social" | "wix" | "focused";
+  group: "social" | "website" | "focused";
   headline: string;
   includes: string[];
   delivery: string;
@@ -18,10 +18,10 @@ export const groups = {
     youProvide: "Your copy, images and brand assets (logo, colours, fonts).",
     notes: "Each graphic is designed in one platform size. Posting, scheduling, copywriting and paid advertising are separate services.",
   },
-  wix: {
-    name: "Wix support",
-    intro: "Updates, fixes and improvements to your Wix website.",
-    youProvide: "Access to your Wix site as a contributor, plus any text or images for the changes.",
+  website: {
+    name: "Website support",
+    intro: "Updates, fixes and improvements to your existing website.",
+    youProvide: "Editor access to your website, plus any text or images for the changes.",
     notes: "We agree your task list before you buy, so you know exactly what your hours cover.",
   },
   focused: {
@@ -52,20 +52,20 @@ export const packages: Package[] = [
     delivery: "7 business days", revisions: "3 revisions",
   },
   {
-    id: "wix-quick-fix", name: "Quick Fix", price: 45, group: "wix",
-    headline: "Up to 1 hour of Wix edits",
+    id: "website-quick-fix", name: "Quick Fix", price: 45, group: "website",
+    headline: "Up to 1 hour of website edits",
     includes: ["Up to 1 hour of work", "Task list agreed before purchase"],
     delivery: "Agreed with your task list", revisions: "Within the agreed hours",
   },
   {
-    id: "wix-update", name: "Update Pack", price: 105, group: "wix",
-    headline: "Up to 3 hours of Wix updates",
+    id: "website-update", name: "Update Pack", price: 105, group: "website",
+    headline: "Up to 3 hours of website updates",
     includes: ["Up to 3 hours of work", "Task list agreed before purchase"],
     delivery: "Agreed with your task list", revisions: "Within the agreed hours",
   },
   {
-    id: "wix-improvement", name: "Improvement Pack", price: 210, group: "wix",
-    headline: "Up to 6 hours of Wix improvements",
+    id: "website-improvement", name: "Improvement Pack", price: 210, group: "website",
+    headline: "Up to 6 hours of website improvements",
     includes: ["Up to 6 hours of work", "Task list agreed before purchase"],
     delivery: "Agreed with your task list", revisions: "Within the agreed hours",
   },

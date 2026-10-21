@@ -21,7 +21,7 @@ interface Props {
   crumbs?: { name: string; href: string }[];
   type?: "website" | "article";
 }
-const { title, description, image = "/og.png", noindex = false, jsonLd, crumbs, type = "website" } = Astro.props;
+const { title, description, image = "/og.jpg", noindex = false, jsonLd, crumbs, type = "website" } = Astro.props;
 const siteUrl = Astro.site!;
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = new URL(image, siteUrl).href;
@@ -32,7 +32,7 @@ const business = {
   "@id": new URL("/#business", siteUrl).href,
   name: "Charlotte Smith, Brand & Marketing Consultant",
   url: siteUrl.href,
-  image: new URL("/og.png", siteUrl).href,
+  image: new URL("/og.jpg", siteUrl).href,
   logo: new URL("/icon-512.png", siteUrl).href,
   email: site.email,
   description: site.description,
@@ -63,8 +63,7 @@ const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd 
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta name="theme-color" content="#F7F3EE" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#1D1B1A" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -88,14 +87,14 @@ const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd 
     <Header />
     <main id="main">
       {crumbs && (
-        <nav class="crumbs wrap" aria-label="Breadcrumb" style="padding-top: 28px;">
+        <div class="crumbs-bar"><nav class="crumbs wrap" aria-label="Breadcrumb" style="padding-top: 18px; padding-bottom: 4px;">
           <ol>
             <li><a href="/">Home</a></li>
             {crumbs.map((c, i) => (
               <li>{i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.href}>{c.name}</a>}</li>
             ))}
           </ol>
-        </nav>
+        </nav></div>
       )}
       <slot />
     </main>
