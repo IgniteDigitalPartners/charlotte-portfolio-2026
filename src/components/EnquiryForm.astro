@@ -5,23 +5,11 @@ import { packages, groups, euro } from "../data/packages";
 
 interface Props { mode?: "contact" | "order"; id?: string }
 const { mode = "contact", id = "enquiry-form" } = Astro.props;
-const live = Boolean(site.formKey);
-const thankYou = new URL("/thank-you/", Astro.site!).href;
 const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
 ---
 <div class="form-wrap" data-mode={mode}>
-  {!live && (
-    <div class="notice" role="note" style="margin-bottom: 24px;">
-      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A3B33" stroke-width="1" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.01"></path></svg>
-      <span>This form isn't connected yet, so it can't send messages. Please email <a href={`mailto:${site.email}`}>{site.email}</a> and I'll reply personally.</span>
-    </div>
-  )}
-  <form id={id} class="form" action="https://api.web3forms.com/submit" method="POST" data-live={live ? "true" : "false"} novalidate>
-    <input type="hidden" name="access_key" value={site.formKey} />
-    <input type="hidden" name="subject" value={mode === "order" ? "New order brief from charlottesmith website" : "New enquiry from charlottesmith website"} />
-    <input type="hidden" name="from_name" value="Charlotte Smith website" />
-    <input type="hidden" name="form_type" value={mode === "order" ? "Package order brief" : "Enquiry"} />
-    <input type="hidden" name="redirect" value={thankYou} />
+  <form id={id} class="form" action="/api/enquiry/" method="POST" data-live="true" novalidate>
+    <input type="hidden" name="form_type" value={mode} />
     <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
     {mode === "order" && (
@@ -115,7 +103,7 @@ const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
     <p class="hint" style="font-size: 13px; color: #6B6560;">I'll only use your details to reply to you about this {mode === "order" ? "order" : "enquiry"}.</p>
     <div class="status" role="status" aria-live="polite" tabindex="-1"></div>
     <div>
-      <button class="btn btn-dark" type="submit" disabled={!live}>{mode === "order" ? "Send order brief" : "Send enquiry"}</button>
+      <button class="btn btn-dark" type="submit">{mode === "order" ? "Send order brief" : "Send enquiry"}</button>
     </div>
   </form>
 </div>
@@ -149,25 +137,24 @@ const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
       }
       const data = Object.fromEntries(new FormData(form).entries());
       if (data.botcheck) return;
-      delete data.redirect;
       btn.disabled = true;
       const label = btn.textContent;
       btn.textContent = "Sending…";
       say("", "");
       try {
-        const res = await fetch("https://api.web3forms.com/submit", {
+        const res = await fetch("/api/enquiry/", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data),
         });
         const json = await res.json().catch(() => ({}));
-        if (res.ok && json.success) {
+        if (res.ok && json.ok) {
           form.reset();
           say(
             "success",
             mode === "order"
               ? `Thank you. Your order brief for ${data.package} has been sent. I'll reply by email to confirm the details and how to pay. No payment has been taken.`
-              : "Thank you. Your message has been sent and I'll reply by email."
+              : "Thank you. Your message has been sent. A confirmation is on its way to your inbox and I'll reply personally within one business day."
           );
         } else {
           throw new Error(json.message || `HTTP ${res.status}`);

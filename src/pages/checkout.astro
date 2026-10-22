@@ -69,8 +69,10 @@ const catalog = packages.filter(buyable).map((p) => ({
             <p class="small pay-note">Pay securely by card or PayPal. You don't need a PayPal account.</p>
             <div id="paypal-buttons"></div>
           </div>
-          <div class="notice" data-closed hidden role="note">
-            <span><strong>Online payment opens soon.</strong> In the meantime, <a href="/packages/order/">send your order brief</a> and I'll email you a secure payment link. No payment is taken here.</span>
+          <div class="closed" data-closed hidden>
+            <p class="small"><strong>Card payment opens soon.</strong> For now, send your order and brief and I'll reply within one business day with a secure PayPal payment link. Nothing is charged until you pay that link.</p>
+            <button type="button" class="btn btn-dark send-brief" data-send>Send my order</button>
+            <p class="ok" role="status" data-sent hidden></p>
           </div>
           <p class="err" role="alert" data-error hidden></p>
           <p class="small">Questions first? <a href="/packages/#calls">Book a call</a> or <a href="/contact/">send a message</a>.</p>
@@ -106,7 +108,10 @@ const catalog = packages.filter(buyable).map((p) => ({
   .pay-note { margin-bottom: 10px; }
   #paypal-buttons { min-height: 120px; }
   .err { padding: 12px 14px; border: 1px solid var(--deep-rose); border-radius: 2px; color: var(--deep-rose); font-size: 14px; }
-  .err[hidden], [data-pay][hidden], [data-closed][hidden] { display: none; }
+  .err[hidden], [data-pay][hidden], [data-closed][hidden], .ok[hidden] { display: none; }
+  .closed { display: grid; gap: 14px; }
+  .send-brief { width: 100%; cursor: pointer; font-family: var(--sans); }
+  .ok { padding: 12px 14px; border: 1px solid var(--champagne); border-radius: 2px; font-size: 14px; background: var(--white); }
   .hint { font-size: 13px; color: #6B6560; }
   .welcome[hidden] { display: none; }
   .check { display: flex; gap: 14px; align-items: flex-start; font-size: 15px; cursor: pointer; }
@@ -201,6 +206,49 @@ const catalog = packages.filter(buyable).map((p) => ({
     }
     return { customer, brief };
   }
+  const briefAsText = () => [...form.querySelectorAll<HTMLElement>("[data-briefs] fieldset")].map((fs) => {
+    const title = fs.querySelector("legend")?.textContent ?? "";
+    const rows = [...fs.querySelectorAll<HTMLInputElement>("[name]")].map((n) => `${form.querySelector(`label[for="${n.id}"]`)?.firstChild?.textContent ?? n.name}: ${n.value || "(not answered)"}`);
+    return [title, ...rows].join("\n");
+  }).join("\n\n");
+
+  // While online payment is paused: send the cart and brief by email instead.
+  document.querySelector<HTMLButtonElement>("[data-send]")?.addEventListener("click", async (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    errEl.hidden = true;
+    if (!items().length || !form.reportValidity()) return;
+    const { customer } = collect();
+    const list = items();
+    const welcome = customer.welcomeCall === "yes" ? "\n\nWould like the free 30-minute welcome call." : "";
+    btn.disabled = true; btn.textContent = "Sending…";
+    try {
+      const res = await fetch("/api/enquiry/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          form_type: "order",
+          name: customer.name, email: customer.email, business: customer.business,
+          package: `${list.map((i) => `${i.name} (€${i.price})`).join(", ")}. Total €${list.reduce((n, i) => n + i.price, 0)}`,
+          message: `${briefAsText()}${customer.phone ? `\n\nPhone: ${customer.phone}` : ""}${customer.notes ? `\n\nNotes: ${customer.notes}` : ""}${welcome}`,
+        }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error();
+      try { sessionStorage.removeItem(DRAFT); } catch { /* ignore */ }
+      const sent = document.querySelector<HTMLElement>("[data-sent]")!;
+      clear();
+      empty.hidden = false;
+      empty.querySelector("h2")!.textContent = "Thank you, your order is on its way to me.";
+      empty.querySelector("p")!.textContent = "A confirmation is in your inbox. I'll reply within one business day with your secure payment link and next steps. Nothing has been charged.";
+      empty.scrollIntoView({ behavior: "smooth", block: "center" });
+      sent.hidden = true;
+    } catch {
+      showError("Sorry, your order couldn't be sent. Please try again, or email charlotte.smith@ignitedigitalpartners.com.");
+    } finally {
+      btn.disabled = false; btn.textContent = "Send my order";
+    }
+  });
+
   const showError = (msg: string) => { errEl.textContent = msg; errEl.hidden = false; };
 
   // Load PayPal only when the server says payments and emails are configured.
@@ -234,11 +282,7 @@ const catalog = packages.filter(buyable).map((p) => ({
           const out = await res.json();
           if (out.retry) return actions.restart();
           if (!out.ok) return showError(out.error || "The payment couldn't be completed. You have not been charged.");
-          const briefText = [...form.querySelectorAll<HTMLElement>("[data-briefs] fieldset")].map((fs) => {
-            const title = fs.querySelector("legend")?.textContent ?? "";
-            const rows = [...fs.querySelectorAll<HTMLInputElement>("[name]")].map((n) => `${form.querySelector(`label[for="${n.id}"]`)?.firstChild?.textContent ?? n.name}: ${n.value}`);
-            return [title, ...rows].join("\n");
-          }).join("\n\n");
+          const briefText = briefAsText();
           try { sessionStorage.setItem("cs-receipt", JSON.stringify({ ...out, customer, briefText })); sessionStorage.removeItem(DRAFT); } catch { /* ignore */ }
           clear();
           location.href = "/order-confirmed/";

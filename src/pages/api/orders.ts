@@ -1,11 +1,12 @@
 import type { APIRoute } from "astro";
 import { createOrder, paypalReady, resolveCart } from "../../lib/paypal";
+import { site } from "../../data/site";
 
 export const prerender = false;
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { "Content-Type": "application/json" } });
 
 export const POST: APIRoute = async ({ request }) => {
-  if (!paypalReady()) return json({ error: "Checkout isn't available yet." }, 503);
+  if (!site.checkoutOpen || !paypalReady()) return json({ error: "Checkout isn't available yet." }, 503);
   try {
     const { items } = await request.json();
     const cart = resolveCart(items);

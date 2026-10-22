@@ -12,8 +12,9 @@ export const site = {
   },
   // LinkedIn profile URL: the footer link appears once this is set.
   linkedin: "https://www.linkedin.com/in/charlotte-smith-marketing/",
-  // Public Web3Forms access key (safe to expose). Set PUBLIC_WEB3FORMS_KEY in Vercel.
-  formKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "",
+  // Online card/PayPal checkout. Paused while the PayPal account is being verified;
+  // clients can still order by brief and receive a payment link by email.
+  checkoutOpen: false,
   sameAs: [
     "https://www.linkedin.com/in/charlotte-smith-marketing/",
     "https://pro.fiverr.com/sellers/charlyatignite/",
