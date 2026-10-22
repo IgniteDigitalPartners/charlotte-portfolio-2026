@@ -6,10 +6,11 @@ export const site = {
   email: "charlotte.smith@ignitedigitalpartners.com",
   location: "Worldwide",
   // LinkedIn profile URL: the footer link appears once this is set.
-  linkedin: "",
+  linkedin: "https://www.linkedin.com/in/charlotte-smith-marketing/",
   // Public Web3Forms access key (safe to expose). Set PUBLIC_WEB3FORMS_KEY in Vercel.
   formKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "",
   sameAs: [
+    "https://www.linkedin.com/in/charlotte-smith-marketing/",
     "https://pro.fiverr.com/sellers/charlyatignite/",
     "https://www.upwork.com/freelancers/charlottesmith211708",
     "https://www.facebook.com/charlotte.smith.digitalmarketing",
