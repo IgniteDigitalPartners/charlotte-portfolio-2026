@@ -52,6 +52,7 @@ const breadcrumbLd = crumbs && {
   })),
 };
 const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])].filter(Boolean);
+import Analytics from "@vercel/analytics/astro";
 ---
 <!doctype html>
 <html lang="en">
@@ -108,6 +109,6 @@ const ld = [business, breadcrumbLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd 
         els.forEach((el) => io.observe(el));
       } else els.forEach((el) => el.classList.add("is-visible"));
     </script>
-      <script defer src="/_vercel/insights/script.js"></script>
+      <Analytics />
   </body>
 </html>
