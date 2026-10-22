@@ -20,8 +20,8 @@ const ld = {
 };
 ---
 <Base
-  title="Fixed-Price Marketing Packages | Social Graphics, Website Support & Audits | Charlotte Smith"
-  description="Fixed-price marketing packages in euros: social media graphics from €45, website support from €45, profile audits, LinkedIn refresh and strategy sessions."
+  title="Marketing Packages | Buy Online at Fixed Prices | Charlotte Smith"
+  description="Buy fixed-price marketing packages online: social media graphics, Google Business Profile, brand starter kits, website support, audits, bundles and monthly social media."
   crumbs={[{ name: "Packages", href: "/packages/" }]}
   jsonLd={ld}
 >
@@ -37,10 +37,11 @@ const ld = {
   </section>
 
   <div class="wrap" style="padding-top: 40px;">
-    <div class="notice" role="note">
-      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A3B33" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
-      <span><strong>Online checkout is not available yet.</strong> Choose a package and send your order brief. I'll confirm the details and send you a secure PayPal payment link by email. No payment is taken on this website.</span>
-    </div>
+    <ol class="how" aria-label="How buying works">
+      <li><span>i.</span><div><strong>Add to cart</strong><p>Choose one package or several.</p></div></li>
+      <li><span>ii.</span><div><strong>Share your brief</strong><p>Answer a few questions so I can start straight away.</p></div></li>
+      <li><span>iii.</span><div><strong>Pay securely</strong><p>By card or PayPal. Your receipt and welcome email follow.</p></div></li>
+    </ol>
   </div>
 
   {keys.map((k, gi) => {
@@ -63,17 +64,18 @@ const ld = {
             {list.map((p, i) => (
               <li id={p.id} class={`pkc ${k === "social" && i === 1 ? "feature" : "card"}`}>
                 <h3>{p.name}</h3>
-                <p class="price"><span class="sr-only">Price: </span>{euro(p.price)}</p>
+                <p class="price"><span class="sr-only">Price: </span>{euro(p.price)}{p.monthly && <span class="per"> a month</span>}</p>
+                {p.bundle && <p class="saves">Save {euro(p.bundle.saves)}</p>}
                 <p class="headline">{p.headline}</p>
                 <ul class="ticks">{p.includes.map((x) => <li>{x}</li>)}</ul>
                 <dl class="pk-facts">
                   <div><dt>Delivery</dt><dd>{p.delivery}</dd></div>
                   <div><dt>Revisions</dt><dd>{p.revisions}</dd></div>
                 </dl>
-                {p.paypalUrl ? (
-                  <a class="btn btn-dark" href={p.paypalUrl} rel="noopener">Buy with PayPal<span class="sr-only">: {p.name}</span></a>
+                {p.monthly ? (
+                  <a class="btn btn-dark" href={`/packages/order/?package=${p.id}`}>Start a monthly plan<span class="sr-only">: {p.name}</span></a>
                 ) : (
-                  <a class={`btn ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} href={`/packages/order/?package=${p.id}`}>{k === "website" ? "Send my task list" : "Order this package"}<span class="sr-only">: {p.name}</span></a>
+                  <button type="button" class={`btn add ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} data-add={p.id} data-name={p.name}>Add to cart<span class="sr-only">: {p.name}</span></button>
                 )}
               </li>
             ))}
@@ -94,7 +96,31 @@ const ld = {
   </section>
 
   <CtaBand />
+
+  <div class="toast" role="status" aria-live="polite" hidden>
+    <span data-toast-text></span>
+    <a class="btn btn-sm btn-gold" href="/checkout/">View cart</a>
+  </div>
 </Base>
+
+<script>
+  import { add, has } from "../../scripts/cart";
+  const toast = document.querySelector<HTMLElement>(".toast")!;
+  const text = toast.querySelector<HTMLElement>("[data-toast-text]")!;
+  let timer: number | undefined;
+  const mark = (b: HTMLButtonElement) => { if (has(b.dataset.add!)) { b.firstChild!.textContent = "In your cart"; b.classList.add("added"); } };
+  document.querySelectorAll<HTMLButtonElement>("[data-add]").forEach((b) => {
+    mark(b);
+    b.addEventListener("click", () => {
+      add(b.dataset.add!);
+      mark(b);
+      text.textContent = `${b.dataset.name} is in your cart.`;
+      toast.hidden = false;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => (toast.hidden = true), 6000);
+    });
+  });
+</script>
 
 <style>
   .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; }
@@ -121,5 +147,17 @@ const ld = {
   .feature .ticks { border-top-color: rgba(200, 169, 106, 0.45); }
   .feature .ticks li::before { border-color: var(--champagne); }
   .badge { position: absolute; top: -13px; left: 32px; padding: 4px 12px; background: var(--champagne); color: var(--charcoal); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; border-radius: 2px; }
+  .per { font-size: 20px; }
+  .saves { align-self: flex-start; padding: 4px 10px; border: 1px solid var(--champagne); border-radius: 2px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--espresso); }
+  button.add { cursor: pointer; font-family: var(--sans); }
+  button.add.added { opacity: 0.85; }
+  .how { list-style: none; margin: 0; padding: 28px 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; background: var(--white); border: 1px solid var(--gold-edge); border-radius: 8px; }
+  @media (max-width: 760px) { .how { grid-template-columns: minmax(0, 1fr); } }
+  .how li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; }
+  .how span { font-family: var(--italic); font-style: italic; font-size: 26px; line-height: 1.1; color: var(--deep-rose); }
+  .how strong { font-family: var(--serif); font-weight: 500; font-size: 19px; }
+  .how p { font-size: 15px; color: #5E5853; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 18px; padding: 14px 16px 14px 22px; background: var(--noir); color: var(--ivory); border: 1px solid rgba(200, 169, 106, 0.45); border-radius: 4px; box-shadow: var(--shadow-card); max-width: calc(100vw - 32px); font-size: 15px; }
+  .toast[hidden] { display: none; }
   .custom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: 36px; }
 </style>

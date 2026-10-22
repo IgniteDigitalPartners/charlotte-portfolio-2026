@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { nav } from "../data/site";
+import { nav, site } from "../data/site";
 import mono from "../assets/brand/cs-gold.png";
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
@@ -14,6 +14,10 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
         <span class="brand-line">Marketing consultant</span>
       </span>
     </a>
+    <a class="cart-link" href="/checkout/" aria-label="Your cart">
+      <svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216,66H174V64a46,46,0,0,0-92,0v2H40A14,14,0,0,0,26,80V200a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V80A14,14,0,0,0,216,66ZM86,64a42,42,0,0,1,84,0v2H86ZM226,200a10,10,0,0,1-10,10H40a10,10,0,0,1-10-10V80A10,10,0,0,1,40,70H82V96a2,2,0,0,0,4,0V70h84V96a2,2,0,0,0,4,0V70h42a10,10,0,0,1,10,10Z"></path></svg>
+      <span class="cart-count" data-cart-count hidden>0</span>
+    </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">
       <span class="sr-only">Menu</span>
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M3 7h18"></path><path class="l2" d="M3 12h18"></path><path class="l3" d="M3 17h18"></path></svg>
@@ -24,7 +28,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
           <li><a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a></li>
         ))}
       </ul>
-      <a class="btn btn-sm nav-cta" href="/contact/">Book a call</a>
+      <a class="btn btn-sm nav-cta" href={site.bookingUrl} target="_blank" rel="noopener">Book a call</a>
     </nav>
   </div>
 </header>
@@ -37,16 +41,21 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
   .brand-txt { display: flex; flex-direction: column; line-height: 1; }
   .brand-name { font-family: var(--serif); font-size: 23px; font-weight: 500; background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .brand-line { margin-top: 7px; font-size: 10px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: #CFC6BC; }
-  .nav { display: flex; align-items: center; gap: 36px; }
+  .nav { display: flex; align-items: center; gap: 36px; margin-left: auto; }
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 32px; }
   .nav ul a { display: inline-block; padding: 12px 0; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--ivory); border-bottom: 1px solid transparent; transition: border-color 240ms var(--ease), color 240ms var(--ease); }
   .nav ul a:hover, .nav ul a[aria-current="page"] { border-bottom-color: var(--champagne); color: var(--gold-light); }
   .nav-cta { border: 1px solid var(--champagne); color: var(--gold-light); background: transparent; }
   .nav-cta:hover { background: rgba(200, 169, 106, 0.14); color: var(--gold-light); }
+  .cart-link { position: relative; order: 3; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--ivory); text-decoration: none; margin-left: -8px; }
+  .cart-link:hover { color: var(--gold-light); }
+  .cart-count { position: absolute; top: 4px; right: 0; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--champagne); color: var(--noir); font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; }
+  .cart-count[hidden] { display: none; }
   .menu-btn { display: none; width: 48px; height: 48px; align-items: center; justify-content: center; background: none; border: 0; color: var(--ivory); cursor: pointer; margin-right: -10px; }
   .menu-btn path { transition: transform 240ms var(--ease), opacity 240ms var(--ease); transform-origin: center; }
   @media (max-width: 960px) {
-    .menu-btn { display: inline-flex; }
+    .menu-btn { display: inline-flex; order: 4; }
+    .cart-link { margin-left: auto; margin-right: -4px; }
     .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 20px; padding: 12px var(--gutter) 28px; background: var(--noir); border-bottom: 1px solid rgba(200, 169, 106, 0.3); }
     .nav.open { display: flex; }
     .nav ul { flex-direction: column; gap: 0; }
@@ -60,6 +69,11 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
 </style>
 
 <script>
+  import { count } from "../scripts/cart";
+  const paint = () => document.querySelectorAll<HTMLElement>("[data-cart-count]").forEach((el) => { const n = count(); el.textContent = String(n); el.hidden = n === 0; });
+  paint();
+  window.addEventListener("cart:change", paint);
+  window.addEventListener("storage", paint);
   const btn = document.querySelector<HTMLButtonElement>(".menu-btn");
   const menu = document.getElementById("site-nav");
   if (btn && menu) {

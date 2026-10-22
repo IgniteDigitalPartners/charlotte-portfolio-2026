@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+<Base title="Order Confirmed | Charlotte Smith" description="Thank you for your order." noindex>
+  <section class="page-hero">
+    <div class="wrap stack" style="gap: 20px; max-width: 760px;">
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Order confirmed</p>
+      <h1 class="display" style="font-size: clamp(38px, 4.6vw, 64px);">Thank you<span data-first></span>, <span class="accent">it's all in hand.</span></h1>
+      <p class="lead" data-lead>Your payment is complete. Your PayPal receipt is on its way to your inbox.</p>
+      <div class="btn-row">
+        <a class="btn btn-gold" href={site.bookingUrl} target="_blank" rel="noopener">Book your welcome call</a>
+        <a class="btn btn-line" href="/">Back to home</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-receipt hidden>
+    <div class="wrap oc-grid">
+      <div class="card rc">
+        <h2 class="h3">Your receipt</h2>
+        <ul class="rl" data-lines></ul>
+        <p class="rt"><span>Total paid</span><strong data-total></strong></p>
+        <p class="meta" data-meta></p>
+      </div>
+      <div class="stack" style="gap: 18px;">
+        <h2 class="h3">What happens next</h2>
+        <ol class="next">
+          <li>I'll review your brief within one business day and let you know if I need anything else.</li>
+          <li>Delivery times start once I have everything needed.</li>
+          <li>Your finished work arrives by email, with your included revisions.</li>
+        </ol>
+        <div class="notice" data-fallback hidden role="note">
+          <span>Your payment went through, but your brief didn't reach my inbox. Please <a data-mailto href="#">email it to me</a> so I can get started. It's already written out for you.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .oc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  @media (max-width: 860px) { .oc-grid { grid-template-columns: minmax(0, 1fr); } }
+  .rc { padding: 32px; display: grid; gap: 12px; }
+  .rl { list-style: none; margin: 0; padding: 0; }
+  .rl li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--dove); }
+  .rl small { display: block; color: #6B6560; font-size: 13px; }
+  .rt { display: flex; justify-content: space-between; align-items: baseline; }
+  .rt strong { font-family: var(--italic); font-style: italic; font-weight: 500; font-size: 36px; }
+  .meta { font-size: 13px; color: #6B6560; overflow-wrap: anywhere; }
+  .next { margin: 0; padding-left: 20px; display: grid; gap: 10px; }
+</style>
+
+<script define:vars={{ email: site.email }}>
+  let r = null;
+  try { r = JSON.parse(sessionStorage.getItem("cs-receipt") || "null"); } catch { r = null; }
+  if (r && r.receipt) {
+    const first = (r.customer?.name || "").trim().split(/\s+/)[0];
+    if (first) document.querySelector("[data-first]").textContent = `, ${first}`;
+    document.querySelector("[data-lead]").textContent = r.emailed
+      ? `Your payment is complete. A welcome email with your receipt is on its way to ${r.customer.email}.`
+      : "Your payment is complete. PayPal has emailed your receipt, and I'll be in touch by email within one business day.";
+    const lines = document.querySelector("[data-lines]");
+    r.receipt.items.forEach((i) => {
+      const li = document.createElement("li");
+      const a = document.createElement("span"); a.textContent = i.name;
+      const d = document.createElement("small"); d.textContent = i.delivery; a.append(d);
+      const b = document.createElement("span"); b.textContent = `€${i.price}`;
+      li.append(a, b); lines.append(li);
+    });
+    document.querySelector("[data-total]").textContent = `€${r.receipt.total}`;
+    document.querySelector("[data-meta]").textContent = `Order ${r.receipt.orderId} · PayPal transaction ${r.receipt.captureId} · ${r.receipt.date}`;
+    document.querySelector("[data-receipt]").hidden = false;
+    if (!r.briefSent) {
+      const body = `Order ${r.receipt.orderId}\n${r.customer?.name || ""}, ${r.customer?.business || ""}\n\n${r.briefText || ""}`;
+      document.querySelector("[data-mailto]").href = `mailto:${email}?subject=${encodeURIComponent("My brief for order " + r.receipt.orderId)}&body=${encodeURIComponent(body)}`;
+      document.querySelector("[data-fallback]").hidden = false;
+    }
+  }
+</script>

@@ -32,7 +32,7 @@ const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
           {groupKeys.map((g) => (
             <optgroup label={groups[g].name}>
               {packages.filter((p) => p.group === g).map((p) => (
-                <option value={`${p.name} (${euro(p.price)})`} data-id={p.id}>{p.name}, {euro(p.price)}</option>
+                <option value={`${p.name} (${euro(p.price)}${p.monthly ? " a month" : ""})`} data-id={p.id}>{p.name}, {euro(p.price)}{p.monthly ? " a month" : ""}</option>
               ))}
             </optgroup>
           ))}

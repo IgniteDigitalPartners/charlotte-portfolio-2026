@@ -5,6 +5,7 @@ export const site = {
     "Brand and marketing consultant with 9+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers.",
   email: "charlotte.smith@ignitedigitalpartners.com",
   location: "Worldwide",
+  bookingUrl: "https://calendar.app.google/QxVDQtkszCBnBpHS8",
   // LinkedIn profile URL: the footer link appears once this is set.
   linkedin: "https://www.linkedin.com/in/charlotte-smith-marketing/",
   // Public Web3Forms access key (safe to expose). Set PUBLIC_WEB3FORMS_KEY in Vercel.

@@ -1,0 +1,238 @@
+---
+import Base from "../layouts/Base.astro";
+import { packages, buyable, briefSections } from "../data/packages";
+import { site } from "../data/site";
+
+const catalog = packages.filter(buyable).map((p) => ({
+  id: p.id,
+  name: p.name,
+  price: p.price,
+  delivery: p.delivery,
+  sections: briefSections(p),
+}));
+---
+<Base
+  title="Your Cart | Charlotte Smith"
+  description="Review your marketing packages, share your brief and pay securely by card or PayPal."
+  crumbs={[{ name: "Packages", href: "/packages/" }, { name: "Cart", href: "/checkout/" }]}
+  noindex
+>
+  <section class="page-hero slim">
+    <div class="wrap stack" style="gap: 14px;">
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Checkout</p>
+      <h1 class="display" style="font-size: clamp(38px, 4.6vw, 60px);">Your <span class="accent">cart.</span></h1>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 48px;">
+    <div class="wrap">
+      <div class="empty card" data-empty hidden>
+        <h2 class="h3">Your cart is empty.</h2>
+        <p>Choose a package to get started.</p>
+        <a class="btn btn-dark" href="/packages/">Browse packages</a>
+      </div>
+
+      <form class="co-grid" data-form novalidate hidden>
+        <div class="stack-lg">
+          <fieldset class="card block">
+            <legend class="h3">Your details</legend>
+            <div class="form-row">
+              <div class="field"><label for="c-name">Your name</label><input class="input" id="c-name" name="c::name" autocomplete="name" required /></div>
+              <div class="field"><label for="c-email">Email</label><input class="input" id="c-email" name="c::email" type="email" autocomplete="email" required /><p class="hint">Your receipt and welcome email go here.</p></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="c-business">Business name</label><input class="input" id="c-business" name="c::business" autocomplete="organization" required /></div>
+              <div class="field"><label for="c-phone">Phone <span class="hint">(optional)</span></label><input class="input" id="c-phone" name="c::phone" type="tel" autocomplete="tel" /></div>
+            </div>
+          </fieldset>
+
+          <div class="stack-lg" data-briefs></div>
+
+          <fieldset class="card block">
+            <legend class="h3">Anything else?</legend>
+            <div class="field"><label for="c-notes">Notes <span class="hint">(optional)</span></label><textarea class="input" id="c-notes" name="c::notes" rows="3"></textarea></div>
+          </fieldset>
+        </div>
+
+        <aside class="summary card" aria-labelledby="sum-title">
+          <h2 id="sum-title" class="h3">Order summary</h2>
+          <ul class="lines" data-lines></ul>
+          <p class="total"><span>Total</span><strong data-total>€0</strong></p>
+          <p class="small">Prices in euros. Delivery times start once your brief and files are received.</p>
+
+          <div data-pay hidden>
+            <p class="small pay-note">Pay securely by card or PayPal. You don't need a PayPal account.</p>
+            <div id="paypal-buttons"></div>
+          </div>
+          <div class="notice" data-closed hidden role="note">
+            <span><strong>Online payment opens soon.</strong> In the meantime, <a href="/packages/order/">send your order brief</a> and I'll email you a secure payment link. No payment is taken here.</span>
+          </div>
+          <p class="err" role="alert" data-error hidden></p>
+          <p class="small">Questions first? <a href={site.bookingUrl} target="_blank" rel="noopener">Book a call</a></p>
+        </aside>
+      </form>
+    </div>
+  </section>
+
+  <script type="application/json" id="catalog" set:html={JSON.stringify(catalog)} />
+</Base>
+
+<style is:global>
+  .empty[hidden], .co-grid[hidden] { display: none !important; }
+  .co-grid .form-row { align-items: start; }
+  .block legend.h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; }
+  .slim { padding-block: clamp(48px, 6vw, 72px) !important; }
+  .empty { max-width: 560px; padding: 40px; display: grid; gap: 14px; justify-items: start; }
+  .co-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 40px; align-items: start; }
+  @media (max-width: 980px) { .co-grid { grid-template-columns: minmax(0, 1fr); } .summary { position: static; } }
+  .block { border: 1px solid var(--gold-edge); margin: 0; padding: clamp(22px, 3vw, 36px); display: grid; gap: 18px; min-width: 0; }
+  .block legend { float: left; width: 100%; margin-bottom: 4px; padding: 0; }
+  .block legend + * { clear: both; }
+  .sec-sub { font-size: 14px; color: #6B6560; margin-top: -8px; }
+  .summary { position: sticky; top: 104px; padding: 30px; display: grid; gap: 16px; }
+  .lines { list-style: none; margin: 0; padding: 0; display: grid; }
+  .lines li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid var(--dove); }
+  .lines .nm { font-family: var(--serif); font-size: 17px; }
+  .lines .pr { white-space: nowrap; }
+  .lines .rm { grid-column: 1 / -1; justify-self: start; background: none; border: 0; padding: 4px 0; font: inherit; font-size: 13px; color: #6B6560; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 32px; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; }
+  .total strong { font-family: var(--italic); font-style: italic; font-weight: 500; font-size: 40px; line-height: 1; }
+  .small { font-size: 13px; color: #6B6560; }
+  .pay-note { margin-bottom: 10px; }
+  #paypal-buttons { min-height: 120px; }
+  .err { padding: 12px 14px; border: 1px solid var(--deep-rose); border-radius: 2px; color: var(--deep-rose); font-size: 14px; }
+  .err[hidden], [data-pay][hidden], [data-closed][hidden] { display: none; }
+  .hint { font-size: 13px; color: #6B6560; }
+  .block .field label { font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--charcoal); }
+  .block .field label .hint { font-weight: 400; }
+  .block .field .hint { margin-top: -2px; }
+</style>
+
+<script>
+  import { read, remove, clear } from "../scripts/cart";
+
+  type Field = { name: string; label: string; type: string; required?: boolean; help?: string; options?: string[] };
+  type Item = { id: string; name: string; price: number; delivery: string; sections: { id: string; name: string; fields: Field[] }[] };
+  const catalog: Item[] = JSON.parse(document.getElementById("catalog")!.textContent || "[]");
+  const byId = new Map(catalog.map((i) => [i.id, i]));
+
+  const form = document.querySelector<HTMLFormElement>("[data-form]")!;
+  const empty = document.querySelector<HTMLElement>("[data-empty]")!;
+  const briefs = document.querySelector<HTMLElement>("[data-briefs]")!;
+  const lines = document.querySelector<HTMLElement>("[data-lines]")!;
+  const totalEl = document.querySelector<HTMLElement>("[data-total]")!;
+  const errEl = document.querySelector<HTMLElement>("[data-error]")!;
+  const DRAFT = "cs-checkout-draft";
+
+  let draft: Record<string, string> = {};
+  try { draft = JSON.parse(sessionStorage.getItem(DRAFT) || "{}"); } catch { draft = {}; }
+  const saveDraft = () => { try { sessionStorage.setItem(DRAFT, JSON.stringify(draft)); } catch { /* ignore */ } };
+
+  const items = () => read().map((id) => byId.get(id)).filter((x): x is Item => Boolean(x));
+  const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string, any> = {}, ...kids: (Node | string)[]) => {
+    const n = document.createElement(tag);
+    Object.entries(props).forEach(([k, v]) => (k === "class" ? (n.className = v) : k === "text" ? (n.textContent = v) : n.setAttribute(k, v)));
+    kids.forEach((k) => n.append(k));
+    return n;
+  };
+
+  function fieldNode(sectionId: string, f: Field) {
+    const name = `brief::${sectionId}::${f.name}`;
+    const id = name.replace(/[^a-z0-9]+/gi, "-");
+    const label = el("label", { for: id }, f.label, ...(f.required ? [] : [el("span", { class: "hint", text: " (optional)" })]));
+    let input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+    if (f.type === "textarea") input = el("textarea", { class: "input", id, name, rows: "4" });
+    else if (f.type === "select") {
+      input = el("select", { class: "input", id, name }, el("option", { value: "", text: "Please choose" }), ...(f.options ?? []).map((o) => el("option", { value: o, text: o })));
+    } else input = el("input", { class: "input", id, name, type: f.type === "url" ? "url" : "text", ...(f.type === "url" ? { inputmode: "url", placeholder: "https://" } : {}) });
+    if (f.required) input.required = true;
+    if (draft[name]) input.value = draft[name];
+    const wrap = el("div", { class: "field" }, label, input);
+    if (f.help) { const h = el("p", { class: "hint", id: `${id}-h`, text: f.help }); input.setAttribute("aria-describedby", h.id); wrap.append(h); }
+    return wrap;
+  }
+
+  function render() {
+    const list = items();
+    empty.hidden = list.length > 0;
+    form.hidden = list.length === 0;
+    lines.replaceChildren(...list.map((i) => {
+      const rm = el("button", { type: "button", class: "rm", text: "Remove" });
+      rm.setAttribute("aria-label", `Remove ${i.name}`);
+      rm.addEventListener("click", () => { remove(i.id); render(); });
+      return el("li", {}, el("span", { class: "nm", text: i.name }), el("span", { class: "pr", text: `€${i.price}` }), rm);
+    }));
+    totalEl.textContent = `€${list.reduce((n, i) => n + i.price, 0)}`;
+    briefs.replaceChildren(...list.flatMap((i) => i.sections.filter((s) => s.fields.length).map((s) =>
+      el("fieldset", { class: "card block" }, el("legend", { class: "h3", text: s.name }), el("p", { class: "sec-sub", text: "What I need to complete this package." }), ...s.fields.map((f) => fieldNode(s.id, f))),
+    )));
+    form.querySelectorAll<HTMLInputElement>("[name^='c::']").forEach((n) => { if (draft[n.name] && !n.value) n.value = draft[n.name]; });
+  }
+
+  form.addEventListener("input", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) { draft[t.name] = t.value; saveDraft(); }
+  });
+  window.addEventListener("cart:change", render);
+  render();
+
+  function collect() {
+    const data = new FormData(form);
+    const customer: Record<string, string> = {};
+    const brief: Record<string, Record<string, string>> = {};
+    for (const [k, v] of data.entries()) {
+      const parts = k.split("::");
+      if (parts[0] === "c") customer[parts[1]] = String(v);
+      if (parts[0] === "brief") (brief[parts[1]] ??= {})[parts[2]] = String(v);
+    }
+    return { customer, brief };
+  }
+  const showError = (msg: string) => { errEl.textContent = msg; errEl.hidden = false; };
+
+  // Load PayPal only when the server says payments and emails are configured.
+  (async () => {
+    let cfg = { ready: false, clientId: "" };
+    try { cfg = await (await fetch("/api/config/", { cache: "no-store" })).json(); } catch { /* stays closed */ }
+    if (!cfg.ready) { document.querySelector<HTMLElement>("[data-closed]")!.hidden = false; return; }
+    document.querySelector<HTMLElement>("[data-pay]")!.hidden = false;
+    const s = document.createElement("script");
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(cfg.clientId)}&currency=EUR&intent=capture&components=buttons&enable-funding=card`;
+    s.onerror = () => showError("PayPal couldn't load. Please refresh the page, or check that an ad blocker isn't blocking it.");
+    s.onload = () => {
+      const paypal = (window as any).paypal;
+      paypal.Buttons({
+        style: { shape: "rect", color: "black", layout: "vertical", label: "pay", height: 48 },
+        onClick: (_: unknown, actions: any) => {
+          errEl.hidden = true;
+          if (!items().length) return actions.reject();
+          if (!form.reportValidity()) return actions.reject();
+          return actions.resolve();
+        },
+        createOrder: async () => {
+          const res = await fetch("/api/orders/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: read() }) });
+          const out = await res.json();
+          if (!out.id) { showError(out.error || "Couldn't start the payment."); throw new Error(out.error); }
+          return out.id;
+        },
+        onApprove: async (data: { orderID: string }, actions: any) => {
+          const { customer, brief } = collect();
+          const res = await fetch("/api/capture/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID, customer, brief }) });
+          const out = await res.json();
+          if (out.retry) return actions.restart();
+          if (!out.ok) return showError(out.error || "The payment couldn't be completed. You have not been charged.");
+          const briefText = [...form.querySelectorAll<HTMLElement>("[data-briefs] fieldset")].map((fs) => {
+            const title = fs.querySelector("legend")?.textContent ?? "";
+            const rows = [...fs.querySelectorAll<HTMLInputElement>("[name]")].map((n) => `${form.querySelector(`label[for="${n.id}"]`)?.firstChild?.textContent ?? n.name}: ${n.value}`);
+            return [title, ...rows].join("\n");
+          }).join("\n\n");
+          try { sessionStorage.setItem("cs-receipt", JSON.stringify({ ...out, customer, briefText })); sessionStorage.removeItem(DRAFT); } catch { /* ignore */ }
+          clear();
+          location.href = "/order-confirmed/";
+        },
+        onCancel: () => showError("Payment cancelled. Your cart and brief are saved, so you can try again."),
+        onError: (err: unknown) => { console.error(err); if (errEl.hidden) showError("Something went wrong with PayPal. You have not been charged. Please try again."); },
+      }).render("#paypal-buttons");
+    };
+    document.head.append(s);
+  })();
+</script>
