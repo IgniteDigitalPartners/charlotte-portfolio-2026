@@ -33,6 +33,18 @@ async function token(): Promise<string> {
   return (await res.json()).access_token;
 }
 
+/** Checks the credentials work, without exposing them. */
+export async function authCheck(): Promise<{ ok: boolean; status: number; error?: string }> {
+  const c = paypalConfig();
+  const res = await fetch(`${c.base}/v1/oauth2/token`, {
+    method: "POST",
+    headers: { Authorization: `Basic ${Buffer.from(`${c.clientId}:${c.secret}`).toString("base64")}`, "Content-Type": "application/x-www-form-urlencoded" },
+    body: "grant_type=client_credentials",
+  });
+  const body = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, error: res.ok ? undefined : String(body.error ?? "") };
+}
+
 async function call(path: string, init: RequestInit = {}) {
   const c = paypalConfig();
   const res = await fetch(`${c.base}${path}`, {
