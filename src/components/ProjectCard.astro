@@ -47,7 +47,7 @@ const pos = p.card?.position;
   .frame { position: absolute; inset: 18px; border: 1px solid var(--champagne); border-radius: 4px; }
   .type-name { position: relative; font-family: var(--italic); font-style: italic; font-weight: 500; font-size: clamp(34px, 4vw, 56px); line-height: 1.05; color: var(--espresso); }
   .tone-espresso .type-name { color: var(--champagne); }
-  .meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: 24px 28px 28px; flex-grow: 1; }
+  .meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding: 24px 28px 28px; flex-grow: 1; }
   .txt { display: flex; flex-direction: column; gap: 8px; }
   .cat { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--espresso); }
   .title { font-size: 26px; line-height: 1.2; }
@@ -57,6 +57,6 @@ const pos = p.card?.position;
   .title a:focus-visible { outline: none; }
   .pcard:has(.title a:focus-visible) { outline: 2px solid var(--bronze); outline-offset: 4px; }
   .sum { font-size: 15px; color: #5E5853; }
-  .arrow { flex: none; display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--dove); border-radius: 50%; color: var(--espresso); transition: background 240ms var(--ease), color 240ms var(--ease), border-color 240ms var(--ease); }
+  .arrow { align-self: flex-end; flex: none; display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; border: 1px solid var(--dove); border-radius: 50%; color: var(--espresso); transition: background 240ms var(--ease), color 240ms var(--ease), border-color 240ms var(--ease); }
   .pcard:hover .arrow { background: var(--espresso); color: var(--warm-white); border-color: var(--espresso); }
 </style>

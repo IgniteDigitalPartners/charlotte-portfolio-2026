@@ -116,7 +116,7 @@ export const projects: Project[] = [
   {
     slug: "general-copper-gold",
     client: "General Copper Gold Corp.",
-    category: "Brand system · Investor presentation · Social templates",
+    category: "Brand system · Investor deck · Social",
     services: ["brand-strategy-identity", "social-media"],
     summary: "A premium brand system, investor presentation and social templates for a TSX-V listed exploration company.",
     period: "2025",
