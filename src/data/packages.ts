@@ -7,7 +7,7 @@ export interface BriefField {
   options?: string[];
 }
 
-export type Group = "social" | "essentials" | "website" | "focused" | "bundles" | "monthly";
+export type Group = "social" | "essentials" | "website" | "focused" | "calls" | "bundles" | "monthly";
 
 export interface Package {
   id: string;
@@ -22,6 +22,8 @@ export interface Package {
   brief?: BriefField[];
   /** Bundles: the packages included (their briefs are asked at checkout) */
   bundle?: { ids: string[]; saves: number };
+  /** Calls: which booking page the client gets after paying */
+  booking?: "call30" | "call60";
   /** Monthly plans are arranged by enquiry, not bought in the cart */
   monthly?: boolean;
 }
@@ -66,6 +68,12 @@ export const groups = {
     intro: "Expert eyes on one thing that matters, with clear next steps.",
     youProvide: "Links to the profile or page, and a few lines on your goals.",
     notes: "Recommendations are delivered in writing so you can act on them straight away.",
+  },
+  calls: {
+    name: "Calls",
+    intro: "Time with me, one to one, on the questions that matter to you.",
+    youProvide: "A few lines on what you'd like to cover.",
+    notes: "You choose a time from my calendar straight after paying. Clients buying any package can add a free 30-minute welcome call at checkout.",
   },
   bundles: {
     name: "Bundles",
@@ -190,12 +198,22 @@ export const packages: Package[] = [
     delivery: "Written copy, ready to paste", revisions: "1 revision",
   },
   {
-    id: "strategy-session", brief: [
+    id: "marketing-call", booking: "call30", name: "Marketing Call", price: 45, group: "calls",
+    headline: "30 minutes on the question that matters most",
+    includes: ["30-minute video call", "Honest advice and clear next steps"],
+    delivery: "Booked at a time that suits you", revisions: "Not applicable",
+    brief: [
+      { name: "topic", label: "What would you like to talk about?", type: "textarea", required: true },
+      { name: "links", label: "Your website and social links", type: "textarea" },
+    ],
+  },
+  {
+    id: "strategy-session", booking: "call60", brief: [
       { name: "focus", label: "What would you like to focus on?", type: "textarea", required: true },
       { name: "links", label: "Your website and social links", type: "textarea" },
-    ], name: "Strategy Session", price: 95, group: "focused",
+    ], name: "Strategy Session", price: 95, group: "calls",
     headline: "60 minutes with a written action summary",
-    includes: ["60-minute consultation", "Written action summary"],
+    includes: ["60-minute video call", "Written action summary"],
     delivery: "Booked at a time that suits you", revisions: "Not applicable",
   },
   {
@@ -233,6 +251,8 @@ export const packages: Package[] = [
 
 export const getPackage = (id: string) => packages.find((p) => p.id === id);
 export const euro = (n: number) => `€${n}`;
+/** Does this cart qualify for a free welcome call? (any package that isn't itself a call) */
+export const earnsWelcomeCall = (items: Package[]) => items.some((p) => !p.booking);
 /** Packages that can be bought instantly in the cart */
 export const buyable = (p: Package) => !p.monthly;
 /** The brief sections a package needs at checkout (bundles ask for each part) */

@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { nav, site } from "../data/site";
+import { nav } from "../data/site";
 import mono from "../assets/brand/cs-gold.png";
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
@@ -28,7 +28,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
           <li><a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a></li>
         ))}
       </ul>
-      <a class="btn btn-sm nav-cta" href={site.bookingUrl} target="_blank" rel="noopener">Book a call</a>
+      <a class="btn btn-sm nav-cta" href="/packages/#calls">Book a call</a>
     </nav>
   </div>
 </header>

@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { captureOrder, getOrder, paypalReady, resolveCart, total } from "../../lib/paypal";
-import { briefSections } from "../../data/packages";
+import { briefSections, earnsWelcomeCall } from "../../data/packages";
+import { site } from "../../data/site";
 import { mailReady, notifyAddress, orderEmail, send, welcomeEmail, type Brief, type Customer } from "../../lib/mail";
 
 export const prerender = false;
@@ -40,6 +41,13 @@ export const POST: APIRoute = async ({ request }) => {
     phone: str(body?.customer?.phone, 60),
     notes: str(body?.customer?.notes),
   };
+  // Booking links are only released here, after a completed payment.
+  const bookings: { label: string; url: string }[] = items
+    .filter((p) => p.booking)
+    .map((p) => ({ label: `Book your ${p.name}`, url: site.booking[p.booking!] }));
+  const welcomeCall = body?.customer?.welcomeCall === "yes" && earnsWelcomeCall(items);
+  if (welcomeCall) bookings.push({ label: "Book your free welcome call", url: site.booking.call30 });
+  if (welcomeCall) customer.notes = [customer.notes, "Requested the free 30-minute welcome call."].filter(Boolean).join("\n");
   const answers = (body?.brief ?? {}) as Record<string, Record<string, unknown>>;
   const brief: Brief = items.flatMap((p) =>
     briefSections(p).map((s) => ({
@@ -60,7 +68,7 @@ export const POST: APIRoute = async ({ request }) => {
   let briefSent = false;
   if (mailReady()) {
     const [toClient, toMe] = await Promise.allSettled([
-      customer.email ? send(customer.email, welcomeEmail(customer, items, receipt)) : Promise.reject(new Error("no email")),
+      customer.email ? send(customer.email, welcomeEmail(customer, items, receipt, bookings)) : Promise.reject(new Error("no email")),
       send(notifyAddress(), orderEmail(customer, items, receipt, brief), customer.email || undefined),
     ]);
     if (toClient.status === "rejected") console.error("Welcome email failed", toClient.reason);
@@ -75,6 +83,7 @@ export const POST: APIRoute = async ({ request }) => {
     ok: true,
     emailed,
     briefSent,
+    bookings,
     receipt: { ...receipt, items: items.map((p) => ({ name: p.name, price: p.price, delivery: p.delivery })) },
   });
 };

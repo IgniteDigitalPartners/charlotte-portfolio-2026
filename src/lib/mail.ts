@@ -36,7 +36,7 @@ ${items.map((p) => `<tr><td style="padding:10px 0;border-bottom:1px solid #EFE6D
 </table>
 <p style="font-size:12px;color:#9B9590;margin:0 0 4px;">Order ${esc(r.orderId)} · PayPal transaction ${esc(r.captureId)} · ${esc(r.date)}</p>`;
 
-export function welcomeEmail(c: Customer, items: Package[], r: Receipt) {
+export function welcomeEmail(c: Customer, items: Package[], r: Receipt, bookings: { label: string; url: string }[] = []) {
   const first = c.name.trim().split(/\s+/)[0] || "there";
   const html = shell(`
 <h1 style="font-family:Georgia,'Playfair Display',serif;font-weight:400;font-size:30px;margin:0 0 16px;color:#3B3A38;">Thank you, ${esc(first)}.</h1>
@@ -49,8 +49,10 @@ ${receiptTable(items, r)}
 <li style="margin-bottom:8px;">Delivery times start once I have everything needed, as shown on your receipt.</li>
 <li>Your finished work arrives by email, with your included revisions.</li>
 </ol>
-<p style="margin:26px 0 10px;">Would you like to talk it through first? Book a welcome call at a time that suits you.</p>
-<p style="margin:0 0 26px;"><a href="${esc(site.bookingUrl)}" style="display:inline-block;background:#1D1B1A;color:#E8D3A2;text-decoration:none;padding:13px 24px;border-radius:2px;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Book your call</a></p>
+${bookings.length ? `<h2 style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8E4F58;margin:28px 0 8px;">Book your call</h2>
+<p style="margin:0 0 14px;">Choose a time that suits you from my calendar.</p>
+${bookings.map((b) => `<p style="margin:0 0 12px;"><a href="${esc(b.url)}" style="display:inline-block;background:#1D1B1A;color:#E8D3A2;text-decoration:none;padding:13px 24px;border-radius:2px;font-size:12px;letter-spacing:2px;text-transform:uppercase;">${esc(b.label)}</a></p>`).join("")}` : ""}
+<div style="height:14px;"></div>
 <p style="margin:0;">Any questions, simply reply to this email.</p>
 <p style="margin:18px 0 0;">Warmly,<br>Charlotte</p>`);
   const text = [
@@ -66,8 +68,7 @@ ${receiptTable(items, r)}
     "2. Delivery times start once I have everything needed.",
     "3. Your finished work arrives by email, with your included revisions.",
     "",
-    `Book a welcome call: ${site.bookingUrl}`,
-    "",
+    ...bookings.flatMap((b) => [`${b.label}: ${b.url}`, ""]),
     "Warmly,",
     "Charlotte",
   ].join("\n");

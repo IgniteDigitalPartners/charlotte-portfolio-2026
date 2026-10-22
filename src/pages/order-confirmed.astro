@@ -8,8 +8,7 @@ import { site } from "../data/site";
       <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Order confirmed</p>
       <h1 class="display" style="font-size: clamp(38px, 4.6vw, 64px);">Thank you<span data-first></span>, <span class="accent">it's all in hand.</span></h1>
       <p class="lead" data-lead>Your payment is complete. Your PayPal receipt is on its way to your inbox.</p>
-      <div class="btn-row">
-        <a class="btn btn-gold" href={site.bookingUrl} target="_blank" rel="noopener">Book your welcome call</a>
+      <div class="btn-row" data-actions>
         <a class="btn btn-line" href="/">Back to home</a>
       </div>
     </div>
@@ -71,6 +70,12 @@ import { site } from "../data/site";
     document.querySelector("[data-total]").textContent = `€${r.receipt.total}`;
     document.querySelector("[data-meta]").textContent = `Order ${r.receipt.orderId} · PayPal transaction ${r.receipt.captureId} · ${r.receipt.date}`;
     document.querySelector("[data-receipt]").hidden = false;
+    const actions = document.querySelector("[data-actions]");
+    (r.bookings || []).slice().reverse().forEach((b) => {
+      const a = document.createElement("a");
+      a.className = "btn btn-gold"; a.href = b.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = b.label;
+      actions.prepend(a);
+    });
     if (!r.briefSent) {
       const body = `Order ${r.receipt.orderId}\n${r.customer?.name || ""}, ${r.customer?.business || ""}\n\n${r.briefText || ""}`;
       document.querySelector("[data-mailto]").href = `mailto:${email}?subject=${encodeURIComponent("My brief for order " + r.receipt.orderId)}&body=${encodeURIComponent(body)}`;

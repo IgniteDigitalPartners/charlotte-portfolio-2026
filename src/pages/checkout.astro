@@ -1,13 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
 import { packages, buyable, briefSections } from "../data/packages";
-import { site } from "../data/site";
 
 const catalog = packages.filter(buyable).map((p) => ({
   id: p.id,
   name: p.name,
   price: p.price,
   delivery: p.delivery,
+  isCall: Boolean(p.booking),
   sections: briefSections(p),
 }));
 ---
@@ -48,6 +48,11 @@ const catalog = packages.filter(buyable).map((p) => ({
 
           <div class="stack-lg" data-briefs></div>
 
+          <fieldset class="card block welcome" data-welcome hidden>
+            <legend class="h3">Your free welcome call</legend>
+            <label class="check"><input type="checkbox" name="c::welcomeCall" value="yes" /><span>Yes, I'd like a free 30-minute welcome call to talk through my order.<br /><span class="hint">You choose a time straight after paying.</span></span></label>
+          </fieldset>
+
           <fieldset class="card block">
             <legend class="h3">Anything else?</legend>
             <div class="field"><label for="c-notes">Notes <span class="hint">(optional)</span></label><textarea class="input" id="c-notes" name="c::notes" rows="3"></textarea></div>
@@ -68,7 +73,7 @@ const catalog = packages.filter(buyable).map((p) => ({
             <span><strong>Online payment opens soon.</strong> In the meantime, <a href="/packages/order/">send your order brief</a> and I'll email you a secure payment link. No payment is taken here.</span>
           </div>
           <p class="err" role="alert" data-error hidden></p>
-          <p class="small">Questions first? <a href={site.bookingUrl} target="_blank" rel="noopener">Book a call</a></p>
+          <p class="small">Questions first? <a href="/packages/#calls">Book a call</a> or <a href="/contact/">send a message</a>.</p>
         </aside>
       </form>
     </div>
@@ -103,6 +108,9 @@ const catalog = packages.filter(buyable).map((p) => ({
   .err { padding: 12px 14px; border: 1px solid var(--deep-rose); border-radius: 2px; color: var(--deep-rose); font-size: 14px; }
   .err[hidden], [data-pay][hidden], [data-closed][hidden] { display: none; }
   .hint { font-size: 13px; color: #6B6560; }
+  .welcome[hidden] { display: none; }
+  .check { display: flex; gap: 14px; align-items: flex-start; font-size: 15px; cursor: pointer; }
+  .check input { flex: none; width: 22px; height: 22px; margin-top: 2px; accent-color: var(--noir); }
   .block .field label { font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--charcoal); }
   .block .field label .hint { font-weight: 400; }
   .block .field .hint { margin-top: -2px; }
@@ -112,7 +120,7 @@ const catalog = packages.filter(buyable).map((p) => ({
   import { read, remove, clear } from "../scripts/cart";
 
   type Field = { name: string; label: string; type: string; required?: boolean; help?: string; options?: string[] };
-  type Item = { id: string; name: string; price: number; delivery: string; sections: { id: string; name: string; fields: Field[] }[] };
+  type Item = { id: string; name: string; price: number; delivery: string; isCall: boolean; sections: { id: string; name: string; fields: Field[] }[] };
   const catalog: Item[] = JSON.parse(document.getElementById("catalog")!.textContent || "[]");
   const byId = new Map(catalog.map((i) => [i.id, i]));
 
@@ -163,15 +171,21 @@ const catalog = packages.filter(buyable).map((p) => ({
       return el("li", {}, el("span", { class: "nm", text: i.name }), el("span", { class: "pr", text: `€${i.price}` }), rm);
     }));
     totalEl.textContent = `€${list.reduce((n, i) => n + i.price, 0)}`;
+    const welcome = document.querySelector<HTMLElement>("[data-welcome]")!;
+    welcome.hidden = !list.some((i) => !i.isCall);
+    welcome.querySelector("input")!.disabled = welcome.hidden;
     briefs.replaceChildren(...list.flatMap((i) => i.sections.filter((s) => s.fields.length).map((s) =>
       el("fieldset", { class: "card block" }, el("legend", { class: "h3", text: s.name }), el("p", { class: "sec-sub", text: "What I need to complete this package." }), ...s.fields.map((f) => fieldNode(s.id, f))),
     )));
-    form.querySelectorAll<HTMLInputElement>("[name^='c::']").forEach((n) => { if (draft[n.name] && !n.value) n.value = draft[n.name]; });
+    form.querySelectorAll<HTMLInputElement>("[name^='c::']").forEach((n) => {
+      if (n.type === "checkbox") n.checked = draft[n.name] === "yes";
+      else if (draft[n.name] && !n.value) n.value = draft[n.name];
+    });
   }
 
   form.addEventListener("input", (e) => {
     const t = e.target as HTMLInputElement;
-    if (t.name) { draft[t.name] = t.value; saveDraft(); }
+    if (t.name) { draft[t.name] = t.type === "checkbox" ? (t.checked ? "yes" : "") : t.value; saveDraft(); }
   });
   window.addEventListener("cart:change", render);
   render();
