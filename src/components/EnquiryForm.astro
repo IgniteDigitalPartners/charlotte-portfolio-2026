@@ -100,7 +100,7 @@ const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
       </>
     )}
 
-    <p class="hint" style="font-size: 13px; color: #6B6560;">I'll only use your details to reply to you about this {mode === "order" ? "order" : "enquiry"}.</p>
+    <p class="hint" style="font-size: 13px; color: #6B6560;">I'll only use your details to reply to you about this {mode === "order" ? "order" : "enquiry"}. See my <a href="/privacy/">privacy policy</a>.</p>
     <div class="status" role="status" aria-live="polite" tabindex="-1"></div>
     <div>
       <button class="btn btn-dark" type="submit">{mode === "order" ? "Send order brief" : "Send enquiry"}</button>

@@ -14,6 +14,7 @@ const ld = {
     description: `${p.headline}. ${p.includes.join(", ")}.`,
     price: p.price,
     priceCurrency: "EUR",
+    priceSpecification: { "@type": "PriceSpecification", price: p.price, priceCurrency: "EUR", valueAddedTaxIncluded: false },
     url: new URL(`/packages/#${p.id}`, Astro.site!).href,
     seller: { "@id": new URL("/#business", Astro.site!).href },
   })),
@@ -29,7 +30,7 @@ const ld = {
     <div class="wrap stack center" style="gap: 20px; max-width: 900px; text-align: center;">
       <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Fixed-price packages</p>
       <h1 class="display">Simple to choose, <span class="accent">lovely to receive.</span></h1>
-      <p class="lead" style="margin-inline: auto;">Clear scope, set delivery times and a fixed number of revisions. All prices are in euros.</p>
+      <p class="lead" style="margin-inline: auto;">Clear scope, set delivery times and a fixed number of revisions. Prices are in euros and exclude VAT.</p>
       <nav class="jump" aria-label="Package groups">
         {keys.map((k) => <a class="chip" href={`#${k}`}>{groups[k].name}</a>)}
       </nav>

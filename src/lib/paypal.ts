@@ -1,5 +1,6 @@
 // Server-only PayPal Orders v2 helpers. Prices always come from src/data/packages.ts, never from the browser.
 import { getPackage, buyable, type Package } from "../data/packages";
+import { vatOn } from "../data/vat";
 
 const env = (k: string) => (process.env[k] ?? import.meta.env[k] ?? "") as string;
 
@@ -69,8 +70,23 @@ export function resolveCart(ids: unknown): Package[] {
 export const total = (items: Package[]) => items.reduce((n, p) => n + p.price, 0);
 const money = (n: number) => ({ currency_code: "EUR", value: n.toFixed(2) });
 
-export async function createOrder(items: Package[]) {
-  const sum = total(items);
+export interface Totals { subtotal: number; vat: number; total: number }
+export function totals(items: Package[], rate: number): Totals {
+  const subtotal = total(items);
+  const vat = Math.round(items.reduce((n, p) => n + vatOn(p.price, rate), 0) * 100) / 100;
+  return { subtotal, vat, total: Math.round((subtotal + vat) * 100) / 100 };
+}
+
+/** Tax details travel with the order so capture can re-check the amount: "vat|<rate>|<country>|<vat number>" */
+export const encodeTax = (rate: number, country: string, vatNumber: string) => `vat|${rate}|${country}|${vatNumber}`.slice(0, 127);
+export function decodeTax(s: unknown) {
+  const [tag, rate, country = "", vatNumber = ""] = String(s ?? "").split("|");
+  if (tag !== "vat" || (rate !== "0" && rate !== "0.18")) return null;
+  return { rate: Number(rate), country, vatNumber };
+}
+
+export async function createOrder(items: Package[], rate: number, country: string, vatNumber: string) {
+  const t = totals(items, rate);
   return call("/v2/checkout/orders", {
     method: "POST",
     body: JSON.stringify({
@@ -79,10 +95,9 @@ export async function createOrder(items: Package[]) {
         {
           reference_id: "charlotte-smith",
           description: "Charlotte Smith marketing packages",
-          // Package ids are stored on the order so capture can re-check the price.
-          custom_id: items.map((p) => p.id).join(",").slice(0, 127),
-          amount: { ...money(sum), breakdown: { item_total: money(sum) } },
-          items: items.map((p) => ({ name: p.name.slice(0, 127), sku: p.id, unit_amount: money(p.price), quantity: "1", category: "DIGITAL_GOODS" })),
+          custom_id: encodeTax(rate, country, vatNumber),
+          amount: { ...money(t.total), breakdown: { item_total: money(t.subtotal), tax_total: money(t.vat) } },
+          items: items.map((p) => ({ name: p.name.slice(0, 127), sku: p.id, unit_amount: money(p.price), tax: money(vatOn(p.price, rate)), quantity: "1", category: "DIGITAL_GOODS" })),
         },
       ],
       // Works for both the PayPal and the card buttons.

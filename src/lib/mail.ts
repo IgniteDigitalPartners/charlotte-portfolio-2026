@@ -2,6 +2,7 @@
 import nodemailer from "nodemailer";
 import { site } from "../data/site";
 import { euro, type Package } from "../data/packages";
+import { fmt } from "../data/vat";
 
 const env = (k: string) => (process.env[k] ?? import.meta.env[k] ?? "") as string;
 
@@ -17,23 +18,27 @@ const transport = () =>
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
-export interface Customer { name: string; email: string; business?: string; phone?: string; notes?: string }
+export interface Customer { name: string; email: string; business?: string; phone?: string; notes?: string; country?: string }
 export type Brief = { section: string; answers: { label: string; value: string }[] }[];
-export interface Receipt { orderId: string; captureId: string; date: string; total: number; payerEmail?: string }
+export interface Receipt { orderId: string; captureId: string; date: string; subtotal: number; vat: number; vatLabel: string; vatNote?: string; customerVat?: string; country?: string; total: number; payerEmail?: string }
 
 const shell = (inner: string) => `<!doctype html><html><body style="margin:0;background:#F7F3EE;padding:32px 12px;font-family:Montserrat,Helvetica,Arial,sans-serif;color:#3B3A38;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FBFAF7;border:1px solid #E6D7B8;border-radius:6px;">
 <tr><td style="background:#1D1B1A;padding:26px 36px;border-radius:6px 6px 0 0;"><span style="font-family:Georgia,'Playfair Display',serif;font-size:24px;color:#D9C49A;">Charlotte Smith</span><br><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#CFC6BC;">Marketing consultant</span></td></tr>
 <tr><td style="padding:36px;font-size:15px;line-height:1.65;">${inner}</td></tr>
-<tr><td style="padding:22px 36px;border-top:1px solid #EFE6DD;font-size:12px;color:#9B9590;">Charlotte Smith · ${esc(site.email)}</td></tr>
+<tr><td style="padding:22px 36px;border-top:1px solid #EFE6DD;font-size:12px;color:#9B9590;">${esc(site.legal.tradingName)}${site.legal.vatNumber ? ` · VAT ${esc(site.legal.vatNumber)}` : ""} · ${esc(site.email)}</td></tr>
 </table></td></tr></table></body></html>`;
 
 const receiptTable = (items: Package[], r: Receipt) => `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:8px 0 6px;font-size:14px;">
 ${items.map((p) => `<tr><td style="padding:10px 0;border-bottom:1px solid #EFE6DD;">${esc(p.name)}<br><span style="color:#9B9590;font-size:12px;">${esc(p.delivery)}</span></td><td align="right" style="padding:10px 0;border-bottom:1px solid #EFE6DD;white-space:nowrap;">${euro(p.price)}</td></tr>`).join("")}
-<tr><td style="padding:12px 0;font-weight:600;">Total paid</td><td align="right" style="padding:12px 0;font-weight:600;">${euro(r.total)}</td></tr>
+<tr><td style="padding:10px 0 4px;">Subtotal</td><td align="right" style="padding:10px 0 4px;">${fmt(r.subtotal)}</td></tr>
+<tr><td style="padding:4px 0 10px;border-bottom:1px solid #EFE6DD;">${esc(r.vatLabel)}</td><td align="right" style="padding:4px 0 10px;border-bottom:1px solid #EFE6DD;">${fmt(r.vat)}</td></tr>
+<tr><td style="padding:12px 0;font-weight:600;">Total paid</td><td align="right" style="padding:12px 0;font-weight:600;">${fmt(r.total)}</td></tr>
 </table>
+${r.vatNote ? `<p style="font-size:12px;color:#9B9590;margin:0 0 4px;">${esc(r.vatNote)}${r.customerVat ? ` Your VAT number: ${esc(r.customerVat)}.` : ""}</p>` : ""}
+<p style="font-size:12px;color:#9B9590;margin:0 0 4px;">Your VAT invoice will follow by email.</p>
 <p style="font-size:12px;color:#9B9590;margin:0 0 4px;">Order ${esc(r.orderId)} · PayPal transaction ${esc(r.captureId)} · ${esc(r.date)}</p>`;
 
 export function welcomeEmail(c: Customer, items: Package[], r: Receipt, bookings: { label: string; url: string }[] = []) {
@@ -60,7 +65,11 @@ ${bookings.map((b) => `<p style="margin:0 0 12px;"><a href="${esc(b.url)}" style
     "",
     "Your order is confirmed. Your receipt:",
     ...items.map((p) => `- ${p.name}: ${euro(p.price)} (${p.delivery})`),
-    `Total paid: ${euro(r.total)}`,
+    `Subtotal: ${fmt(r.subtotal)}`,
+    `${r.vatLabel}: ${fmt(r.vat)}`,
+    `Total paid: ${fmt(r.total)}`,
+    ...(r.vatNote ? [r.vatNote] : []),
+    "Your VAT invoice will follow by email.",
     `Order ${r.orderId} · PayPal transaction ${r.captureId} · ${r.date}`,
     "",
     "What happens next:",
@@ -79,12 +88,13 @@ export function orderEmail(c: Customer, items: Package[], r: Receipt, brief: Bri
   const rows = (pairs: [string, string | undefined][]) =>
     pairs.filter(([, v]) => v).map(([k, v]) => `<tr><td style="padding:6px 12px 6px 0;color:#9B9590;vertical-align:top;white-space:nowrap;">${esc(k)}</td><td style="padding:6px 0;white-space:pre-wrap;">${esc(v!)}</td></tr>`).join("");
   const html = shell(`
-<h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 14px;">New order: ${euro(r.total)}</h1>
-<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:10px;">${rows([["Name", c.name], ["Email", c.email], ["Business", c.business], ["Phone", c.phone], ["PayPal payer", r.payerEmail], ["Notes", c.notes]])}</table>
+<h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 14px;">New order: ${fmt(r.total)}</h1>
+<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:10px;">${rows([["Name", c.name], ["Email", c.email], ["Business", c.business], ["Country", c.country], ["VAT number", r.customerVat ? `${r.customerVat} (verified, reverse charge)` : undefined], ["Phone", c.phone], ["PayPal payer", r.payerEmail], ["Notes", c.notes]])}</table>
 ${receiptTable(items, r)}
 ${brief.map((s) => `<h2 style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8E4F58;margin:26px 0 6px;">${esc(s.section)}</h2><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;">${rows(s.answers.map((a) => [a.label, a.value || "(not answered)"]))}</table>`).join("")}`);
   const text = [
-    `New order: ${euro(r.total)}`,
+    `New order: ${fmt(r.total)} (subtotal ${fmt(r.subtotal)}, ${r.vatLabel} ${fmt(r.vat)})`,
+    `Country: ${c.country ?? ""}${r.customerVat ? ` · VAT number ${r.customerVat} (verified, reverse charge)` : ""}`,
     `${c.name} <${c.email}>${c.business ? `, ${c.business}` : ""}${c.phone ? `, ${c.phone}` : ""}`,
     c.notes ? `Notes: ${c.notes}` : "",
     ...items.map((p) => `- ${p.name}: ${euro(p.price)}`),

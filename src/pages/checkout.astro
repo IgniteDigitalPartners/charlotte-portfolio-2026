@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { packages, buyable, briefSections } from "../data/packages";
+import { euCountries, OUTSIDE_EU } from "../data/vat";
 
 const catalog = packages.filter(buyable).map((p) => ({
   id: p.id,
@@ -44,6 +45,20 @@ const catalog = packages.filter(buyable).map((p) => ({
               <div class="field"><label for="c-business">Business name</label><input class="input" id="c-business" name="c::business" autocomplete="organization" required /></div>
               <div class="field"><label for="c-phone">Phone <span class="hint">(optional)</span></label><input class="input" id="c-phone" name="c::phone" type="tel" autocomplete="tel" /></div>
             </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="c-country">Country</label>
+                <select class="input" id="c-country" name="c::country" required>
+                  {euCountries.map((c) => <option value={c.code}>{c.name}</option>)}
+                  <option value={OUTSIDE_EU}>Outside the EU</option>
+                </select>
+              </div>
+              <div class="field" data-vatfield>
+                <label for="c-vat">EU VAT number <span class="hint">(businesses, optional)</span></label>
+                <input class="input" id="c-vat" name="c::vatNumber" autocomplete="off" placeholder="e.g. DE123456789" />
+                <p class="hint">Businesses in the EU outside Malta: add your VAT number and VAT is reverse charged.</p>
+              </div>
+            </div>
           </fieldset>
 
           <div class="stack-lg" data-briefs></div>
@@ -62,8 +77,13 @@ const catalog = packages.filter(buyable).map((p) => ({
         <aside class="summary card" aria-labelledby="sum-title">
           <h2 id="sum-title" class="h3">Order summary</h2>
           <ul class="lines" data-lines></ul>
+          <p class="sub-line"><span>Subtotal</span><span data-subtotal>€0</span></p>
+          <p class="sub-line"><span data-vat-label>VAT 18%</span><span data-vat>€0</span></p>
           <p class="total"><span>Total</span><strong data-total>€0</strong></p>
+          <p class="small" data-vat-note hidden></p>
+          <p class="small warn" data-vat-warn hidden></p>
           <p class="small">Prices in euros. Delivery times start once your brief and files are received.</p>
+          <label class="check terms"><input type="checkbox" name="c::terms" value="yes" required /><span>I agree to the <a href="/terms/" target="_blank">terms</a> and have read the <a href="/privacy/" target="_blank">privacy policy</a>.</span></label>
 
           <div data-pay hidden>
             <p class="small pay-note">Pay securely by card or PayPal. You don't need a PayPal account.</p>
@@ -110,6 +130,12 @@ const catalog = packages.filter(buyable).map((p) => ({
   .err { padding: 12px 14px; border: 1px solid var(--deep-rose); border-radius: 2px; color: var(--deep-rose); font-size: 14px; }
   .err[hidden], [data-pay][hidden], [data-closed][hidden], .ok[hidden] { display: none; }
   .closed { display: grid; gap: 14px; }
+  .sub-line { display: flex; justify-content: space-between; font-size: 15px; color: #4A4542; }
+  .sub-line + .total { padding-top: 10px; border-top: 1px solid var(--dove); }
+  .warn { color: var(--deep-rose); }
+  .terms { font-size: 14px; }
+  .terms input { width: 20px; height: 20px; }
+  [data-vat-note][hidden], [data-vat-warn][hidden], [data-vatfield][hidden] { display: none; }
   .send-brief { width: 100%; cursor: pointer; font-family: var(--sans); }
   .ok { padding: 12px 14px; border: 1px solid var(--champagne); border-radius: 2px; font-size: 14px; background: var(--white); }
   .hint { font-size: 13px; color: #6B6560; }
@@ -175,7 +201,7 @@ const catalog = packages.filter(buyable).map((p) => ({
       rm.addEventListener("click", () => { remove(i.id); render(); });
       return el("li", {}, el("span", { class: "nm", text: i.name }), el("span", { class: "pr", text: `€${i.price}` }), rm);
     }));
-    totalEl.textContent = `€${list.reduce((n, i) => n + i.price, 0)}`;
+    paintTotals();
     const welcome = document.querySelector<HTMLElement>("[data-welcome]")!;
     welcome.hidden = !list.some((i) => !i.isCall);
     welcome.querySelector("input")!.disabled = welcome.hidden;
@@ -187,6 +213,40 @@ const catalog = packages.filter(buyable).map((p) => ({
       else if (draft[n.name] && !n.value) n.value = draft[n.name];
     });
   }
+
+  // VAT: worked out on the server (it verifies EU VAT numbers), shown here.
+  let vat = { rate: 0.18, label: "VAT 18%", note: "", warn: "" };
+  const money = (n: number) => `€${Number.isInteger(n) ? n : n.toFixed(2)}`;
+  function paintTotals() {
+    const list = items();
+    const sub = list.reduce((n, i) => n + i.price, 0);
+    const tax = Math.round(list.reduce((n, i) => n + Math.round(i.price * vat.rate * 100) / 100, 0) * 100) / 100;
+    document.querySelector("[data-subtotal]")!.textContent = money(sub);
+    document.querySelector("[data-vat-label]")!.textContent = vat.label;
+    document.querySelector("[data-vat]")!.textContent = money(tax);
+    totalEl.textContent = money(Math.round((sub + tax) * 100) / 100);
+    const note = document.querySelector<HTMLElement>("[data-vat-note]")!; note.textContent = vat.note || ""; note.hidden = !vat.note;
+    const warn = document.querySelector<HTMLElement>("[data-vat-warn]")!; warn.textContent = vat.warn || ""; warn.hidden = !vat.warn;
+  }
+  const countryEl = document.querySelector<HTMLSelectElement>("#c-country")!;
+  const vatEl = document.querySelector<HTMLInputElement>("#c-vat")!;
+  let quoteSeq = 0;
+  async function quote() {
+    const seq = ++quoteSeq;
+    const showVatField = countryEl.value !== "MT" && countryEl.value !== "XX";
+    document.querySelector<HTMLElement>("[data-vatfield]")!.hidden = !showVatField;
+    try {
+      const res = await fetch("/api/quote/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ country: countryEl.value, vatNumber: showVatField ? vatEl.value : "" }) });
+      const q = await res.json();
+      if (seq !== quoteSeq) return;
+      vat = { rate: q.rate, label: q.label, note: q.note ?? "", warn: q.warn ?? "" };
+    } catch { /* keep the safe default: 18% */ }
+    paintTotals();
+  }
+  countryEl.addEventListener("change", quote);
+  vatEl.addEventListener("change", quote);
+  if (draft["c::country"]) countryEl.value = draft["c::country"];
+  quote();
 
   form.addEventListener("input", (e) => {
     const t = e.target as HTMLInputElement;
@@ -228,8 +288,8 @@ const catalog = packages.filter(buyable).map((p) => ({
         body: JSON.stringify({
           form_type: "order",
           name: customer.name, email: customer.email, business: customer.business,
-          package: `${list.map((i) => `${i.name} (€${i.price})`).join(", ")}. Total €${list.reduce((n, i) => n + i.price, 0)}`,
-          message: `${briefAsText()}${customer.phone ? `\n\nPhone: ${customer.phone}` : ""}${customer.notes ? `\n\nNotes: ${customer.notes}` : ""}${welcome}`,
+          package: `${list.map((i) => `${i.name} (€${i.price})`).join(", ")}. Subtotal ${document.querySelector("[data-subtotal]")!.textContent}, ${vat.label} ${document.querySelector("[data-vat]")!.textContent}, total ${totalEl.textContent}`,
+          message: `Country: ${countryEl.selectedOptions[0]?.textContent}${customer.vatNumber && vat.rate === 0 ? `\nVAT number: ${customer.vatNumber} (verified)` : ""}\n\n${briefAsText()}${customer.phone ? `\n\nPhone: ${customer.phone}` : ""}${customer.notes ? `\n\nNotes: ${customer.notes}` : ""}${welcome}`,
         }),
       });
       const out = await res.json().catch(() => ({}));
@@ -271,7 +331,7 @@ const catalog = packages.filter(buyable).map((p) => ({
           return actions.resolve();
         },
         createOrder: async () => {
-          const res = await fetch("/api/orders/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: read() }) });
+          const res = await fetch("/api/orders/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: read(), country: countryEl.value, vatNumber: countryEl.value !== "MT" ? vatEl.value : "" }) });
           const out = await res.json();
           if (!out.id) { showError(out.error || "Couldn't start the payment."); throw new Error(out.error); }
           return out.id;

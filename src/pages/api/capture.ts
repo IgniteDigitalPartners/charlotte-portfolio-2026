@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { captureOrder, getOrder, paypalReady, resolveCart, total } from "../../lib/paypal";
+import { captureOrder, decodeTax, getOrder, paypalReady, resolveCart, totals } from "../../lib/paypal";
+import { vatFor, euCountries, OUTSIDE_EU } from "../../data/vat";
 import { briefSections, earnsWelcomeCall } from "../../data/packages";
 import { site } from "../../data/site";
 import { mailReady, notifyAddress, orderEmail, send, welcomeEmail, type Brief, type Customer } from "../../lib/mail";
@@ -21,9 +22,13 @@ export const POST: APIRoute = async ({ request }) => {
   if (!existing.ok) return json({ error: "Order not found." }, 404);
   const unit = existing.body.purchase_units?.[0];
   let items;
-  try { items = resolveCart(String(unit?.custom_id ?? "").split(",").filter(Boolean)); } catch { return json({ error: "Order details don't match." }, 400); }
-  const expected = total(items);
-  if (Number(unit?.amount?.value) !== expected || unit?.amount?.currency_code !== "EUR") return json({ error: "Order total doesn't match." }, 400);
+  try { items = resolveCart((unit?.items ?? []).map((i: { sku?: string }) => i.sku)); } catch { return json({ error: "Order details don't match." }, 400); }
+  const tax = decodeTax(unit?.custom_id);
+  if (!tax) return json({ error: "Order details don't match." }, 400);
+  const t = totals(items, tax.rate);
+  if (Number(unit?.amount?.value) !== t.total || unit?.amount?.currency_code !== "EUR") return json({ error: "Order total doesn't match." }, 400);
+  const vatRule = vatFor(tax.country, Boolean(tax.vatNumber));
+  const countryName = tax.country === OUTSIDE_EU ? "Outside the EU" : euCountries.find((c) => c.code === tax.country)?.name ?? tax.country;
 
   const cap = await captureOrder(orderId);
   const capture = cap.body?.purchase_units?.[0]?.payments?.captures?.[0];
@@ -35,6 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const customer: Customer = {
+    country: countryName,
     name: str(body?.customer?.name, 120) || cap.body?.payer?.name?.given_name || "Client",
     email: str(body?.customer?.email, 200) || cap.body?.payer?.email_address || "",
     business: str(body?.customer?.business, 200),
@@ -59,7 +65,13 @@ export const POST: APIRoute = async ({ request }) => {
     orderId,
     captureId: String(capture.id),
     date: new Date(capture.create_time ?? Date.now()).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }),
-    total: expected,
+    subtotal: t.subtotal,
+    vat: t.vat,
+    vatLabel: vatRule.label,
+    vatNote: vatRule.note,
+    customerVat: tax.vatNumber,
+    country: countryName,
+    total: t.total,
     payerEmail: cap.body?.payer?.email_address,
   };
 

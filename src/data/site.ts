@@ -15,6 +15,13 @@ export const site = {
   // Online card/PayPal checkout. Paused while the PayPal account is being verified;
   // clients can still order by brief and receive a payment link by email.
   checkoutOpen: false,
+  // Legal details shown on the Terms and Privacy pages and in receipts. Lines without a value are hidden.
+  legal: {
+    tradingName: "Charlotte Smith",
+    vatNumber: "",
+    address: "",
+    country: "Malta",
+  },
   sameAs: [
     "https://www.linkedin.com/in/charlotte-smith-marketing/",
     "https://pro.fiverr.com/sellers/charlyatignite/",

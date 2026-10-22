@@ -1,0 +1,42 @@
+---
+import LegalPage from "../components/LegalPage.astro";
+import { site } from "../data/site";
+---
+<LegalPage title="Privacy Policy | Charlotte Smith" heading="Privacy" accent="policy." path="/privacy/" updated="22 October 2026"
+  description="How Charlotte Smith collects, uses and protects your personal information when you visit this website, get in touch or place an order.">
+  <h2>In short</h2>
+  <p>I only collect what I need to reply to you and deliver your work. I don't sell your information, and I don't use advertising or tracking cookies.</p>
+
+  <h2>Who is responsible</h2>
+  <p>{site.legal.tradingName} is the data controller for information collected through this website. You can contact me about your data at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+  <h2>What I collect and why</h2>
+  <h3>When you send an enquiry</h3>
+  <p>Your name, email, business name and anything you write in the form, so I can reply. Lawful basis: taking steps at your request before a contract, and my legitimate interest in answering enquiries.</p>
+  <h3>When you place an order</h3>
+  <p>Your contact details, country, VAT number if you give one, your brief and any files or links you share, so I can deliver the work, send your receipt and invoice, and keep business records. Lawful basis: performing our contract and meeting legal obligations, such as tax and accounting rules.</p>
+  <h3>Payments</h3>
+  <p>Payments are handled by PayPal. I receive confirmation of payment, the payer's email address and a transaction reference. I never see or store card details. PayPal's own <a href="https://www.paypal.com/myaccount/privacy/privacyhub" rel="noopener">privacy statement</a> applies to the information you give them.</p>
+  <h3>Calls</h3>
+  <p>If you book a call, Google Calendar records the time you choose and the details you enter.</p>
+  <h3>Website visits</h3>
+  <p>The site uses Vercel Web Analytics to count visits and popular pages. It doesn't use cookies or identify you personally. The hosting provider also keeps short-lived technical logs to keep the site secure.</p>
+  <h3>Your cart</h3>
+  <p>Your cart and checkout draft are saved in your own browser so they aren't lost if you leave the page. They stay on your device and you can clear them at any time.</p>
+
+  <h2>Who I share it with</h2>
+  <p>Only the services needed to run the business: Vercel (website hosting), Google Workspace (email and calendar), PayPal (payments) and the EU VIES service (to check VAT numbers). Some of these providers process data outside the EU, under safeguards such as the EU Standard Contractual Clauses or the EU-US Data Privacy Framework. I also share information with my accountant where needed for tax purposes.</p>
+
+  <h2>How long I keep it</h2>
+  <ul>
+    <li>Enquiries that don't lead to work: up to 12 months.</li>
+    <li>Briefs and project files: for the project, and up to 12 months after, unless you ask me to delete them sooner.</li>
+    <li>Orders, invoices and payment records: as long as tax and accounting law requires.</li>
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>You can ask to see, correct or delete your information, to limit or object to how I use it, or to receive a copy of it. Just email me and I'll reply within one month. If you're unhappy with how I've handled your data, you can complain to Malta's Information and Data Protection Commissioner (<a href="https://idpc.org.mt" rel="noopener">idpc.org.mt</a>) or the data protection authority where you live.</p>
+
+  <h2>Changes</h2>
+  <p>If I change this policy, I'll update this page and the date at the top.</p>
+</LegalPage>

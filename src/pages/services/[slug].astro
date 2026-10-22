@@ -81,6 +81,7 @@ const ld = [
           ))}
         </ul>
       )}
+      {pk.length > 0 && <p class="pk-meta">Prices in euros, excluding VAT.</p>}
       <div class="grid-2">
         <div class="way"><h3 class="h3">Bespoke project</h3><p>{s.ways.bespoke}</p><a class="textlink" href="/contact/"><span>Request a quote</span></a></div>
         {s.ways.retainer && <div class="way"><h3 class="h3">Monthly retainer</h3><p>{s.ways.retainer}</p><a class="textlink" href="/contact/"><span>Discuss a retainer</span></a></div>}
