@@ -1,8 +1,13 @@
 import manifest from "./media-manifest.json";
 import moovlyShowcase from "../assets/work-moovly-showcase.webp";
+import darPackaging from "../assets/work/dar-packaging.webp";
+import darLogo from "../assets/work/dar-logo.webp";
+import maltamoveShowcase from "../assets/work/maltamove-showcase.webp";
+import gcgBanner from "../assets/work/gcg-banner.webp";
 
 export type Media = { src: string; width: number; height: number };
 const m = (id: string): Media => (manifest as Record<string, Media>)[id];
+const local = (img: { src: string; width: number; height: number }): Media => ({ src: img.src, width: img.width, height: img.height });
 
 export interface Project {
   slug: string;
@@ -13,6 +18,8 @@ export interface Project {
   period?: string;
   website?: { url: string; label: string };
   cover?: { media: Media; alt: string };
+  /** optional image used on project cards instead of the cover */
+  card?: { media: Media; position?: string };
   tone: "blush" | "espresso" | "linen";
   brief: string[];
   role: string;
@@ -30,8 +37,9 @@ export const projects: Project[] = [
     client: "Dar il-Fwieħa",
     category: "Brand identity · Logo · Packaging direction",
     services: ["brand-strategy-identity"],
-    summary: "A brand identity, logo and packaging direction for Dar il-Fwieħa.",
-    tone: "blush",
+    summary: "A luxury brand identity, monogram and packaging for a house of fragrance.",
+    cover: { media: local(darPackaging), alt: "Dar il-Fwieħa packaging: black gift boxes, card, candle and ribbon with the gold DF monogram" },
+    tone: "espresso",
     brief: [
       "I created the brand identity for Dar il-Fwieħa, from the logo through to the direction for its packaging.",
     ],
@@ -40,6 +48,9 @@ export const projects: Project[] = [
       { title: "Brand identity", text: "The overall look and feel, palette and typography for the brand." },
       { title: "Logo", text: "The primary logo design." },
       { title: "Packaging direction", text: "Visual direction for how the brand is applied to packaging." },
+    ],
+    gallery: [
+      { media: local(darLogo), caption: "Logo: DF monogram and wordmark, House of Fragrance" },
     ],
     thin: true,
     featured: true,
@@ -56,6 +67,26 @@ export const projects: Project[] = [
     delivered: [
       { title: "Website design", text: "Page layouts, visual design and structure." },
       { title: "Website build", text: "The site built and set up, ready to publish." },
+    ],
+    thin: true,
+    featured: true,
+  },
+  {
+    slug: "maltamove",
+    client: "MaltaMove",
+    category: "Brand · Website · Social media",
+    services: ["brand-strategy-identity", "website-design", "social-media"],
+    summary: "Brand, website and social media for a property development, sales and investment company.",
+    cover: { media: local(maltamoveShowcase), alt: "MaltaMove showcase: logo, website on a laptop, Instagram feed on a phone and a grid of property social posts" },
+    tone: "linen",
+    brief: [
+      "MaltaMove works across property development, sales, investment and consultancy. The brand needed to present quality homes and investment opportunities with clarity and confidence.",
+    ],
+    role: "Marketing",
+    delivered: [
+      { title: "Brand", text: "Logo and visual identity with a bold red, black and white palette." },
+      { title: "Website", text: "A property website presenting developments, apartments and investment opportunities." },
+      { title: "Social media", text: "A branded social post series for developments, interiors and investment messaging." },
     ],
     thin: true,
     featured: true,
@@ -91,6 +122,7 @@ export const projects: Project[] = [
     period: "2025",
     website: { url: "https://www.generalcoppergold.com", label: "generalcoppergold.com" },
     cover: { media: m("gcg-website"), alt: "The General Copper Gold website homepage" },
+    card: { media: local(gcgBanner), position: "right center" },
     tone: "espresso",
     brief: [
       "General Copper Gold had the geology. The challenge was building the story around it for the capital markets, in a format that would hold up to the scrutiny of TSX-V investors.",

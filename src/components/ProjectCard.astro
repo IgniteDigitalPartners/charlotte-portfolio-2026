@@ -3,12 +3,14 @@ import type { Project } from "../data/projects";
 interface Props { project: Project; size?: "lg" | "md"; eager?: boolean; headingLevel?: "h2" | "h3" }
 const { project: p, size = "md", eager = false, headingLevel = "h3" } = Astro.props;
 const H = headingLevel;
+const img = p.card?.media ?? p.cover?.media;
+const pos = p.card?.position;
 ---
 <article class={`pcard card tone-${p.tone} ${size}`}>
   <a class="cover-link" href={`/work/${p.slug}/`} tabindex="-1" aria-hidden="true">
     <div class="cover">
-      {p.cover ? (
-        <img src={p.cover.media.src} width={p.cover.media.width} height={p.cover.media.height} alt="" loading={eager ? "eager" : "lazy"} decoding="async" />
+      {img ? (
+        <img src={img.src} width={img.width} height={img.height} alt="" loading={eager ? "eager" : "lazy"} decoding="async" style={pos ? `object-position: ${pos};` : undefined} />
       ) : (
         <div class="type-cover">
           <span class="frame"></span>
