@@ -18,8 +18,8 @@ export const site = {
   // Legal details shown on the Terms and Privacy pages and in receipts. Lines without a value are hidden.
   legal: {
     tradingName: "Charlotte Smith",
-    vatNumber: "",
-    address: "",
+    vatNumber: "MT27209704",
+    address: "Apt 4 Villa Eugenie, Triq Dun Gejtanu Mannarino, Birkirkara BKR 9085, Malta",
     country: "Malta",
   },
   sameAs: [
