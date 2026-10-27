@@ -3,7 +3,7 @@ export const site = {
   title: "Charlotte Smith | Brand & Marketing Consultant",
   description:
     "Brand and marketing consultant with 9+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers.",
-  email: "charlotte.smith@ignitedigitalpartners.com",
+  email: "hello@bycharlottesmith.com",
   location: "Worldwide",
   // Google Calendar booking pages. Only shared after payment (confirmation page and welcome email).
   booking: {
