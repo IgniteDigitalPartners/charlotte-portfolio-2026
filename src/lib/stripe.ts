@@ -5,8 +5,8 @@ import { MT_RATE, vatOn } from "../data/vat";
 
 const env = (k: string) => (process.env[k] ?? import.meta.env[k] ?? "") as string;
 
-/** Packages at or above this price (EUR, excl. VAT) take a 50% deposit; the balance is invoiced on delivery. */
-export const DEPOSIT_FROM = 150;
+/** Every one-off package takes a 50% deposit; the balance is invoiced on delivery. Monthly plans are paid in full. */
+export const DEPOSIT_FROM = 0;
 export const DEPOSIT_SHARE = 0.5;
 
 export const stripeConfig = () => {
