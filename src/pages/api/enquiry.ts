@@ -38,6 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
   // A short acknowledgement to the sender; failure here doesn't affect the enquiry.
   const first = name.split(/\s+/)[0];
   const ack = `Thank you, ${first}.\n\nYour ${isOrder ? "order brief" : "message"} has reached me and I'll reply personally within one business day.\n\nWarmly,\nCharlotte`;
-  send(email, { subject: "Thank you for getting in touch | Charlotte Smith", text: ack, html: `<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#3B3A38;">${esc(ack).replace(/\n/g, "<br>")}</div>` }).catch((e) => console.error("Ack failed", e));
+  // Awaited so the serverless function doesn't exit before the email is sent.
+  await send(email, { subject: "Thank you for getting in touch | Charlotte Smith", text: ack, html: `<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#3B3A38;">${esc(ack).replace(/\n/g, "<br>")}</div>` }).catch((e) => console.error("Ack failed", e));
   return json({ ok: true });
 };
