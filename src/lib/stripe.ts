@@ -37,7 +37,7 @@ export interface Line {
   monthly: boolean;
 }
 
-export const isDeposit = (p: Package) => !p.monthly && p.price >= DEPOSIT_FROM;
+export const isDeposit = (p: Package) => !p.monthly && !p.booking && p.price >= DEPOSIT_FROM;
 
 export function toLines(items: Package[]): Line[] {
   return items.map((p) => {
