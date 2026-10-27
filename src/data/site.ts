@@ -12,9 +12,9 @@ export const site = {
   },
   // LinkedIn profile URL: the footer link appears once this is set.
   linkedin: "https://www.linkedin.com/in/charlotte-smith-marketing/",
-  // Online card/PayPal checkout. Paused while the PayPal account is being verified;
+  // Online Stripe checkout. Also needs the Stripe keys + webhook secret in Vercel; until then
   // clients can still order by brief and receive a payment link by email.
-  checkoutOpen: false,
+  checkoutOpen: true,
   // Legal details shown on the Terms and Privacy pages and in receipts. Lines without a value are hidden.
   legal: {
     tradingName: "Charlotte Smith",

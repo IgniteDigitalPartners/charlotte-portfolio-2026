@@ -1,20 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
-import { packages, buyable, briefSections } from "../data/packages";
+import { packages, briefSections } from "../data/packages";
 import { euCountries, OUTSIDE_EU } from "../data/vat";
+import { toLines } from "../lib/stripe";
 
-const catalog = packages.filter(buyable).map((p) => ({
-  id: p.id,
-  name: p.name,
-  price: p.price,
-  delivery: p.delivery,
-  isCall: Boolean(p.booking),
-  sections: briefSections(p),
+const catalog = toLines(packages).map((l, i) => ({
+  ...l,
+  isCall: Boolean(packages[i].booking),
+  sections: briefSections(packages[i]),
 }));
 ---
 <Base
   title="Your Cart | Charlotte Smith"
-  description="Review your marketing packages, share your brief and pay securely by card or PayPal."
+  description="Review your marketing packages, share your brief and pay securely online."
   crumbs={[{ name: "Packages", href: "/packages/" }, { name: "Cart", href: "/checkout/" }]}
   noindex
 >
@@ -85,12 +83,14 @@ const catalog = packages.filter(buyable).map((p) => ({
           <p class="small">Prices in euros. Delivery times start once your brief and files are received.</p>
           <label class="check terms"><input type="checkbox" name="c::terms" value="yes" required /><span>I agree to the <a href="/terms/" target="_blank">terms</a> and have read the <a href="/privacy/" target="_blank">privacy policy</a>.</span></label>
 
+          <p class="small balance-note" data-balance-note hidden></p>
           <div data-pay hidden>
-            <p class="small pay-note">Pay securely by card or PayPal. You don't need a PayPal account.</p>
-            <div id="paypal-buttons"></div>
+            <button type="button" class="btn btn-dark pay-btn" data-paybtn>Pay securely</button>
+            <p class="small pay-note">You'll pay on Stripe's secure page: card, Apple Pay or Google Pay.</p>
+            <p class="small test-note" data-test hidden>Test mode: use card 4242 4242 4242 4242, any future date and any CVC. No real money is taken.</p>
           </div>
           <div class="closed" data-closed hidden>
-            <p class="small"><strong>Card payment opens soon.</strong> For now, send your order and brief and I'll reply within one business day with a secure PayPal payment link. Nothing is charged until you pay that link.</p>
+            <p class="small"><strong>Online payment opens soon.</strong> For now, send your order and brief and I'll reply within one business day with a secure payment link. Nothing is charged until you pay that link.</p>
             <button type="button" class="btn btn-dark send-brief" data-send>Send my order</button>
             <p class="ok" role="status" data-sent hidden></p>
           </div>
@@ -126,7 +126,11 @@ const catalog = packages.filter(buyable).map((p) => ({
   .total strong { font-family: var(--italic); font-style: italic; font-weight: 500; font-size: 40px; line-height: 1; }
   .small { font-size: 13px; color: #6B6560; }
   .pay-note { margin-bottom: 10px; }
-  #paypal-buttons { min-height: 120px; }
+  .pay-btn { width: 100%; cursor: pointer; font-family: var(--sans); }
+  .pay-btn[disabled] { opacity: 0.6; cursor: wait; }
+  .test-note { padding: 10px 12px; border: 1px dashed var(--champagne); border-radius: 2px; }
+  .test-note[hidden], .balance-note[hidden] { display: none; }
+  .lines .note { grid-column: 1 / -1; font-size: 13px; color: #6B6560; }
   .err { padding: 12px 14px; border: 1px solid var(--deep-rose); border-radius: 2px; color: var(--deep-rose); font-size: 14px; }
   .err[hidden], [data-pay][hidden], [data-closed][hidden], .ok[hidden] { display: none; }
   .closed { display: grid; gap: 14px; }
@@ -151,7 +155,7 @@ const catalog = packages.filter(buyable).map((p) => ({
   import { read, remove, clear } from "../scripts/cart";
 
   type Field = { name: string; label: string; type: string; required?: boolean; help?: string; options?: string[] };
-  type Item = { id: string; name: string; price: number; delivery: string; isCall: boolean; sections: { id: string; name: string; fields: Field[] }[] };
+  type Item = { id: string; name: string; price: number; amount: number; balance: number; monthly: boolean; delivery: string; isCall: boolean; sections: { id: string; name: string; fields: Field[] }[] };
   const catalog: Item[] = JSON.parse(document.getElementById("catalog")!.textContent || "[]");
   const byId = new Map(catalog.map((i) => [i.id, i]));
 
@@ -167,7 +171,11 @@ const catalog = packages.filter(buyable).map((p) => ({
   try { draft = JSON.parse(sessionStorage.getItem(DRAFT) || "{}"); } catch { draft = {}; }
   const saveDraft = () => { try { sessionStorage.setItem(DRAFT, JSON.stringify(draft)); } catch { /* ignore */ } };
 
-  const items = () => read().map((id) => byId.get(id)).filter((x): x is Item => Boolean(x));
+  // A monthly plan checks out on its own (?plan=…); everything else comes from the cart.
+  const params = new URLSearchParams(location.search);
+  const plan = byId.get(params.get("plan") ?? "");
+  const ids = () => (plan?.monthly ? [plan.id] : read().filter((id) => !byId.get(id)?.monthly));
+  const items = () => ids().map((id) => byId.get(id)).filter((x): x is Item => Boolean(x));
   const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string, any> = {}, ...kids: (Node | string)[]) => {
     const n = document.createElement(tag);
     Object.entries(props).forEach(([k, v]) => (k === "class" ? (n.className = v) : k === "text" ? (n.textContent = v) : n.setAttribute(k, v)));
@@ -196,10 +204,13 @@ const catalog = packages.filter(buyable).map((p) => ({
     empty.hidden = list.length > 0;
     form.hidden = list.length === 0;
     lines.replaceChildren(...list.map((i) => {
-      const rm = el("button", { type: "button", class: "rm", text: "Remove" });
-      rm.setAttribute("aria-label", `Remove ${i.name}`);
-      rm.addEventListener("click", () => { remove(i.id); render(); });
-      return el("li", {}, el("span", { class: "nm", text: i.name }), el("span", { class: "pr", text: `€${i.price}` }), rm);
+      const price = i.monthly ? `${money(i.amount)} / month` : money(i.amount);
+      const note = i.balance > 0 ? `50% deposit today. Balance ${money(i.balance)} + VAT on delivery.` : i.monthly ? "Billed monthly. Cancel anytime." : "";
+      const rm = plan
+        ? el("a", { class: "rm", href: "/packages/#monthly", text: "Change plan" })
+        : el("button", { type: "button", class: "rm", text: "Remove" });
+      if (!plan) { rm.setAttribute("aria-label", `Remove ${i.name}`); rm.addEventListener("click", () => { remove(i.id); render(); }); }
+      return el("li", {}, el("span", { class: "nm", text: i.balance > 0 ? `${i.name} (deposit)` : i.name }), el("span", { class: "pr", text: price }), ...(note ? [el("span", { class: "note", text: note })] : []), rm);
     }));
     paintTotals();
     const welcome = document.querySelector<HTMLElement>("[data-welcome]")!;
@@ -219,12 +230,16 @@ const catalog = packages.filter(buyable).map((p) => ({
   const money = (n: number) => `€${Number.isInteger(n) ? n : n.toFixed(2)}`;
   function paintTotals() {
     const list = items();
-    const sub = list.reduce((n, i) => n + i.price, 0);
-    const tax = Math.round(list.reduce((n, i) => n + Math.round(i.price * vat.rate * 100) / 100, 0) * 100) / 100;
+    const sub = Math.round(list.reduce((n, i) => n + i.amount, 0) * 100) / 100;
+    const tax = Math.round(list.reduce((n, i) => n + Math.round(i.amount * vat.rate * 100) / 100, 0) * 100) / 100;
+    const bal = list.reduce((n, i) => n + i.balance, 0);
+    const bn = document.querySelector<HTMLElement>("[data-balance-note]")!;
+    bn.textContent = bal > 0 ? `Due today is your deposit. The remaining ${money(bal)} + VAT is invoiced when your work is delivered.` : "";
+    bn.hidden = !bal;
     document.querySelector("[data-subtotal]")!.textContent = money(sub);
     document.querySelector("[data-vat-label]")!.textContent = vat.label;
     document.querySelector("[data-vat]")!.textContent = money(tax);
-    totalEl.textContent = money(Math.round((sub + tax) * 100) / 100);
+    totalEl.textContent = money(Math.round((sub + tax) * 100) / 100) + (list.some((i) => i.monthly) ? " / month" : "");
     const note = document.querySelector<HTMLElement>("[data-vat-note]")!; note.textContent = vat.note || ""; note.hidden = !vat.note;
     const warn = document.querySelector<HTMLElement>("[data-vat-warn]")!; warn.textContent = vat.warn || ""; warn.hidden = !vat.warn;
   }
@@ -288,7 +303,7 @@ const catalog = packages.filter(buyable).map((p) => ({
         body: JSON.stringify({
           form_type: "order",
           name: customer.name, email: customer.email, business: customer.business,
-          package: `${list.map((i) => `${i.name} (€${i.price})`).join(", ")}. Subtotal ${document.querySelector("[data-subtotal]")!.textContent}, ${vat.label} ${document.querySelector("[data-vat]")!.textContent}, total ${totalEl.textContent}`,
+          package: `${list.map((i) => `${i.name} (€${i.price}${i.monthly ? " a month" : ""})`).join(", ")}. Subtotal ${document.querySelector("[data-subtotal]")!.textContent}, ${vat.label} ${document.querySelector("[data-vat]")!.textContent}, total ${totalEl.textContent}`,
           message: `Country: ${countryEl.selectedOptions[0]?.textContent}${customer.vatNumber && vat.rate === 0 ? `\nVAT number: ${customer.vatNumber} (verified)` : ""}\n\n${briefAsText()}${customer.phone ? `\n\nPhone: ${customer.phone}` : ""}${customer.notes ? `\n\nNotes: ${customer.notes}` : ""}${welcome}`,
         }),
       });
@@ -311,46 +326,31 @@ const catalog = packages.filter(buyable).map((p) => ({
 
   const showError = (msg: string) => { errEl.textContent = msg; errEl.hidden = false; };
 
-  // Load PayPal only when the server says payments and emails are configured.
+  if (params.has("cancelled")) showError("Payment cancelled. Your cart and brief are saved, so you can try again.");
+
+  // Stripe Checkout opens only when the server says payments, webhook and emails are configured.
   (async () => {
-    let cfg = { ready: false, clientId: "" };
+    let cfg = { ready: false, test: false };
     try { cfg = await (await fetch("/api/config/", { cache: "no-store" })).json(); } catch { /* stays closed */ }
     if (!cfg.ready) { document.querySelector<HTMLElement>("[data-closed]")!.hidden = false; return; }
     document.querySelector<HTMLElement>("[data-pay]")!.hidden = false;
-    const s = document.createElement("script");
-    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(cfg.clientId)}&currency=EUR&intent=capture&components=buttons&enable-funding=card`;
-    s.onerror = () => showError("PayPal couldn't load. Please refresh the page, or check that an ad blocker isn't blocking it.");
-    s.onload = () => {
-      const paypal = (window as any).paypal;
-      paypal.Buttons({
-        style: { shape: "rect", color: "black", layout: "vertical", label: "pay", height: 48 },
-        onClick: (_: unknown, actions: any) => {
-          errEl.hidden = true;
-          if (!items().length) return actions.reject();
-          if (!form.reportValidity()) return actions.reject();
-          return actions.resolve();
-        },
-        createOrder: async () => {
-          const res = await fetch("/api/orders/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: read(), country: countryEl.value, vatNumber: countryEl.value !== "MT" ? vatEl.value : "" }) });
-          const out = await res.json();
-          if (!out.id) { showError(out.error || "Couldn't start the payment."); throw new Error(out.error); }
-          return out.id;
-        },
-        onApprove: async (data: { orderID: string }, actions: any) => {
-          const { customer, brief } = collect();
-          const res = await fetch("/api/capture/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID, customer, brief }) });
-          const out = await res.json();
-          if (out.retry) return actions.restart();
-          if (!out.ok) return showError(out.error || "The payment couldn't be completed. You have not been charged.");
-          const briefText = briefAsText();
-          try { sessionStorage.setItem("cs-receipt", JSON.stringify({ ...out, customer, briefText })); sessionStorage.removeItem(DRAFT); } catch { /* ignore */ }
-          clear();
-          location.href = "/order-confirmed/";
-        },
-        onCancel: () => showError("Payment cancelled. Your cart and brief are saved, so you can try again."),
-        onError: (err: unknown) => { console.error(err); if (errEl.hidden) showError("Something went wrong with PayPal. You have not been charged. Please try again."); },
-      }).render("#paypal-buttons");
-    };
-    document.head.append(s);
+    document.querySelector<HTMLElement>("[data-test]")!.hidden = !cfg.test;
   })();
+
+  document.querySelector<HTMLButtonElement>("[data-paybtn]")!.addEventListener("click", async (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    errEl.hidden = true;
+    if (!items().length || !form.reportValidity()) return;
+    const { customer, brief } = collect();
+    btn.disabled = true; btn.textContent = "Opening secure checkout…";
+    try {
+      const res = await fetch("/api/checkout/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: ids(), customer: { ...customer, vatNumber: countryEl.value !== "MT" ? vatEl.value : "" }, brief }) });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.url) throw new Error(out.error || "Payment couldn't be started. Please try again.");
+      location.href = out.url;
+    } catch (err) {
+      showError(err instanceof Error ? err.message : "Payment couldn't be started. Please try again.");
+      btn.disabled = false; btn.textContent = "Pay securely";
+    }
+  });
 </script>

@@ -22,6 +22,7 @@
     "@vercel/analytics": "2.0.1",
     "astro": "7.3.5",
     "nodemailer": "10.0.14",
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "stripe": "23.0.1"
   }
 }

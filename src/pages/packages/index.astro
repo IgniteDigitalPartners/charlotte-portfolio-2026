@@ -41,7 +41,7 @@ const ld = {
     <ol class="how" aria-label="How buying works">
       <li><span>i.</span><div><strong>Add to cart</strong><p>Choose one package or several.</p></div></li>
       <li><span>ii.</span><div><strong>Share your brief</strong><p>Answer a few questions so I can start straight away.</p></div></li>
-      <li><span>iii.</span><div><strong>Pay securely</strong><p>By card or PayPal. Your receipt and welcome email follow.</p></div></li>
+      <li><span>iii.</span><div><strong>Pay securely</strong><p>By card, Apple Pay or Google Pay. Packages from €150 start with a 50% deposit.</p></div></li>
     </ol>
   </div>
 
@@ -74,7 +74,7 @@ const ld = {
                   <div><dt>Revisions</dt><dd>{p.revisions}</dd></div>
                 </dl>
                 {p.monthly ? (
-                  <a class="btn btn-dark" href={`/packages/order/?package=${p.id}`}>Start a monthly plan<span class="sr-only">: {p.name}</span></a>
+                  <a class="btn btn-dark" href={`/checkout/?plan=${p.id}`}>Subscribe<span class="sr-only">: {p.name}</span></a>
                 ) : (
                   <button type="button" class={`btn add ${k === "social" && i === 1 ? "btn-light" : "btn-dark"}`} data-add={p.id} data-name={p.name}>Add to cart<span class="sr-only">: {p.name}</span></button>
                 )}

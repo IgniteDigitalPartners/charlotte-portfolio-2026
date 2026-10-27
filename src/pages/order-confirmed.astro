@@ -1,13 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
-import { site } from "../data/site";
 ---
 <Base title="Order Confirmed | Charlotte Smith" description="Thank you for your order." noindex>
   <section class="page-hero">
     <div class="wrap stack" style="gap: 20px; max-width: 760px;">
       <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Order confirmed</p>
       <h1 class="display" style="font-size: clamp(38px, 4.6vw, 64px);">Thank you<span data-first></span>, <span class="accent">it's all in hand.</span></h1>
-      <p class="lead" data-lead>Your payment is complete. Your PayPal receipt is on its way to your inbox.</p>
+      <p class="lead" data-lead>Checking your payment…</p>
       <div class="btn-row" data-actions>
         <a class="btn btn-line" href="/">Back to home</a>
       </div>
@@ -29,9 +28,7 @@ import { site } from "../data/site";
           <li>Delivery times start once I have everything needed.</li>
           <li>Your finished work arrives by email, with your included revisions.</li>
         </ol>
-        <div class="notice" data-fallback hidden role="note">
-          <span>Your payment went through, but your brief didn't reach my inbox. Please <a data-mailto href="#">email it to me</a> so I can get started. It's already written out for you.</span>
-        </div>
+
       </div>
     </div>
   </section>
@@ -51,44 +48,51 @@ import { site } from "../data/site";
   .next { margin: 0; padding-left: 20px; display: grid; gap: 10px; }
 </style>
 
-<script define:vars={{ email: site.email }}>
-  let r = null;
-  try { r = JSON.parse(sessionStorage.getItem("cs-receipt") || "null"); } catch { r = null; }
-  if (r && r.receipt) {
-    const first = (r.customer?.name || "").trim().split(/\s+/)[0];
-    if (first) document.querySelector("[data-first]").textContent = `, ${first}`;
-    document.querySelector("[data-lead]").textContent = r.emailed
-      ? `Your payment is complete. A welcome email with your receipt is on its way to ${r.customer.email}.`
-      : "Your payment is complete. PayPal has emailed your receipt, and I'll be in touch by email within one business day.";
-    const lines = document.querySelector("[data-lines]");
-    r.receipt.items.forEach((i) => {
-      const li = document.createElement("li");
-      const a = document.createElement("span"); a.textContent = i.name;
-      const d = document.createElement("small"); d.textContent = i.delivery; a.append(d);
-      const b = document.createElement("span"); b.textContent = `€${i.price}`;
-      li.append(a, b); lines.append(li);
-    });
-    const m = (n) => `€${Number.isInteger(n) ? n : Number(n).toFixed(2)}`;
-    [["Subtotal", r.receipt.subtotal], [r.receipt.vatLabel || "VAT", r.receipt.vat]].forEach(([k, v]) => {
-      if (v === undefined) return;
-      const li = document.createElement("li"); li.className = "sub";
-      const a = document.createElement("span"); a.textContent = k;
-      const b = document.createElement("span"); b.textContent = m(v);
-      li.append(a, b); lines.append(li);
-    });
-    document.querySelector("[data-total]").textContent = m(r.receipt.total);
-    document.querySelector("[data-meta]").textContent = `Order ${r.receipt.orderId} · PayPal transaction ${r.receipt.captureId} · ${r.receipt.date}. ${r.receipt.vatNote ? r.receipt.vatNote + " " : ""}Your VAT invoice will follow by email.`;
-    document.querySelector("[data-receipt]").hidden = false;
-    const actions = document.querySelector("[data-actions]");
-    (r.bookings || []).slice().reverse().forEach((b) => {
+<script>
+  const m = (n: number) => `€${Number.isInteger(n) ? n : Number(n).toFixed(2)}`;
+  const lead = document.querySelector<HTMLElement>("[data-lead]")!;
+  const id = new URLSearchParams(location.search).get("session_id") ?? "";
+
+  async function load(attempt = 0): Promise<void> {
+    let r: any = null;
+    try { r = await (await fetch(`/api/session/?id=${encodeURIComponent(id)}`, { cache: "no-store" })).json(); } catch { r = null; }
+    if (r && r.paid === false && attempt < 5) { setTimeout(() => load(attempt + 1), 2000); return; }
+    if (!r || !r.paid) {
+      lead.textContent = r && r.paid === false
+        ? "Your payment is still processing. You'll get a confirmation email as soon as it completes."
+        : "Thank you for your order. Your confirmation email is on its way.";
+      return;
+    }
+    // Paid: the cart and saved brief are no longer needed.
+    if (!r.receipt.monthly) { try { localStorage.removeItem("cs-cart-v1"); window.dispatchEvent(new CustomEvent("cart:change")); } catch { /* ignore */ } }
+    try { sessionStorage.removeItem("cs-checkout-draft"); } catch { /* ignore */ }
+
+    if (r.first) document.querySelector("[data-first]")!.textContent = `, ${r.first}`;
+    lead.textContent = `Your payment is complete. A welcome email with your receipt is on its way to ${r.email}.`;
+    const lines = document.querySelector("[data-lines]")!;
+    const li = (a: string, b: string, small = "", cls = "") => {
+      const n = document.createElement("li"); if (cls) n.className = cls;
+      const x = document.createElement("span"); x.textContent = a;
+      if (small) { const d = document.createElement("small"); d.textContent = small; x.append(d); }
+      const y = document.createElement("span"); y.textContent = b;
+      n.append(x, y); lines.append(n);
+    };
+    r.receipt.items.forEach((i: any) => li(
+      i.balance > 0 ? `${i.name}: 50% deposit` : i.name,
+      `${m(i.amount)}${i.monthly ? " / month" : ""}`,
+      i.balance > 0 ? `Balance ${m(i.balance)} + VAT invoiced on delivery` : i.monthly ? "Billed monthly. Cancel anytime." : i.delivery,
+    ));
+    li("Subtotal", m(r.receipt.subtotal), "", "sub");
+    li(r.receipt.vatLabel || "VAT", m(r.receipt.vat), "", "sub");
+    document.querySelector("[data-total]")!.textContent = m(r.receipt.total);
+    document.querySelector("[data-meta]")!.textContent = `Order ${r.receipt.orderId} · ${r.receipt.date}. ${r.receipt.vatNote ? r.receipt.vatNote + " " : ""}Your VAT invoice will follow by email.`;
+    document.querySelector<HTMLElement>("[data-receipt]")!.hidden = false;
+    const actions = document.querySelector("[data-actions]")!;
+    (r.bookings || []).slice().reverse().forEach((b: { url: string; label: string }) => {
       const a = document.createElement("a");
       a.className = "btn btn-gold"; a.href = b.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = b.label;
       actions.prepend(a);
     });
-    if (!r.briefSent) {
-      const body = `Order ${r.receipt.orderId}\n${r.customer?.name || ""}, ${r.customer?.business || ""}\n\n${r.briefText || ""}`;
-      document.querySelector("[data-mailto]").href = `mailto:${email}?subject=${encodeURIComponent("My brief for order " + r.receipt.orderId)}&body=${encodeURIComponent(body)}`;
-      document.querySelector("[data-fallback]").hidden = false;
-    }
   }
+  if (id) load(); else lead.textContent = "Thank you for your order.";
 </script>
