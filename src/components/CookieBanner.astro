@@ -1,0 +1,59 @@
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="cookie-inner">
+    <p>
+      I'd like to use Google Analytics cookies to understand how people find and use this site. They're only set if you say yes.{" "}
+      <a href="/privacy/#cookies">Read more</a>
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-sm btn-ghost" data-consent="denied">Decline</button>
+      <button type="button" class="btn btn-sm btn-gold" data-consent="granted">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = "cs-consent";
+    var banner = document.getElementById("cookie-banner");
+    function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    function clearGaCookies() {
+      var host = location.hostname.replace(/^www\./, "");
+      document.cookie.split(";").forEach(function (c) {
+        var name = c.split("=")[0].trim();
+        if (name === "_ga" || name.indexOf("_ga_") === 0) {
+          ["", "; domain=." + host, "; domain=" + host].forEach(function (d) {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+          });
+        }
+      });
+    }
+    function choose(v) {
+      save(v);
+      banner.hidden = true;
+      if (v === "granted") { window.csLoadGtag && window.csLoadGtag(); }
+      else {
+        if (window.gtag) gtag("consent", "update", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+        clearGaCookies();
+      }
+    }
+    banner.querySelectorAll("[data-consent]").forEach(function (b) {
+      b.addEventListener("click", function () { choose(b.getAttribute("data-consent")); });
+    });
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest && e.target.closest("[data-cookie-settings]");
+      if (t) { e.preventDefault(); banner.hidden = false; banner.querySelector("[data-consent='granted']").focus(); }
+    });
+    if (!read()) banner.hidden = false;
+  })();
+</script>
+
+<style>
+  .cookie-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 90; display: flex; justify-content: center; pointer-events: none; }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-inner { pointer-events: auto; max-width: 760px; width: 100%; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; background: var(--noir); color: var(--warm-white); border: 1px solid rgba(200, 169, 106, 0.45); border-radius: 2px; padding: 18px 22px; box-shadow: var(--shadow-lifted); }
+  .cookie-inner p { flex: 1 1 320px; font-size: 14px; line-height: 1.6; }
+  .cookie-inner a { color: var(--gold-light); text-underline-offset: 3px; }
+  .cookie-inner a:hover { color: var(--warm-white); }
+  .cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+</style>

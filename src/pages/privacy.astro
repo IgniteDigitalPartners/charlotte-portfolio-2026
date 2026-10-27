@@ -2,10 +2,10 @@
 import LegalPage from "../components/LegalPage.astro";
 import { site } from "../data/site";
 ---
-<LegalPage title="Privacy Policy | Charlotte Smith" heading="Privacy" accent="policy." path="/privacy/" updated="22 October 2026"
+<LegalPage title="Privacy Policy | Charlotte Smith" heading="Privacy" accent="policy." path="/privacy/" updated="27 October 2026"
   description="How Charlotte Smith collects, uses and protects your personal information when you visit this website, get in touch or place an order.">
   <h2>In short</h2>
-  <p>I only collect what I need to reply to you and deliver your work. I don't sell your information, and I don't use advertising or tracking cookies.</p>
+  <p>I only collect what I need to reply to you and deliver your work. I don't sell your information or use advertising cookies. Analytics cookies are only set if you agree to them.</p>
 
   <h2>Who is responsible</h2>
   <p>{site.legal.tradingName} is the data controller for information collected through this website. You can contact me about your data at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
@@ -21,11 +21,14 @@ import { site } from "../data/site";
   <p>If you book a call, Google Calendar records the time you choose and the details you enter.</p>
   <h3>Website visits</h3>
   <p>The site uses Vercel Web Analytics to count visits and popular pages. It doesn't use cookies or identify you personally. The hosting provider also keeps short-lived technical logs to keep the site secure.</p>
+  <h3 id="cookies">Google Analytics and cookies</h3>
+  <p>If you click "Accept" on the cookie banner, the site loads Google Analytics, which sets cookies (named <code>_ga</code> and <code>_ga_*</code>) to measure how visitors find and use the site, such as pages viewed, time on site, device type, approximate location and how you arrived. Google receives your IP address, which it uses to estimate location and does not store. I use this only for site statistics, not advertising. Lawful basis: your consent. Google Analytics cookies last up to 2 years.</p>
+  <p>If you decline, or don't choose, Google Analytics isn't loaded and no analytics cookies are set. You can change your mind at any time using <a href="#cookies" data-cookie-settings>Cookie settings</a>, also in the footer. Declining removes any Google Analytics cookies already set. Google's <a href="https://policies.google.com/privacy" rel="noopener">privacy policy</a> explains how Google handles this data.</p>
   <h3>Your cart</h3>
   <p>Your cart and checkout draft are saved in your own browser so they aren't lost if you leave the page. They stay on your device and you can clear them at any time.</p>
 
   <h2>Who I share it with</h2>
-  <p>Only the services needed to run the business: Vercel (website hosting), Google Workspace (email and calendar), Stripe (payments) and the EU VIES service (to check VAT numbers). Some of these providers process data outside the EU, under safeguards such as the EU Standard Contractual Clauses or the EU-US Data Privacy Framework. I also share information with my accountant where needed for tax purposes.</p>
+  <p>Only the services needed to run the business: Vercel (website hosting), Google Workspace (email and calendar), Google Analytics (site statistics, only with your consent), Stripe (payments) and the EU VIES service (to check VAT numbers). Some of these providers process data outside the EU, under safeguards such as the EU Standard Contractual Clauses or the EU-US Data Privacy Framework. I also share information with my accountant where needed for tax purposes.</p>
 
   <h2>How long I keep it</h2>
   <ul>

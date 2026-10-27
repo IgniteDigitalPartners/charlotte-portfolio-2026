@@ -10,6 +10,7 @@ import "@fontsource/pinyon-script/400.css";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 import { site } from "../data/site";
 
 interface Props {
@@ -57,14 +58,23 @@ import Analytics from "@vercel/analytics/astro";
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-H05LQRNZWT"></script>
+    <!-- Google tag (gtag.js), loaded only after cookie consent -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-H05LQRNZWT');
+      gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      window.csLoadGtag = function () {
+        if (window.csGtagLoaded) return;
+        window.csGtagLoaded = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H05LQRNZWT';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-H05LQRNZWT');
+      };
+      try { if (localStorage.getItem('cs-consent') === 'granted') window.csLoadGtag(); } catch (e) {}
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -108,6 +118,7 @@ import Analytics from "@vercel/analytics/astro";
       <slot />
     </main>
     <Footer />
+    <CookieBanner />
     <script>
       const els = document.querySelectorAll<HTMLElement>(".reveal");
       if ("IntersectionObserver" in window) {
