@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { mailReady, notifyAddress, send } from "../../lib/mail";
+import { mailReady, notifyAddress, send, shell, signatureText } from "../../lib/mail";
 
 export const prerender = false;
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { "Content-Type": "application/json" } });
@@ -24,10 +24,10 @@ export const POST: APIRoute = async ({ request }) => {
 
   const rows = Object.keys(LABELS).map((k) => [LABELS[k], v(k)] as const).filter(([, x]) => x);
   const subject = isOrder ? `Order brief from ${name}${v("package") ? `: ${v("package")}` : ""}` : `New enquiry from ${name}`;
-  const html = `<div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#3B3A38;"><h2 style="font-family:Georgia,serif;font-weight:400;">${esc(subject)}</h2><table cellpadding="0" cellspacing="0">${rows
+  const html = shell(`<h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 14px;">${esc(subject)}</h1><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;">${rows
     .map(([k, x]) => `<tr><td style="padding:6px 14px 6px 0;color:#9B9590;vertical-align:top;white-space:nowrap;">${esc(k)}</td><td style="padding:6px 0;white-space:pre-wrap;">${esc(x)}</td></tr>`)
-    .join("")}</table></div>`;
-  const text = rows.map(([k, x]) => `${k}: ${x}`).join("\n");
+    .join("")}</table>`);
+  const text = rows.map(([k, x]) => `${k}: ${x}`).join("\n") + "\n" + signatureText;
 
   try {
     await send(notifyAddress(), { subject, html, text }, email);
@@ -39,6 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
   const first = name.split(/\s+/)[0];
   const ack = `Thank you, ${first}.\n\nYour ${isOrder ? "order brief" : "message"} has reached me and I'll reply personally within one business day.\n\nWarmly,\nCharlotte`;
   // Awaited so the serverless function doesn't exit before the email is sent.
-  await send(email, { subject: "Thank you for getting in touch | Charlotte Smith", text: ack, html: `<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#3B3A38;">${esc(ack).replace(/\n/g, "<br>")}</div>` }).catch((e) => console.error("Ack failed", e));
+  const ackHtml = shell(`<h1 style="font-family:Georgia,'Playfair Display',serif;font-weight:400;font-size:30px;margin:0 0 16px;color:#3B3A38;">Thank you, ${esc(first)}.</h1><p style="margin:0 0 18px;">Your ${isOrder ? "order brief" : "message"} has reached me and I'll reply personally within one business day.</p><p style="margin:18px 0 0;">Warmly,<br>Charlotte</p>`);
+  await send(email, { subject: "Thank you for getting in touch | Charlotte Smith", text: ack + "\n" + signatureText, html: ackHtml }).catch((e) => console.error("Ack failed", e));
   return json({ ok: true });
 };

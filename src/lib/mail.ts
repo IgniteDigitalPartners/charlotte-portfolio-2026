@@ -25,11 +25,28 @@ export interface Links { payment?: string; balanceInvoice?: string; portal?: str
 const lineName = (l: Line) => (l.balance > 0 ? `${l.name}: 50% deposit` : l.name);
 const lineNote = (l: Line) => (l.balance > 0 ? `Deposit on ${fmt(l.price)}. Balance of ${fmt(l.balance)} + VAT invoiced on delivery.` : l.monthly ? "Billed monthly. Cancel anytime." : l.delivery);
 
-const shell = (inner: string) => `<!doctype html><html><body style="margin:0;background:#F7F3EE;padding:32px 12px;font-family:Montserrat,Helvetica,Arial,sans-serif;color:#3B3A38;">
+// Branded email signature (matches public/email/signature.html). Images load from the live site.
+const SEP = `<span style="color:#C8A96A;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>`;
+const sigLink = (href: string, label: string) => `<a href="${href}" style="color:#A88566;text-decoration:none;">${label}</a>`;
+export const signatureHtml = `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;margin-top:28px;">
+<tr><td style="padding:0;"><a href="https://www.bycharlottesmith.com/" style="text-decoration:none;"><img src="https://www.bycharlottesmith.com/email/signature-card.jpg" width="480" height="132" alt="Charlotte Smith, Brand &amp; Marketing Consultant" style="display:block;width:480px;max-width:100%;height:auto;border:0;"></a></td></tr>
+<tr><td style="padding:12px 0 0 2px;font-size:12px;line-height:18px;color:#6B6560;"><a href="mailto:${site.email}" style="color:#6B6560;text-decoration:none;">${site.email}</a>${SEP}<a href="https://www.bycharlottesmith.com/" style="color:#6B6560;text-decoration:none;">bycharlottesmith.com</a></td></tr>
+<tr><td style="padding:6px 0 0 2px;font-size:10px;line-height:14px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;">${sigLink(site.sameAs[0], "LinkedIn")}${SEP}${sigLink(site.sameAs[3], "Facebook")}${SEP}${sigLink(site.sameAs[2], "Upwork")}${SEP}${sigLink("https://www.bycharlottesmith.com/packages/", "Packages")}</td></tr>
+</table>`;
+export const signatureText = [
+  "",
+  "--",
+  "Charlotte Smith",
+  "Brand & Marketing Consultant",
+  `${site.email} | bycharlottesmith.com`,
+  `LinkedIn: ${site.sameAs[0]}`,
+  `Facebook: ${site.sameAs[3]}`,
+].join("\n");
+
+export const shell = (inner: string) => `<!doctype html><html><body style="margin:0;background:#F7F3EE;padding:32px 12px;font-family:Montserrat,Helvetica,Arial,sans-serif;color:#3B3A38;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FBFAF7;border:1px solid #E6D7B8;border-radius:6px;">
-<tr><td style="background:#1D1B1A;padding:26px 36px;border-radius:6px 6px 0 0;"><span style="font-family:Georgia,'Playfair Display',serif;font-size:24px;color:#D9C49A;">Charlotte Smith</span><br><span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#CFC6BC;">Marketing consultant</span></td></tr>
-<tr><td style="padding:36px;font-size:15px;line-height:1.65;">${inner}</td></tr>
+<tr><td style="padding:36px;font-size:15px;line-height:1.65;">${inner}${signatureHtml}</td></tr>
 <tr><td style="padding:22px 36px;border-top:1px solid #EFE6DD;font-size:12px;color:#9B9590;">${esc(site.legal.tradingName)}${site.legal.vatNumber ? ` · VAT ${esc(site.legal.vatNumber)}` : ""} · ${esc(site.email)}</td></tr>
 </table></td></tr></table></body></html>`;
 
@@ -87,7 +104,7 @@ ${bookings.map((b) => `<p style="margin:0 0 12px;"><a href="${esc(b.url)}" style
     ...bookings.flatMap((b) => [`${b.label}: ${b.url}`, ""]),
     "Warmly,",
     "Charlotte",
-  ].join("\n");
+  ].join("\n") + "\n" + signatureText;
   return { subject: "Your order is confirmed | Charlotte Smith", html, text };
 }
 
@@ -111,7 +128,7 @@ ${brief.map((s) => `<h2 style="font-size:11px;letter-spacing:3px;text-transform:
     ...(links.balanceInvoice ? [`Balance invoice drafted (${fmt(r.balance ?? 0)} + VAT). Send it on delivery: ${links.balanceInvoice}`] : []),
     ...(links.payment ? [`Stripe: ${links.payment}`] : []),
     ...brief.flatMap((s) => ["", s.section.toUpperCase(), ...s.answers.map((a) => `${a.label}: ${a.value || "(not answered)"}`)]),
-  ].join("\n");
+  ].join("\n") + "\n" + signatureText;
   return { subject: `New ${r.monthly ? "subscription" : "order"} from ${c.name}: ${items.map((p) => p.name).join(", ")}`, html, text };
 }
 
