@@ -11,7 +11,7 @@ export const site = {
     call60: "https://calendar.app.google/QxVDQtkszCBnBpHS8",
   },
   // LinkedIn profile URL: the footer link appears once this is set.
-  linkedin: "https://www.linkedin.com/in/charlotte-smith-marketing/",
+  linkedin: "https://www.linkedin.com/in/bycharlottesmith/",
   // Online Stripe checkout. Also needs the Stripe keys + webhook secret in Vercel; until then
   // clients can still order by brief and receive a payment link by email.
   checkoutOpen: true,
@@ -23,10 +23,10 @@ export const site = {
     country: "Malta",
   },
   sameAs: [
-    "https://www.linkedin.com/in/charlotte-smith-marketing/",
+    "https://www.linkedin.com/in/bycharlottesmith/",
     "https://pro.fiverr.com/sellers/charlyatignite/",
     "https://www.upwork.com/freelancers/charlottesmith211708",
-    "https://www.facebook.com/charlotte.smith.digitalmarketing",
+    "https://www.facebook.com/bycharlottesmith.marketing/",
   ],
 };
 
