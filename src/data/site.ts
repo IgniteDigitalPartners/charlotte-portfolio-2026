@@ -25,7 +25,7 @@ export const site = {
   sameAs: [
     "https://www.linkedin.com/in/bycharlottesmith/",
     "https://pro.fiverr.com/sellers/charlyatignite/",
-    "https://www.upwork.com/freelancers/charlottesmith211708",
+    "https://www.upwork.com/freelancers/bycharlottesmith",
     "https://www.facebook.com/bycharlottesmith.marketing/",
   ],
 };
