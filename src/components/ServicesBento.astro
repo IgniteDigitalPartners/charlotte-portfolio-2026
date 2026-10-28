@@ -15,7 +15,7 @@ const { showHeader = true } = Astro.props;
       <a class="tile social" href="/services/social-media/">
         <div class="tile-txt">
           <span class="kicker">From €45</span>
-          <div><h3>Social media</h3><p>Branded posts, carousels and templates, or full monthly management.</p></div>
+          <div><h3>Social media</h3><p>Branded posts, carousels and templates, or full monthly management.</p><p class="explain">Regular, on-brand posts that keep your business visible and bring followers back.</p></div>
         </div>
         <div class="feed" aria-hidden="true">
           <span class="p blush serif">Behind the scenes</span><span class="p gold"></span><span class="p ivory it">Offer</span>
@@ -25,30 +25,30 @@ const { showHeader = true } = Astro.props;
       </a>
       <a class="tile marble" href="/services/brand-strategy-identity/">
         <div class="vis brandvis" aria-hidden="true"><span class="aa">Aa</span><span class="dots"><i style="background:#1D1B1A"></i><i style="background:#C8A96A"></i><i style="background:#FBFAF7"></i></span></div>
-        <div><h3>Brand identity</h3><p>Logos, colours &amp; brand guides</p></div>
+        <div><h3>Brand identity</h3><p>Logos, colours &amp; brand guides</p><p class="explain">How your business looks and feels everywhere, so people recognise and trust you.</p></div>
       </a>
       <a class="tile gold" href="/services/website-design/">
         <div class="vis" aria-hidden="true"><div class="browser"><div class="bar"><i></i><i></i><i></i></div><div class="body"><b></b><s></s><u></u></div></div></div>
-        <div><h3>Websites</h3><p>Design, builds &amp; updates</p></div>
+        <div><h3>Websites</h3><p>Design, builds &amp; updates</p><p class="explain">A site that explains what you do and makes it easy to contact or buy from you.</p></div>
       </a>
       <a class="tile plain" href="/services/seo/">
         <div class="vis" aria-hidden="true"><div class="search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A88566" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-5-5"></path></svg>best café near me</div></div>
-        <div><h3>SEO</h3><p>Get found on Google</p></div>
+        <div><h3>SEO</h3><p>Get found on Google</p><p class="explain"><abbr title="Search engine optimisation">SEO</abbr> means search engine optimisation: helping you show up when people search.</p></div>
       </a>
       <a class="tile satin" href="/services/paid-advertising/">
         <div class="vis" aria-hidden="true"><div class="ad"><small>Sponsored</small><div class="adimg"></div><div class="adrow"><s></s><em>Learn more</em></div></div></div>
-        <div><h3>Paid ads</h3><p>Meta &amp; Google campaigns</p></div>
+        <div><h3>Paid ads</h3><p>Meta &amp; Google campaigns</p><p class="explain">Paid adverts on Facebook and Instagram (Meta) and Google, shown to likely customers.</p></div>
       </a>
       <a class="tile plain" href="/services/email-marketing-crm/">
         <div class="vis inbox" aria-hidden="true"><span class="on">Welcome to the studio</span><span>Your monthly update</span></div>
-        <div><h3>Email &amp; CRM</h3><p>Newsletters &amp; automations</p></div>
+        <div><h3>Email &amp; CRM</h3><p>Newsletters &amp; automations</p><p class="explain"><abbr title="Customer relationship management">CRM</abbr> means customer relationship management: one tidy place for your contacts and follow-ups.</p></div>
       </a>
       <a class="tile plain" href="/services/marketing-strategy-consultancy/">
         <div class="vis road" aria-hidden="true"><i class="f"></i><s></s><i class="g"></i><s></s><i></i><s></s><i></i></div>
-        <div><h3>Strategy</h3><p>Plans &amp; 1:1 sessions from €95</p></div>
+        <div><h3>Strategy</h3><p>Plans &amp; 1:1 sessions from €95</p><p class="explain">A clear plan for where to spend your time and budget, and what to do first.</p></div>
       </a>
       <a class="tile plain wide" href="/services/b2b-lead-generation/">
-        <div><h3>B2B lead generation</h3><p>LinkedIn, outreach &amp; follow-up, from €79</p></div>
+        <div><h3>B2B lead generation</h3><p>LinkedIn, outreach &amp; follow-up, from €79</p><p class="explain"><abbr title="Business to business">B2B</abbr> means business to business: finding and contacting companies that could become your clients.</p></div>
         <div class="vis li" aria-hidden="true"><i></i><div><b></b><s></s></div><em>Connect</em></div>
       </a>
     </div>
@@ -67,6 +67,9 @@ const { showHeader = true } = Astro.props;
   .tile:focus-visible { outline: 2px solid var(--bronze); outline-offset: 4px; }
   .tile h3 { font-size: 28px; font-weight: 500; margin-bottom: 4px; }
   .tile p { font-size: 15px; }
+  .tile .explain { margin-top: 8px; font-size: 13px; line-height: 1.55; opacity: 0.78; max-width: 34ch; }
+  .tile .explain abbr { text-decoration: none; font-weight: 500; }
+  .social .explain { color: #E9E2DB; font-size: 14px; max-width: 40ch; }
   .plain { background: var(--white); border: 1px solid var(--gold-edge); }
   .marble { background: #F6EFEC url("../assets/textures/rose-marble.webp") center / cover no-repeat; }
   .gold { background: linear-gradient(150deg, #F1E1BE 0%, #D9BE84 45%, #C8A96A 70%, #E8D3A2 100%); color: #2E2A26; }
