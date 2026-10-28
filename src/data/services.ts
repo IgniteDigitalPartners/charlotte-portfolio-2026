@@ -84,7 +84,7 @@ export const services: Service[] = [
     short: "A clear plan, the right channels and an experienced eye on what matters.",
     metaTitle: "Marketing Consultant | Strategy Sessions & Plans | Charlotte Smith",
     metaDescription:
-      "Marketing strategy and consultancy from a consultant with 9+ years' experience. Book a €95 strategy session or a full marketing plan.",
+      "Marketing strategy and consultancy from a consultant with 10+ years' experience. Book a €95 strategy session or a full marketing plan.",
     intro: [
       "Most businesses don't need more marketing. They need the right marketing, in the right order. I help you decide where to focus and what to stop doing.",
       "Book a single strategy session for a clear action list, or work with me on a full plan with channels, content and measurement.",
