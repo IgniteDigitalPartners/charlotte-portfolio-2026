@@ -30,13 +30,20 @@ educational tips, holidays, awareness days and months, and the digital marketing
 - Instagram 8 to 14 hashtags; LinkedIn 3 to 5; Facebook 2 to 4; GBP none (keywords in text, under 1500 chars).
 - TikTok is personal in voice (lowercase, mum-of-four-running-a-business humour, never name or show the children) but branded in look: render with `python3 tiktok_v2.py <date>` and set its PLAN theme/image per date (alternate noir/ivory; mix brand/charlotte_cut.png with brand/work_*.png).
 
-## Look
-Noir (#111) and ivory (#F5F0E7) with champagne gold (#C9A45F), Lora headings, Inter body,
-metal-gold CS monogram. render.py handles all templates.
+## Look (v2, from batch b2)
+Use `render2.py` for everything except TikTok (tiktok_v2.py). Textured noir marble, cream satin and blush backgrounds,
+Charlotte's cut-out photos (brand/cut_*.png) standing in a gold arch, real client work (brand/work_*.png, dar-packaging.jpg)
+in tilted gold frames, CS monogram, Lora headings, Inter body.
+- Posts and carousels: photo or work layout on the cover, numbered step slides inside, photo CTA on the last slide.
+- Instagram Stories: 8s animated MP4 (not stills).
+- Reels: animated text with photo or work card, end card with Charlotte in the arch.
+- GBP: text left, photo or work card right.
+- Sombre days (Movember, Remembrance, Diwali): type-only layout, no selling photo.
+`choose()` in render2.py maps topics to images (websites/SEO -> web work, social/templates -> social work, brand -> brand work, otherwise photos).
 
 ## How to run a batch
 1. Edit `content.py` with the new dates (same structure).
-2. `python3 render.py` (or one date at a time in parallel: `python3 render.py 2026-11-13`), then rebuild manifest.
+2. `python3 render2.py <date>` per date in parallel (max 7), then build out2/manifest.json (see payloads.py), plus `python3 tiktok_v2.py <date>` for TikTok.
 3. Copy `out/*.jpg out/*.mp4` to `public/social/<batch>/`, commit, push to main, wait for the Vercel deploy.
-4. `python3 payloads.py <batch>` then call Metricool createScheduledPost for each entry in calls.json.
+4. `python3 payloads.py <batch> +01:00 out2` then call Metricool createScheduledPost for each entry in calls.json.
 5. Re-check with getScheduledPosts that every day and network above is covered.
