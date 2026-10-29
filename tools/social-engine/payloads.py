@@ -6,11 +6,13 @@ import content
 
 batch = sys.argv[1]
 HERE = os.path.dirname(os.path.abspath(__file__))
-m = {x["idx"]: x for x in json.load(open(os.path.join(HERE, "out", "manifest.json")))}
+MAN = sys.argv[3] if len(sys.argv) > 3 else "out"
+m = {x["idx"]: x for x in json.load(open(os.path.join(HERE, MAN, "manifest.json")))}
 BASE = f"https://www.bycharlottesmith.com/social/{batch}/"
 OFFSET = sys.argv[2] if len(sys.argv) > 2 else "+01:00"  # Malta: +01:00 winter, +02:00 summer
 calls = []
 for i, p in enumerate(content.P):
+    if i not in m: continue
     files = m[i]["files"]; media = [BASE + f for f in files]; net = p["net"]
     info = dict(autoPublish=True, draft=False, descendants=[], firstCommentText="", hasNotReadNotes=False,
                 shortener=False, smartLinkData={"ids": []}, media=media, mediaAltText=[],
