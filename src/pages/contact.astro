@@ -13,15 +13,16 @@ import { site } from "../data/site";
       <div class="stack" style="gap: 22px;">
         <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Contact</p>
         <h1 class="display">Let's start <span class="accent">a conversation.</span></h1>
-        <p class="lead">Tell me about your project, the support you need or a package you'd like. I'll reply personally with clear next steps.</p>
+        <p class="lead">Start with a free enquiry. Tell me about your business and what you need, and I'll reply personally with clear next steps. No charge, no obligation.</p>
         <dl class="details">
           <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
           <div><dt>Clients</dt><dd>Working with businesses worldwide, online</dd></div>
+          <div><dt>Prefer to talk?</dt><dd><a href="/packages/#calls">Book a call</a> from €45</dd></div>
           <div><dt>Prefer a fixed price?</dt><dd><a href="/packages/">Browse packages</a></dd></div>
         </dl>
       </div>
       <div class="card" style="padding: clamp(24px, 4vw, 44px);">
-        <h2 class="h3" style="margin-bottom: 24px;">Send an enquiry</h2>
+        <h2 class="h3" style="margin-bottom: 24px;">Start a free enquiry</h2>
         <EnquiryForm mode="contact" id="contact-form" />
       </div>
     </div>

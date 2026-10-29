@@ -4,29 +4,46 @@ import Base from "../layouts/Base.astro";
 import Ticker from "../components/Ticker.astro";
 import LogoStrip from "../components/LogoStrip.astro";
 import ServicesBento from "../components/ServicesBento.astro";
-import PackageTeaser from "../components/PackageTeaser.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import CtaBand from "../components/CtaBand.astro";
+import WaysToWork from "../components/WaysToWork.astro";
+import EnquiryForm from "../components/EnquiryForm.astro";
 import { site } from "../data/site";
 import { projects } from "../data/projects";
 import hero from "../assets/photos/charlotte-smith-linen-dress.webp";
 import intro from "../assets/photos/charlotte-smith-white-dress.webp";
 import marble from "../assets/textures/noir-marble.webp";
+import gcgBanner from "../assets/work/gcg-banner.webp";
+import rockon from "../assets/work/rockon-showcase.webp";
+import vertuiPoster from "../assets/work/vertui-cover-poster.webp";
+import { testimonials } from "../data/testimonials";
 
-const work = ["general-copper-gold", "maltamove", "dar-il-fwieha"].map((s) => projects.find((p) => p.slug === s)!);
+const find = (slug: string) => projects.find((p) => p.slug === slug)!;
+const vertui = find("vertui");
+const work = [
+  { p: find("general-copper-gold"), img: gcgBanner, cat: "Mining · TSX-V listed", line: "Brand system & investor deck", alt: "General Copper Gold brand visual" },
+  { p: find("roc-kon-concrete"), img: rockon, cat: "Construction · Canada", line: "Social strategy & content", alt: "Roc-Kon Concrete branded social media content" },
+];
+const why = [
+  { t: "Direct access", d: "No account managers or hand-offs." },
+  { t: "Strategy & making", d: "I plan it and I create it." },
+  { t: "Cross-sector", d: "SaaS, capital markets, property, construction, consumer." },
+  { t: "Honest pricing", d: "Published prices and agreed timings." },
+];
 ---
 <Base title={site.title} description={site.description}>
   <!-- Hero -->
   <section class="hero" aria-labelledby="hero-title" style={`background-image: url(${marble.src});`}>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow rise"><span class="rule" aria-hidden="true"></span>Marketing consultant</p>
-        <h1 id="hero-title" class="rise d1">Marketing that helps your business <span class="foil">shine.</span></h1>
-        <p class="sub rise d2">Social media, branding, websites, SEO, ads and lead generation for growing businesses, wherever they are.</p>
+        <p class="eyebrow rise"><span class="rule" aria-hidden="true"></span>Independent marketing consultant</p>
+        <h1 id="hero-title" class="rise d1">Clear strategy. Polished brand. <span class="foil">Real growth.</span></h1>
+        <p class="sub rise d2">Senior marketing for ambitious businesses, working directly with me.</p>
         <div class="btn-row rise d3">
-          <a class="btn btn-gold" href="/packages/">See packages from €45</a>
-          <a class="btn btn-ghost" href="/contact/">Book a call</a>
+          <a class="btn btn-gold" href="/contact/">Start a free enquiry</a>
+          <a class="btn btn-ghost" href="/services/">Explore my services</a>
         </div>
+        <ul class="proof rise d4" aria-label="At a glance">
+          <li>10+ years in marketing</li><li>Listed companies to local brands</li><li>Packages from €45</li>
+        </ul>
       </div>
 
       <div class="collage fade-in">
@@ -70,9 +87,68 @@ const work = ["general-copper-gold", "maltamove", "dar-il-fwieha"].map((s) => pr
 
   <Ticker />
   <LogoStrip />
-  <ServicesBento />
+  <WaysToWork />
+  <ServicesBento compact />
 
-  <!-- Intro -->
+  <!-- Why work with me -->
+  <section class="why-sec section-tight" aria-labelledby="why-title">
+    <div class="wrap">
+      <h2 id="why-title" class="h2" style="font-weight: 400; margin-bottom: 44px;">Why clients <span class="accent">work with me.</span></h2>
+      <ul class="why">
+        {why.map((w) => <li class="reveal"><h3>{w.t}</h3><p>{w.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Selected work -->
+  <section class="section work dark" aria-labelledby="work-title">
+    <div class="wrap stack-lg">
+      <div class="head-row">
+        <h2 id="work-title" class="h2" style="font-weight: 400;">Selected <span class="accent">work.</span></h2>
+        <a class="textlink" href="/work/"><span>View all projects</span></a>
+      </div>
+      <article class="wcard feature reveal">
+        <a href={`/work/${vertui.slug}/`} class="wmedia" tabindex="-1" aria-hidden="true">
+          <video src="/video/vertui-cover.mp4" poster={vertuiPoster.src} autoplay muted loop playsinline preload="metadata" width="850" height="314"></video>
+        </a>
+        <div class="wcap">
+          <div><p class="cat">Horticulture · Product launch</p><h3><a href={`/work/${vertui.slug}/`}>Vertui Horticulture</a></h3></div>
+          <p class="line">Brand, website &amp; launch strategy</p>
+        </div>
+      </article>
+      <div class="grid-2 wgrid">
+        {work.map((w) => (
+          <article class="wcard reveal">
+            <a href={`/work/${w.p.slug}/`} class="wmedia" tabindex="-1" aria-hidden="true">
+              <Image src={w.img} alt={w.alt} widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 600px" />
+            </a>
+            <div class="wcap">
+              <div><p class="cat">{w.cat}</p><h3><a href={`/work/${w.p.slug}/`}>{w.p.client.replace(" Corp.", "")}</a></h3></div>
+              <p class="line">{w.line}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {testimonials.length > 0 && (
+    <section class="section quotes texture-satin" aria-labelledby="quotes-title">
+      <div class="wrap stack-lg">
+        <h2 id="quotes-title" class="h2" style="font-weight: 400;">In their <span class="accent">own words.</span></h2>
+        <div class="grid-3">
+          {testimonials.map((t) => (
+            <figure class="card quote">
+              <blockquote>{t.quote}</blockquote>
+              <figcaption><b>{t.name}</b>{t.role || t.company ? ` · ${[t.role, t.company].filter(Boolean).join(", ")}` : ""}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- About -->
   <section class="intro" aria-labelledby="intro-title">
     <div class="wrap intro-grid">
       <div class="intro-photo reveal">
@@ -82,27 +158,33 @@ const work = ["general-copper-gold", "maltamove", "dar-il-fwieha"].map((s) => pr
       <div class="stack reveal" style="gap: 20px;">
         <p class="eyebrow">About me</p>
         <h2 id="intro-title" class="h2" style="font-weight: 400;">Hi, I'm <span class="accent">Charlotte.</span></h2>
-        <p class="lead" style="max-width: 560px;">I've spent 10+ years in marketing, across brand, social, websites, campaigns, email and CRM. I bring strategy and design together so your marketing looks polished and works hard to bring in enquiries.</p>
+        <p class="lead" style="max-width: 560px;">For more than ten years I've helped businesses look polished, sound clear and grow, from a first logo to full lead generation.</p>
+        <p style="max-width: 560px;">From SaaS to listed companies to local brands, I bring strategy and design together, so your marketing feels like one brand everywhere.</p>
         <div class="btn-row"><a class="btn btn-dark" href="/about/">More about me</a></div>
       </div>
     </div>
   </section>
 
-  <!-- Selected work -->
-  <section class="section work" aria-labelledby="work-title">
-    <div class="wrap stack-lg">
-      <div class="head-row">
-        <h2 id="work-title" class="h2" style="font-weight: 400;">Selected <span class="accent">work</span></h2>
-        <a class="textlink" href="/work/"><span>View all projects</span></a>
+  <!-- Free enquiry -->
+  <section class="enquire" id="enquire" aria-labelledby="enq-title" style={`background-image: url(${marble.src});`}>
+    <div class="wrap enq-grid">
+      <div class="enq-copy">
+        <h2 id="enq-title" class="big">Let's grow your business, <span class="foil">together.</span></h2>
+        <ol class="steps">
+          <li><span>01</span>Send a free enquiry</li>
+          <li><span>02</span>Get a personal reply with next steps</li>
+          <li><span>03</span>Agree the scope, then we begin</li>
+        </ol>
+        <p class="alt">Prefer to talk? <a href="/packages/#calls">Book a call</a> from €45.</p>
+        <p class="alt">Or email <a href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
-      <div class="grid-3">
-        {work.map((p) => <div class="reveal"><ProjectCard project={p} /></div>)}
+      <div class="card enq-card">
+        <h3 class="h3">Start a free enquiry</h3>
+        <p class="muted" style="margin: 6px 0 24px; font-size: 14px;">No charge, no obligation.</p>
+        <EnquiryForm mode="contact" id="home-form" />
       </div>
     </div>
   </section>
-
-  <PackageTeaser />
-  <CtaBand />
 </Base>
 
 <style>
@@ -160,4 +242,43 @@ const work = ["general-copper-gold", "maltamove", "dar-il-fwieha"].map((s) => pr
   .intro-photo img { position: relative; width: 340px; height: auto; -webkit-mask-image: linear-gradient(180deg, #000 85%, transparent); mask-image: linear-gradient(180deg, #000 85%, transparent); }
   @media (max-width: 860px) { .intro-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } .intro-photo img { width: 260px; } .disc { width: 250px; height: 250px; } }
   .work { background: var(--ivory); }
+
+  .proof { list-style: none; margin: 4px 0 0; padding: 22px 0 0; border-top: 1px solid rgba(232, 211, 162, 0.22); display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 14px; color: #E4DDD5; }
+  .proof li { display: inline-flex; align-items: center; }
+  .proof li:not(:last-child)::after { content: "✦"; color: var(--champagne); font-size: 10px; margin: 0 12px; }
+  .why-sec { background: var(--linen); }
+  .why { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .why li { border-top: 1px solid var(--champagne); padding-top: 20px; }
+  .why h3 { font-size: 22px; font-weight: 400; margin-bottom: 6px; }
+  .why p { font-size: 15px; color: #5E5853; }
+  @media (max-width: 960px) { .why { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .why { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+  .work.dark { background: var(--noir); }
+  .wcard { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200, 169, 106, 0.3); background: var(--white); box-shadow: 0 22px 44px rgba(0, 0, 0, 0.3); transition: transform 480ms var(--ease); }
+  .wcard:hover { transform: translateY(-4px); }
+  .wmedia { display: block; aspect-ratio: 850 / 314; overflow: hidden; background: var(--noir); }
+  .wmedia video, .wmedia img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease); }
+  .wcard:hover .wmedia img { transform: scale(1.03); }
+  .wcap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; padding: 22px 26px; }
+  .wcap .cat { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bronze-text); margin-bottom: 6px; }
+  .wcap h3 { font-size: 26px; font-weight: 400; color: var(--charcoal) !important; }
+  .wcap h3 a { color: inherit !important; text-decoration: none; }
+  .wcap h3 a::after { content: ""; position: absolute; inset: 0; }
+  .wcap .line { font-size: 14px; color: #5E5853; }
+  .wgrid { gap: 24px; }
+  .quote { margin: 0; padding: 36px 32px; display: grid; gap: 18px; }
+  .quote blockquote { margin: 0; font-family: var(--italic); font-style: italic; font-size: 22px; line-height: 1.45; }
+  .quote figcaption { font-size: 14px; color: #5E5853; }
+  .enquire { background-color: var(--noir); background-size: cover; background-position: center; color: var(--ivory); padding-block: clamp(72px, 9vw, 120px); border-top: 1px solid rgba(200, 169, 106, 0.35); }
+  .enq-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; }
+  .big { font-family: var(--serif); font-weight: 400; font-size: clamp(38px, 5vw, 68px); line-height: 1.02; letter-spacing: -0.02em; color: var(--ivory); }
+  .big .foil { font-family: var(--italic); font-style: italic; font-weight: 500; }
+  .steps { list-style: none; margin: 36px 0 28px; padding: 0; border-top: 1px solid rgba(232, 211, 162, 0.22); }
+  .steps li { display: flex; gap: 18px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid rgba(232, 211, 162, 0.22); font-size: 16px; color: var(--ivory); }
+  .steps span { font-family: var(--serif); color: var(--champagne); font-size: 15px; }
+  .alt { font-size: 15px; color: #E4DDD5; margin-top: 8px; }
+  .alt a { color: var(--gold-light); text-underline-offset: 4px; overflow-wrap: anywhere; }
+  .enq-card { padding: clamp(24px, 4vw, 44px); }
+  @media (max-width: 960px) { .enq-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  @media (max-width: 600px) { .hero .btn-row .btn { width: 100%; } .proof { font-size: 13px; flex-direction: column; gap: 6px; } .proof li:not(:last-child)::after { display: none; } .wcap { padding: 18px 20px; } }
 </style>

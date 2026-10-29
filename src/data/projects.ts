@@ -35,13 +35,13 @@ export const projects: Project[] = [
   {
     slug: "dar-il-fwieha",
     client: "Dar il-Fwieħa",
-    category: "Brand identity · Logo · Packaging direction",
+    category: "Concept project · Brand identity · Packaging",
     services: ["brand-strategy-identity"],
-    summary: "A luxury brand identity, monogram and packaging for a house of fragrance.",
+    summary: "A self-initiated concept: a luxury brand identity, monogram and packaging for a house of fragrance.",
     cover: { media: local(darPackaging), alt: "Dar il-Fwieħa packaging: black gift boxes, card, candle and ribbon with the gold DF monogram" },
     tone: "espresso",
     brief: [
-      "I created the brand identity for Dar il-Fwieħa, from the logo through to the direction for its packaging.",
+      "Dar il-Fwieħa is my own concept project: a luxury fragrance house I created to explore brand identity, from the logo through to the direction for its packaging.",
     ],
     role: "Brand identity designer",
     delivered: [
@@ -152,9 +152,9 @@ export const projects: Project[] = [
   {
     slug: "ezsy-webs",
     client: "Ezsy Webs",
-    category: "SaaS product · Brand · Marketing site",
+    category: "Own venture · SaaS product · Brand",
     services: ["brand-strategy-identity", "website-design", "email-marketing-crm"],
-    summary: "Product, brand and marketing for a B2B SaaS that turns a website address into a redesign demo for agencies.",
+    summary: "My own B2B SaaS venture: product, brand and marketing for a tool that turns a website address into a redesign demo for agencies.",
     period: "2025",
     website: { url: "https://ezsywebs.com", label: "ezsywebs.com" },
     cover: { media: m("ezsy-website"), alt: "The Ezsy Webs website homepage" },

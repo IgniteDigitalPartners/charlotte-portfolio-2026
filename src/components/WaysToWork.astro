@@ -1,0 +1,61 @@
+---
+import { packages, euro } from "../data/packages";
+const from = Math.min(...packages.filter((p) => !p.monthly).map((p) => p.price));
+const monthly = packages.find((p) => p.id === "monthly-social-essentials");
+---
+<section class="ways section" aria-labelledby="ways-title">
+  <div class="wrap">
+    <div class="head-row head">
+      <h2 id="ways-title" class="h2" style="font-weight: 400;">Start small, or <span class="accent">go all in.</span></h2>
+      <p class="intro">Every engagement is led by me, from first conversation to delivery.</p>
+    </div>
+    <div class="grid-3 cards">
+      <article class="way texture-marble">
+        <p class="eyebrow">One-off</p>
+        <h3>Fixed-price packages</h3>
+        <p>Graphics, profiles, audits, website fixes and strategy calls.</p>
+        <p class="price">From {euro(from)}</p>
+        <a class="btn btn-dark" href="/packages/">Browse packages</a>
+      </article>
+      <article class="way plain">
+        <p class="eyebrow">Projects</p>
+        <h3>Bespoke projects</h3>
+        <p>Brand identity, websites, strategy and campaign set-up.</p>
+        <p class="price">Quoted to your scope</p>
+        <a class="btn btn-line" href="/contact/">Request a quote</a>
+      </article>
+      <article class="way noir">
+        <p class="eyebrow">Ongoing</p>
+        <h3>Monthly support</h3>
+        <p>Social, SEO, ads, email and content, every month.</p>
+        <p class="price">From {euro(monthly?.price ?? 195)} a month</p>
+        <a class="btn btn-gold" href="/contact/">Discuss support</a>
+      </article>
+    </div>
+    <p class="vat muted">Prices in euros, excluding VAT.</p>
+  </div>
+</section>
+
+<style>
+  .ways { background: var(--ivory); }
+  .head { margin-bottom: 48px; }
+  .intro { max-width: 340px; font-size: 17px; }
+  .cards { gap: 24px; }
+  .way { position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 340px; padding: 36px 32px; border-radius: 8px; border: 1px solid var(--gold-edge); box-shadow: var(--shadow-card); overflow: hidden; transition: transform 480ms var(--ease), box-shadow 480ms var(--ease); }
+  .way:hover { transform: translateY(-4px); box-shadow: 0 30px 60px rgba(122, 74, 66, 0.2), 0 4px 10px rgba(59, 58, 56, 0.08); }
+  .way h3 { font-size: 28px; font-weight: 500; }
+  .way .eyebrow { color: var(--bronze-text); }
+  .way .price { margin-top: auto; font-family: var(--italic); font-style: italic; font-weight: 500; font-size: 24px; color: var(--bronze-text); }
+  .way .btn { align-self: stretch; }
+  .texture-marble { background: #F6EFEC url("../assets/textures/rose-marble.webp") center / cover no-repeat; }
+  .texture-marble::before { content: ""; position: absolute; inset: 0; background: rgba(251, 248, 245, 0.72); }
+  .texture-marble > * { position: relative; }
+  .plain { background: var(--white); }
+  .noir { background: var(--noir) url("../assets/textures/noir-marble.webp") center / cover; color: var(--ivory); border-color: rgba(200, 169, 106, 0.45); }
+  .noir h3 { color: var(--ivory); }
+  .noir p { color: #E9E2DB; }
+  .noir .eyebrow, .noir .price { color: var(--gold-light); }
+  .vat { margin-top: 20px; font-size: 13px; }
+  @media (max-width: 960px) { .way { min-height: 0; padding: 28px 24px; } }
+  @media (prefers-reduced-motion: reduce) { .way:hover { transform: none; } }
+</style>

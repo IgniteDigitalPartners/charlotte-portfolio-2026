@@ -10,7 +10,7 @@ const year = new Date().getFullYear();
     <div class="cols">
       <div class="about">
         <a href="/" class="name-row" aria-label="Charlotte Smith, home"><Image src={mono} alt="" height={56} width={Math.round((56 * mono.width) / mono.height)} /><span class="name">Charlotte Smith</span></a>
-        <p>Marketing consultant working with businesses worldwide. Social media, branding, websites, SEO, ads and lead generation.</p>
+        <p>Independent marketing consultant based in Malta, working with businesses worldwide.</p>
         <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
       </div>
       <nav aria-label="Services">
@@ -30,6 +30,7 @@ const year = new Date().getFullYear();
         <h2>Elsewhere</h2>
         <ul>
           {site.linkedin && <li><a href={site.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>}
+          <li><a href={site.instagram} rel="me noopener" target="_blank">Instagram</a></li>
           <li><a href={site.sameAs[3]} rel="me noopener" target="_blank">Facebook</a></li>
           <li><a href={site.sameAs[2]} rel="me noopener" target="_blank">Upwork</a></li>
           <li><a href={site.sameAs[1]} rel="me noopener" target="_blank">Fiverr</a></li>

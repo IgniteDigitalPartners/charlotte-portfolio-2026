@@ -7,7 +7,7 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 
 const LABELS: Record<string, string> = {
   name: "Name", email: "Email", business: "Business", website: "Website", package: "Package",
-  engagement: "How they'd like to work", service: "Area of interest", message: "Message",
+  engagement: "How they'd like to work", service: "Area of interest", budget: "Budget", timeline: "Timeline", message: "Message", goals: "Goals", current: "Current marketing",
   assets_ready: "Assets ready", start_date: "Ideal start date",
 };
 

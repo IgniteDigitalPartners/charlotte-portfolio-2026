@@ -2,7 +2,7 @@ export const site = {
   name: "Charlotte Smith",
   title: "Charlotte Smith | Brand & Marketing Consultant",
   description:
-    "Brand and marketing consultant with 10+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers.",
+    "Independent brand and marketing consultant based in Malta, with 10+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers, worldwide.",
   email: "hello@bycharlottesmith.com",
   location: "Worldwide",
   // Google Calendar booking pages. Only shared after payment (confirmation page and welcome email).
@@ -12,6 +12,7 @@ export const site = {
   },
   // LinkedIn profile URL: the footer link appears once this is set.
   linkedin: "https://www.linkedin.com/in/bycharlottesmith/",
+  instagram: "https://www.instagram.com/by.charlottesmith/",
   // Online Stripe checkout. Also needs the Stripe keys + webhook secret in Vercel; until then
   // clients can still order by brief and receive a payment link by email.
   checkoutOpen: true,
@@ -27,6 +28,7 @@ export const site = {
     "https://pro.fiverr.com/sellers/charlyatignite/",
     "https://www.upwork.com/freelancers/bycharlottesmith",
     "https://www.facebook.com/bycharlottesmith.marketing/",
+    "https://www.instagram.com/by.charlottesmith/",
   ],
 };
 
