@@ -1,0 +1,83 @@
+---
+// Calendly sends people here after they book any call (discovery, marketing call, strategy session, welcome call).
+// If "pass event details" is on in Calendly, the name, call type and time arrive in the URL and personalise the page.
+import Base from "../layouts/Base.astro";
+---
+<Base title="Call Booked | Charlotte Smith" description="Your call with Charlotte Smith is booked." noindex>
+  <section class="page-hero">
+    <div class="wrap stack" style="gap: 20px; max-width: 760px;">
+      <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Booking confirmed</p>
+      <h1 class="display" style="font-size: clamp(38px, 4.6vw, 64px);">Thank you<span data-first></span>, <span class="accent">you're booked in.</span></h1>
+      <p class="lead" data-lead>Your call is in my calendar. A confirmation email with the Google Meet link is on its way to you.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap bc-grid">
+      <div class="card bc-card" data-details hidden>
+        <h2 class="h3">Your call</h2>
+        <dl class="bc-dl">
+          <div data-row-type hidden><dt>Call</dt><dd data-type></dd></div>
+          <div data-row-time hidden><dt>When</dt><dd data-time></dd></div>
+          <div><dt>Where</dt><dd>Online, via Google Meet</dd></div>
+        </dl>
+      </div>
+      <div class="stack" style="gap: 18px;">
+        <h2 class="h3">Before we talk</h2>
+        <ol class="next">
+          <li>Check your inbox for the Calendly confirmation. It has the Google Meet link and a calendar invite.</li>
+          <li data-prep>Have a think about your goals and what you'd most like help with, so we can make the most of our time.</li>
+          <li>Need to change the time? Use the reschedule link in your confirmation email, up to 24 hours before the call.</li>
+        </ol>
+        <div class="btn-row" style="margin-top: 8px;">
+          <a class="btn btn-dark" href="/work/">Explore my work</a>
+          <a class="btn btn-line" href="/">Back to home</a>
+        </div>
+        <p class="small muted">Questions? Email <a href="mailto:hello@bycharlottesmith.com">hello@bycharlottesmith.com</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  @media (max-width: 860px) { .bc-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+  .bc-card { padding: 32px; display: grid; gap: 16px; }
+  .bc-card[hidden] { display: none; }
+  .bc-dl { margin: 0; border-top: 1px solid var(--dove); }
+  .bc-dl div { padding: 14px 0; border-bottom: 1px solid var(--dove); display: grid; gap: 4px; }
+  .bc-dl div[hidden] { display: none; }
+  .bc-dl dt { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bronze-text); }
+  .bc-dl dd { margin: 0; font-size: 17px; }
+  .next { margin: 0; padding-left: 20px; display: grid; gap: 10px; }
+  .small { font-size: 14px; }
+</style>
+
+<script>
+  const q = new URLSearchParams(location.search);
+  const clean = (v: string | null, max = 80) => (v ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+  const first = clean(q.get("invitee_first_name"), 40) || clean(q.get("invitee_full_name"), 60).split(" ")[0];
+  const type = clean(q.get("event_type_name"));
+  const start = q.get("event_start_time");
+
+  if (first) document.querySelector<HTMLElement>("[data-first]")!.textContent = `, ${first}`;
+
+  let shown = false;
+  if (type) {
+    document.querySelector<HTMLElement>("[data-type]")!.textContent = type;
+    document.querySelector<HTMLElement>("[data-row-type]")!.hidden = false;
+    shown = true;
+    const prep = document.querySelector<HTMLElement>("[data-prep]")!;
+    if (/welcome/i.test(type)) prep.textContent = "Have your order and brief to hand, and note any questions about timings or next steps.";
+    else if (/strategy/i.test(type)) prep.textContent = "Gather anything useful to share: your website, social links, recent results and what you've tried so far. Your written action summary follows after the call.";
+  }
+  if (start) {
+    const d = new Date(start);
+    if (!Number.isNaN(d.getTime())) {
+      document.querySelector<HTMLElement>("[data-time]")!.textContent = d.toLocaleString("en-GB", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", timeZoneName: "short" });
+      document.querySelector<HTMLElement>("[data-row-time]")!.hidden = false;
+      shown = true;
+    }
+  }
+  if (shown) document.querySelector<HTMLElement>("[data-details]")!.hidden = false;
+</script>
