@@ -38,9 +38,10 @@ const why = [
         <h1 id="hero-title" class="rise d1">Clear strategy. Polished brand. <span class="foil">Real growth.</span></h1>
         <p class="sub rise d2">Senior marketing for ambitious businesses, working directly with me.</p>
         <div class="btn-row rise d3">
-          <a class="btn btn-gold" href="/contact/">Start a free enquiry</a>
-          <a class="btn btn-ghost" href="/services/">Explore my services</a>
+          <a class="btn btn-gold" href={site.booking.discovery} target="_blank" rel="noopener">Book a free discovery call<span class="sr-only"> (opens Calendly in a new tab)</span></a>
+          <a class="btn btn-ghost" href="/contact/">Start a free enquiry</a>
         </div>
+        <a class="textlink hero-link rise d3" href="/services/"><span>Explore my services</span></a>
         <ul class="proof rise d4" aria-label="At a glance">
           <li>10+ years in marketing</li><li>Listed companies to local brands</li><li>Packages from €45</li>
         </ul>
@@ -175,7 +176,7 @@ const why = [
           <li><span>02</span>Get a personal reply with next steps</li>
           <li><span>03</span>Agree the scope, then we begin</li>
         </ol>
-        <p class="alt">Prefer to talk? <a href="/packages/#calls">Book a call</a> from €45.</p>
+        <p class="alt">Prefer to talk? <a href={site.booking.discovery} target="_blank" rel="noopener">Book a free discovery call</a>.</p>
         <p class="alt">Or email <a href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <div class="card enq-card">
@@ -243,6 +244,8 @@ const why = [
   @media (max-width: 860px) { .intro-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } .intro-photo img { width: 260px; } .disc { width: 250px; height: 250px; } }
   .work { background: var(--ivory); }
 
+  .hero-link { align-self: flex-start; color: var(--ivory); margin-top: -12px; }
+  .hero-link:hover { color: var(--gold-light); }
   .proof { list-style: none; margin: 4px 0 0; padding: 22px 0 0; border-top: 1px solid rgba(232, 211, 162, 0.22); display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 14px; color: #E4DDD5; }
   .proof li { display: inline-flex; align-items: center; }
   .proof li:not(:last-child)::after { content: "✦"; color: var(--champagne); font-size: 10px; margin: 0 12px; }

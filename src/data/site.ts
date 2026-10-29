@@ -5,10 +5,13 @@ export const site = {
     "Independent brand and marketing consultant based in Malta, with 10+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers, worldwide.",
   email: "hello@bycharlottesmith.com",
   location: "Worldwide",
-  // Google Calendar booking pages. Only shared after payment (confirmation page and welcome email).
+  // Calendly booking pages. Paid calls are booked and paid on Calendly, not in the site cart.
+  // The welcome call link is only shown after checkout (confirmation page and welcome email).
   booking: {
-    call30: "https://calendar.app.google/azgCL14YFRjgFh116",
-    call60: "https://calendar.app.google/QxVDQtkszCBnBpHS8",
+    discovery: "https://calendly.com/bycharlottesmith/discovery-call",
+    marketingCall: "https://calendly.com/bycharlottesmith/marketing-call",
+    strategySession: "https://calendly.com/bycharlottesmith/strategy-session",
+    welcome: "https://calendly.com/bycharlottesmith/welcome-call",
   },
   // LinkedIn profile URL: the footer link appears once this is set.
   linkedin: "https://www.linkedin.com/in/bycharlottesmith/",

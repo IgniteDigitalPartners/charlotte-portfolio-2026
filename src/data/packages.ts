@@ -1,3 +1,5 @@
+import { site } from "./site";
+
 export interface BriefField {
   name: string;
   label: string;
@@ -22,8 +24,8 @@ export interface Package {
   brief?: BriefField[];
   /** Bundles: the packages included (their briefs are asked at checkout) */
   bundle?: { ids: string[]; saves: number };
-  /** Calls: which booking page the client gets after paying */
-  booking?: "call30" | "call60";
+  /** Calls: booked and paid on Calendly instead of the cart (a URL) */
+  calendly?: string;
   /** Monthly plans are arranged by enquiry, not bought in the cart */
   monthly?: boolean;
 }
@@ -73,7 +75,7 @@ export const groups = {
     name: "Calls",
     intro: "Time with me, one to one, on the questions that matter to you.",
     youProvide: "A few lines on what you'd like to cover.",
-    notes: "You choose a time from my calendar straight after paying. Clients buying any package can add a free 30-minute welcome call at checkout.",
+    notes: "Choose a time and pay in one step through Calendly. Clients buying any package can add a free 30-minute welcome call at checkout.",
   },
   bundles: {
     name: "Bundles",
@@ -198,7 +200,7 @@ export const packages: Package[] = [
     delivery: "Written copy, ready to paste", revisions: "1 revision",
   },
   {
-    id: "marketing-call", booking: "call30", name: "Marketing Call", price: 45, group: "calls",
+    id: "marketing-call", calendly: site.booking.marketingCall, name: "Marketing Call", price: 45, group: "calls",
     headline: "30 minutes on the question that matters most",
     includes: ["30-minute video call", "Honest advice and clear next steps"],
     delivery: "Booked at a time that suits you", revisions: "Not applicable",
@@ -208,7 +210,7 @@ export const packages: Package[] = [
     ],
   },
   {
-    id: "strategy-session", booking: "call60", brief: [
+    id: "strategy-session", calendly: site.booking.strategySession, brief: [
       { name: "focus", label: "What would you like to focus on?", type: "textarea", required: true },
       { name: "links", label: "Your website and social links", type: "textarea" },
     ], name: "Strategy Session", price: 95, group: "calls",
@@ -252,9 +254,11 @@ export const packages: Package[] = [
 export const getPackage = (id: string) => packages.find((p) => p.id === id);
 export const euro = (n: number) => `€${n}`;
 /** Does this cart qualify for a free welcome call? (any package that isn't itself a call) */
-export const earnsWelcomeCall = (items: Package[]) => items.some((p) => !p.booking);
+export const earnsWelcomeCall = (items: Package[]) => items.some((p) => !p.calendly);
+/** Packages booked and paid on Calendly: never in the cart or checkout */
+export const bookedOnCalendly = (p: Package) => Boolean(p.calendly);
 /** Packages that can be bought instantly in the cart */
-export const buyable = (p: Package) => !p.monthly;
+export const buyable = (p: Package) => !p.monthly && !p.calendly;
 /** The brief sections a package needs at checkout (bundles ask for each part) */
 export const briefSections = (p: Package): { id: string; name: string; fields: BriefField[] }[] =>
   p.bundle

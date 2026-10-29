@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { nav } from "../data/site";
+import { nav, site } from "../data/site";
 import mono from "../assets/brand/cs-gold.png";
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
@@ -28,7 +28,10 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
           <li><a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a></li>
         ))}
       </ul>
-      <a class="btn btn-sm nav-cta" href="/contact/">Free enquiry</a>
+      <div class="nav-ctas">
+        <a class="btn btn-sm nav-cta nav-cta-gold" href={site.booking.discovery} target="_blank" rel="noopener">Free discovery call<span class="sr-only"> (opens Calendly in a new tab)</span></a>
+        <a class="btn btn-sm nav-cta" href="/contact/">Free enquiry</a>
+      </div>
     </nav>
   </div>
 </header>
@@ -47,6 +50,12 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
   .nav ul a:hover, .nav ul a[aria-current="page"] { border-bottom-color: var(--champagne); color: var(--gold-light); }
   .nav-cta { border: 1px solid var(--champagne); color: var(--gold-light); background: transparent; }
   .nav-cta:hover { background: rgba(200, 169, 106, 0.14); color: var(--gold-light); }
+  .nav-ctas { display: flex; gap: 10px; }
+  .nav-ctas .btn { white-space: nowrap; padding: 0 16px; letter-spacing: 0.12em; }
+  .nav-cta-gold { background: linear-gradient(180deg, #E8D3A2 0%, #C8A96A 100%); color: var(--noir); border-color: var(--champagne); }
+  .nav-cta-gold:hover { background: linear-gradient(180deg, #F0DCA8 0%, #D2B475 100%); color: var(--noir); }
+  @media (min-width: 961px) and (max-width: 1380px) { .nav { gap: 24px; } .nav ul { gap: 22px; } .nav-ctas .nav-cta:not(.nav-cta-gold) { display: none; } .brand-name { white-space: nowrap; } }
+  @media (min-width: 961px) and (max-width: 1120px) { .nav { gap: 18px; } .nav ul { gap: 16px; } .nav ul a { font-size: 12px; letter-spacing: 0.1em; } .nav-ctas .btn { padding: 0 12px; } .brand-name { font-size: 20px; } }
   .cart-link { position: relative; order: 3; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--ivory); text-decoration: none; margin-left: -8px; }
   .cart-link:hover { color: var(--gold-light); }
   .cart-count { position: absolute; top: 4px; right: 0; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--champagne); color: var(--noir); font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; }
@@ -61,6 +70,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     .nav ul { flex-direction: column; gap: 0; }
     .nav ul li { border-bottom: 1px solid rgba(213, 208, 203, 0.18); }
     .nav ul a { display: block; padding: 16px 0; font-size: 14px; border-bottom: 0; }
+    .nav-ctas { flex-direction: column; }
+    .nav-ctas .btn { width: 100%; }
     .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
     .menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
     .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }

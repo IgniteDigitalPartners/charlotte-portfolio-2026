@@ -37,7 +37,7 @@ export interface Line {
   monthly: boolean;
 }
 
-export const isDeposit = (p: Package) => !p.monthly && !p.booking && p.price >= DEPOSIT_FROM;
+export const isDeposit = (p: Package) => !p.monthly && p.price >= DEPOSIT_FROM;
 
 export function toLines(items: Package[]): Line[] {
   return items.map((p) => {
@@ -52,6 +52,7 @@ export function resolveCart(ids: unknown): Package[] {
   const items = [...new Set(ids.map(String))].map((id) => {
     const p = getPackage(id);
     if (!p) throw new Error(`"${id}" isn't available.`);
+    if (p.calendly) throw new Error(`${p.name} is booked and paid on Calendly. Please remove it from your cart.`);
     return p;
   });
   if (items.some((p) => p.monthly) && items.length > 1) throw new Error("Monthly plans check out on their own. Please buy packages separately.");

@@ -13,8 +13,8 @@ export const isPaid = (s: Stripe.Checkout.Session) => s.status === "complete" &&
 
 export function bookingsFor(itemIds: string, welcomeCall: boolean) {
   const items = resolveCart(itemIds.split(","));
-  const bookings = items.filter((p) => p.booking).map((p) => ({ label: `Book your ${p.name}`, url: site.booking[p.booking!] }));
-  if (welcomeCall && earnsWelcomeCall(items)) bookings.push({ label: "Book your free welcome call", url: site.booking.call30 });
+  const bookings: { label: string; url: string }[] = [];
+  if (welcomeCall && earnsWelcomeCall(items)) bookings.push({ label: "Book your free welcome call", url: site.booking.welcome });
   return bookings;
 }
 

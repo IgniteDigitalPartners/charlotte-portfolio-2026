@@ -1,13 +1,16 @@
 ---
 import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
 import { packages, briefSections } from "../data/packages";
 import { euCountries, OUTSIDE_EU } from "../data/vat";
 import { toLines } from "../lib/stripe";
 
-const catalog = toLines(packages).map((l, i) => ({
+// Calls are booked and paid on Calendly, so they never appear in the cart.
+const inCart = packages.filter((p) => !p.calendly);
+const catalog = toLines(inCart).map((l, i) => ({
   ...l,
-  isCall: Boolean(packages[i].booking),
-  sections: briefSections(packages[i]),
+  isCall: false,
+  sections: briefSections(inCart[i]),
 }));
 ---
 <Base
@@ -95,7 +98,7 @@ const catalog = toLines(packages).map((l, i) => ({
             <p class="ok" role="status" data-sent hidden></p>
           </div>
           <p class="err" role="alert" data-error hidden></p>
-          <p class="small">Questions first? <a href="/packages/#calls">Book a call</a> or <a href="/contact/">send a message</a>.</p>
+          <p class="small">Questions first? <a href={site.booking.discovery} target="_blank" rel="noopener">Book a free discovery call</a> or <a href="/contact/">send a message</a>.</p>
         </aside>
       </form>
     </div>
