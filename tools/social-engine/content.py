@@ -45,7 +45,7 @@ add(d, "11:00", "gmb", "publication", dict(tpl="gbp", eyebrow="GOOGLE PROFILE SE
     head="Get found by the clients already searching for you", sub="Setup, optimisation and a simple posting plan."),
     "Is your Google Business Profile helping new clients find you? I set up and optimise Google Business Profiles for small businesses: accurate categories and services, keyword-rich descriptions, strong photos, review replies and a simple weekly posting plan you can keep up. One clear piece of work, done properly and handed over to you. Book a free welcome call at bycharlottesmith.com or email hello@bycharlottesmith.com.")
 add(d, "20:30", "tiktok", "VIDEO", dict(tpl="tiktok", lines=[
-    "friday night, kids finally asleep", "and I'm fixing a client's google profile", "because nobody updates theirs", "(be honest, when did you last check yours?)"]),
+    "friday night, quiet house", "and I'm fixing a client's google profile", "because nobody updates theirs", "(be honest, when did you last check yours?)"]),
     "the glamorous side of running your own marketing business 😅 check your google profile this weekend, future you will thank you",
     TT + " #googlebusinessprofile #smallbusinesstips")
 
@@ -73,8 +73,8 @@ add(d, "10:00", "facebook", "POST", dict(tpl="post", theme="noir", eyebrow="HAPP
     "Happy Halloween! 🎃\n\nA little seasonal question: is your website a bit haunted?\n\nOld prices that no longer apply, photos from a few years ago, a contact form that quietly sends enquiries into the void. It happens to the best businesses, because life gets busy.\n\nIf yours needs a refresh, I can help you bring it back to life, with clear pages, current content and a contact route that actually reaches you.\n\nHave a lovely, safe evening with whoever you are celebrating with.",
     "#Halloween #WebsiteRefresh #SmallBusiness #ByCharlotteSmith")
 add(d, "20:30", "tiktok", "VIDEO", dict(tpl="tiktok", lines=[
-    "halloween in our house:", "4 kids, 4 costume changes", "and me answering a client email", "dressed as a witch 🧙‍♀️", "happy halloween!"]),
-    "mum mode and business mode, same night 🎃",
+    "halloween, but make it quiet:", "no costumes to sort", "no sweets to ration", "just me, a candle", "and a client's brand refresh 🎃"]),
+    "a very different halloween this year 🕯️ who else is spending it with their laptop?",
     TT + " #halloween #halloween2026")
 
 # ---------------------------------------------------------------- SUN 1 NOV (new month, Movember, Black Friday countdown)

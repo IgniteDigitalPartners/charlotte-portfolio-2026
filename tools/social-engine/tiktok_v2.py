@@ -153,7 +153,7 @@ def render(v, out, theme, image, seed=0):
     return out
 
 PLAN = {  # date: (theme, image)
-    "2026-10-30": ("noir", "charlotte_cut.png"), "2026-10-31": ("ivory", "charlotte_cut.png"),
+    "2026-10-30": ("noir", "charlotte_cut.png"), "2026-10-31": ("noir", "work_vertui.png"),
     "2026-11-01": ("noir", "work_vertui.png"), "2026-11-02": ("ivory", "work_maltamove.png"),
     "2026-11-03": ("noir", "charlotte_cut.png"), "2026-11-04": ("ivory", "charlotte_cut.png"),
     "2026-11-05": ("noir", "work_rockon.png"), "2026-11-06": ("ivory", "charlotte_cut.png"),
