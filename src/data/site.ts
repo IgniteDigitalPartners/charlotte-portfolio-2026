@@ -4,6 +4,8 @@ export const site = {
   description:
     "Independent brand and marketing consultant based in Malta, with 10+ years in brand strategy, social media, websites, SEO, paid ads, email and CRM. Fixed-price packages, bespoke projects and retainers, worldwide.",
   email: "hello@bycharlottesmith.com",
+  // WhatsApp business number: shown on the contact page, footer, CTA band, schema and email signature.
+  whatsapp: { display: "+356 7902 5694", tel: "+35679025694", link: "https://wa.me/35679025694" },
   location: "Worldwide",
   // Calendly booking pages. Paid calls are booked and paid on Calendly, not in the site cart.
   // The welcome call link is only shown after checkout (confirmation page and welcome email).

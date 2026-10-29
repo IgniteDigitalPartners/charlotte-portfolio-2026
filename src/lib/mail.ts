@@ -30,7 +30,7 @@ const SEP = `<span style="color:#C8A96A;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>`;
 const sigLink = (href: string, label: string) => `<a href="${href}" style="color:#A88566;text-decoration:none;">${label}</a>`;
 export const signatureHtml = `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;margin-top:28px;">
 <tr><td style="padding:0;"><a href="https://www.bycharlottesmith.com/" style="text-decoration:none;"><img src="https://www.bycharlottesmith.com/email/signature-card.jpg" width="480" height="132" alt="Charlotte Smith, Brand &amp; Marketing Consultant" style="display:block;width:480px;max-width:100%;height:auto;border:0;"></a></td></tr>
-<tr><td style="padding:12px 0 0 2px;font-size:12px;line-height:18px;color:#6B6560;"><a href="mailto:${site.email}" style="color:#6B6560;text-decoration:none;">${site.email}</a>${SEP}<a href="https://www.bycharlottesmith.com/" style="color:#6B6560;text-decoration:none;">bycharlottesmith.com</a></td></tr>
+<tr><td style="padding:12px 0 0 2px;font-size:12px;line-height:18px;color:#6B6560;"><a href="mailto:${site.email}" style="color:#6B6560;text-decoration:none;">${site.email}</a>${SEP}<a href="https://www.bycharlottesmith.com/" style="color:#6B6560;text-decoration:none;">bycharlottesmith.com</a>${SEP}<a href="${site.whatsapp.link}" style="color:#6B6560;text-decoration:none;">WhatsApp ${site.whatsapp.display}</a></td></tr>
 <tr><td style="padding:6px 0 0 2px;font-size:10px;line-height:14px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;">${sigLink(site.sameAs[0], "LinkedIn")}${SEP}${sigLink(site.sameAs[3], "Facebook")}${SEP}${sigLink(site.sameAs[2], "Upwork")}${SEP}${sigLink("https://www.bycharlottesmith.com/packages/", "Packages")}</td></tr>
 </table>`;
 export const signatureText = [
@@ -39,6 +39,7 @@ export const signatureText = [
   "Charlotte Smith",
   "Brand & Marketing Consultant",
   `${site.email} | bycharlottesmith.com`,
+  `WhatsApp: ${site.whatsapp.display}`,
   `LinkedIn: ${site.sameAs[0]}`,
   `Facebook: ${site.sameAs[3]}`,
 ].join("\n");

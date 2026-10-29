@@ -12,6 +12,7 @@ const year = new Date().getFullYear();
         <a href="/" class="name-row" aria-label="Charlotte Smith, home"><Image src={mono} alt="" height={56} width={Math.round((56 * mono.width) / mono.height)} /><span class="name">Charlotte Smith</span></a>
         <p>Independent marketing consultant based in Malta, working with businesses worldwide.</p>
         <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="mail" href={site.whatsapp.link} target="_blank" rel="noopener">WhatsApp {site.whatsapp.display}</a>
       </div>
       <nav aria-label="Services">
         <h2>Services</h2>
@@ -54,7 +55,7 @@ const year = new Date().getFullYear();
   .name { font-family: var(--serif); font-size: 28px; font-weight: 500; text-decoration: none; background: linear-gradient(180deg, #DCC18A 0%, #C8A96A 45%, #A88566 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .about { display: flex; flex-direction: column; gap: 14px; }
   .about p { font-size: 14px; max-width: 320px; }
-  .mail { color: var(--warm-white); font-size: 14px; overflow-wrap: anywhere; text-decoration-color: var(--champagne); text-underline-offset: 4px; }
+  .mail { display: block; margin-top: 6px; color: var(--warm-white); font-size: 14px; overflow-wrap: anywhere; text-decoration-color: var(--champagne); text-underline-offset: 4px; }
   h2 { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--champagne); margin-bottom: 14px; }
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
   ul a { display: inline-block; padding: 4px 0; font-size: 14px; color: var(--warm-white); text-decoration: none; border-bottom: 1px solid transparent; }
