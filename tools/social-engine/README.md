@@ -13,7 +13,7 @@ Everything auto-publishes. A weekly scheduled task checks the next 14 days and f
 | Facebook page | Post, or Reel about 1 in 4 | 10:00 | daily |
 | LinkedIn company page | Post (carousels go out as a PDF document) | 08:30 | Mon to Fri |
 | Google Business Profile | Publication with image (1200x900) | 11:00 | Mon, Wed, Fri |
-| TikTok @charlymalta1 | Personal-style video (caption boxes, no logo) | 20:30 | daily |
+| TikTok @charlymalta1 | Story-style branded video via tiktok_v2.py (progress bars, CS monogram, caption boxes, Charlotte's photo or a work image, end card) | 20:30 | daily |
 
 ## Content mix
 Rotate: services (websites, logos and brand guides, branded Canva templates, Google Business Profile setup,
@@ -28,7 +28,7 @@ educational tips, holidays, awareness days and months, and the digital marketing
 - No invented statistics or client results.
 - CTAs: bycharlottesmith.com, hello@bycharlottesmith.com, "link in bio", "send me a message".
 - Instagram 8 to 14 hashtags; LinkedIn 3 to 5; Facebook 2 to 4; GBP none (keywords in text, under 1500 chars).
-- TikTok is personal: lowercase, mum-of-four-running-a-business humour, no logo, never name or show the children.
+- TikTok is personal in voice (lowercase, mum-of-four-running-a-business humour, never name or show the children) but branded in look: render with `python3 tiktok_v2.py <date>` and set its PLAN theme/image per date (alternate noir/ivory; mix brand/charlotte_cut.png with brand/work_*.png).
 
 ## Look
 Noir (#111) and ivory (#F5F0E7) with champagne gold (#C9A45F), Lora headings, Inter body,
