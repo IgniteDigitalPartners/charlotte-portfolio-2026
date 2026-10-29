@@ -173,7 +173,7 @@ add(d, "09:15", "linkedin", "POST", dict(tpl="carousel", slides=[
     dict(eyebrow="04 · SPEED", head="Fast on a phone, on a site, on 4G", sub="Your buyers aren't always at a desk."),
     dict(eyebrow="05 · TRACKING", head="Every enquiry recorded and reported", sub="So you know what the website brings in."),
     ]),
-    "A quick checklist for any industrial or resources company reviewing its website before 2027.\n\nMost sites we audit pass two or three of these. The ones that pass all five tend to be the ones generating steady enquiries.\n\nSwipe through, score your own site out of five, and tell us where you landed.",
+    "A quick checklist for any industrial or resources company reviewing its website before 2027.\n\nIn our experience, most sites miss at least one or two of these, and fixing them is usually quicker than a full rebuild.\n\nSwipe through, score your own site out of five, and tell us where you landed.",
     "#B2BMarketing #WebsiteDesign #IndustrialMarketing #LeadGeneration", li_pdf="Industrial Website Checklist")
 add(d, "14:00", "gmb", "publication", dict(tpl="gbp", eyebrow="WEBSITES",
     head="Fast, simple websites that turn visitors into enquiries", sub="For industrial and resources companies."),
