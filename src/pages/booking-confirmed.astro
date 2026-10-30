@@ -37,6 +37,15 @@ import Base from "../layouts/Base.astro";
       </div>
     </div>
   </section>
+  <!-- Google Ads conversion: Book appointment (skips Welcome Calls for existing clients) -->
+  <script is:inline>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var type = q.get('event_type_name') || '';
+      if (/welcome/i.test(type) || typeof gtag !== 'function') return;
+      gtag('event', 'manual_event_BOOK_APPOINTMENT', { transaction_id: (q.get('event_start_time') || '') + '|' + type });
+    })();
+  </script>
 </Base>
 
 <style>
