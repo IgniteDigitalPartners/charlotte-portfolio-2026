@@ -76,6 +76,8 @@ import { auditSections } from "../../data/audit-checklist";
         return;
       }
     } catch {}
+    // Mark the signup so the checklist page can report it to analytics after the redirect.
+    try { sessionStorage.setItem("cs-lead", "audit-checklist"); } catch {}
     // Always give the visitor their checklist.
     location.href = "/free-audit/checklist/";
   });

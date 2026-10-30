@@ -179,6 +179,7 @@ const groupKeys = Object.keys(groups) as (keyof typeof groups)[];
         });
         const json = await res.json().catch(() => ({}));
         if (res.ok && json.ok) {
+          (window as any).gtag?.("event", "enquiry_submitted", { form_type: mode || "contact" });
           form.reset();
           say(
             "success",
