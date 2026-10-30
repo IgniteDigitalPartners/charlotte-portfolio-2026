@@ -1,0 +1,93 @@
+---
+import Base from "../../layouts/Base.astro";
+import { auditSections } from "../../data/audit-checklist";
+---
+<Base
+  title="Free Social Media Audit Checklist | Charlotte Smith"
+  description="A free 15-point checklist to audit your Instagram and Facebook in 20 minutes and find what's costing you enquiries."
+  crumbs={[{ name: "Free audit checklist", href: "/free-audit/" }]}
+>
+  <section class="page-hero">
+    <div class="wrap fa-grid">
+      <div class="stack" style="gap: 22px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Free guide</p>
+        <h1 class="display">The 15-point social media <span class="accent">audit checklist.</span></h1>
+        <p class="lead">A quick, honest health check for your Instagram and Facebook. Work through it in 20 minutes and you'll know exactly what's costing you enquiries and what to fix first.</p>
+        <ul class="fa-points">
+          <li>15 practical checks across 5 areas, from your bio to your results</li>
+          <li>A simple score that tells you where to focus this week</li>
+          <li>Written for small businesses, no jargon</li>
+        </ul>
+        <div class="fa-preview" aria-hidden="true">
+          {auditSections.map((s, i) => (
+            <div class="fa-chip"><span>{i + 1}</span>{s.title}</div>
+          ))}
+        </div>
+      </div>
+
+      <div class="card" style="padding: clamp(24px, 4vw, 44px);">
+        <h2 class="h3" style="margin-bottom: 10px;">Get your free checklist</h2>
+        <p class="hint" style="margin: 0 0 22px; color: #6B6560;">It opens straight away, and I'll email you a copy to keep.</p>
+        <form id="audit-form" class="form" action="/api/audit/" method="POST" novalidate>
+          <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="field">
+            <label for="fa-name">First name</label>
+            <input class="input" id="fa-name" name="name" type="text" autocomplete="given-name" required />
+          </div>
+          <div class="field">
+            <label for="fa-email">Email</label>
+            <input class="input" id="fa-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="fa-business">Business name <span class="hint">(optional)</span></label>
+            <input class="input" id="fa-business" name="business" type="text" autocomplete="organization" />
+          </div>
+          <label class="choice" style="font-size: 14px;"><input type="checkbox" name="tips" /> Send me occasional marketing tips. Unsubscribe anytime.</label>
+          <p class="hint" style="font-size: 13px; color: #6B6560;">I'll email you the checklist and won't share your details. See my <a href="/privacy/">privacy policy</a>.</p>
+          <div class="status" role="status" aria-live="polite" tabindex="-1"></div>
+          <div><button class="btn btn-gold" type="submit">Get the checklist</button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#audit-form")!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const status = form.querySelector<HTMLElement>(".status")!;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (data.botcheck) return;
+    btn.disabled = true;
+    btn.textContent = "Opening…";
+    status.textContent = "";
+    try {
+      const res = await fetch("/api/audit/", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) });
+      if (res.status === 400) {
+        const j = await res.json().catch(() => ({}));
+        status.dataset.state = "error";
+        status.textContent = j.error || "Please add your name and a valid email.";
+        status.focus();
+        btn.disabled = false;
+        btn.textContent = "Get the checklist";
+        return;
+      }
+    } catch {}
+    // Always give the visitor their checklist.
+    location.href = "/free-audit/checklist/";
+  });
+</script>
+
+<style>
+  .fa-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 64px; align-items: start; padding-bottom: 56px; }
+  @media (max-width: 960px) { .fa-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .fa-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .fa-points li { position: relative; padding-left: 22px; }
+  .fa-points li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--champagne); }
+  .fa-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .fa-chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border: 1px solid var(--dove); border-radius: 999px; font-size: 14px; background: #fff; }
+  .fa-chip span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #1D1B1A; color: #E8D3A2; font-size: 12px; }
+</style>
