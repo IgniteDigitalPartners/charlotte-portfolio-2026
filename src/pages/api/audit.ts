@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { mailReady, notifyAddress, send, shell, signatureText } from "../../lib/mail";
+import { leadsReady, saveLead } from "../../lib/leads";
 
 // Lead capture for the free Social Media Audit Checklist (/free-audit/).
 export const prerender = false;
@@ -17,10 +18,13 @@ export const POST: APIRoute = async ({ request }) => {
   const tips = data.tips === "on" || data.tips === true;
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "Please add your name and a valid email." }, 400);
 
+  // Opted-in leads get the 3-email follow-up sequence (sent by /api/followups/ daily).
+  if (tips && leadsReady()) await saveLead({ name, email, business }).catch((e) => console.error("Saving lead failed", e));
+
   // The visitor always gets the checklist; email is best-effort.
   if (!mailReady()) { console.warn("Audit lead (mail not configured)", { name, email, business, tips }); return json({ ok: true }); }
 
-  const rows: [string, string][] = [["Name", name], ["Email", email], ["Business", business], ["Marketing tips", tips ? "Yes, opted in" : "No"]];
+  const rows: [string, string][] = [["Name", name], ["Email", email], ["Business", business], ["Follow-up emails", tips ? "Yes, opted in" : "No"]];
   const subject = `New checklist download: ${name}`;
   const html = shell(`<h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 14px;">${esc(subject)}</h1><p style="margin:0 0 14px;">Someone downloaded the Social Media Audit Checklist. A good time to follow up is in 2–3 days.</p><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;">${rows
     .filter(([, x]) => x)
