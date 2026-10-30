@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import { site } from "../../data/site";
+import { auditSections, auditScores } from "../../data/audit-checklist";
+let n = 0;
+---
+<Base title="Your Social Media Audit Checklist | Charlotte Smith" description="The 15-point social media audit checklist." noindex>
+  <section class="section">
+    <div class="wrap" style="max-width: 860px;">
+      <div class="stack" style="gap: 18px; margin-bottom: 36px;">
+        <p class="eyebrow"><span class="star" aria-hidden="true">✦</span>Your free checklist</p>
+        <h1 class="display" style="font-size: clamp(38px, 5vw, 60px);">The 15-point social media <span class="accent">audit checklist.</span></h1>
+        <p class="lead">Open your Instagram and Facebook side by side and go through each point. Be strict: if it's "sort of" done, leave it unticked. Tick the boxes as you go and your score updates below.</p>
+        <div class="btn-row no-print"><button class="btn btn-dark" type="button" id="print">Save as PDF</button><a class="btn btn-line" href={site.booking.discovery} target="_blank" rel="noopener">Book a free discovery call</a></div>
+      </div>
+
+      {auditSections.map((s, i) => (
+        <div class="ck-sec">
+          <h2 class="ck-h"><span>{i + 1}</span>{s.title}</h2>
+          {s.items.map(([t, d]) => {
+            n++;
+            return (
+              <label class="ck-item">
+                <input type="checkbox" class="ck-box" />
+                <span><strong>{n}. {t}</strong><span class="ck-d">{d}</span></span>
+              </label>
+            );
+          })}
+        </div>
+      ))}
+
+      <div class="ck-score card">
+        <p class="eyebrow">Your score</p>
+        <p class="ck-total"><span id="score">0</span> / 15</p>
+        <div class="ck-tiers">
+          {auditScores.map((t) => (
+            <div class="ck-tier"><strong>{t.range} · {t.label}</strong><span>{t.text}</span></div>
+          ))}
+        </div>
+      </div>
+
+      <div class="ck-cta">
+        <p class="eyebrow" style="color: #E8D3A2;">Done-for-you option</p>
+        <h2 class="display" style="font-size: clamp(30px, 4vw, 44px); color: #FBFAF7;">Want me to fix it <span class="accent">for you?</span></h2>
+        <p>If your checklist turned up a few gaps, I can fill them for you: a full audit of your profiles with clear priorities, brand-consistent content and a posting plan, and automations that reply to leads while you're busy.</p>
+        <div class="btn-row"><a class="btn btn-gold" href={site.booking.discovery} target="_blank" rel="noopener">Book a free discovery call</a><a class="btn btn-line ck-line" href="/contact/">Start a free enquiry</a></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const boxes = document.querySelectorAll<HTMLInputElement>(".ck-box");
+  const out = document.getElementById("score")!;
+  boxes.forEach((b) => b.addEventListener("change", () => { out.textContent = String([...boxes].filter((x) => x.checked).length); }));
+  document.getElementById("print")?.addEventListener("click", () => window.print());
+</script>
+
+<style>
+  .ck-sec { margin-bottom: 30px; }
+  .ck-h { display: flex; align-items: center; gap: 12px; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 24px; margin: 0 0 14px; }
+  .ck-h span { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #1D1B1A; color: #E8D3A2; font-family: Montserrat, sans-serif; font-size: 13px; }
+  .ck-item { display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 1px solid var(--dove); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; cursor: pointer; }
+  .ck-item strong { display: block; font-weight: 500; margin-bottom: 2px; }
+  .ck-d { display: block; font-size: 14px; color: #6B6560; line-height: 1.55; }
+  .ck-box { width: 18px; height: 18px; margin-top: 3px; accent-color: #C8A96A; flex: 0 0 auto; }
+  .ck-score { padding: clamp(22px, 4vw, 36px); margin: 36px 0; }
+  .ck-total { font-family: "Playfair Display", Georgia, serif; font-size: 44px; margin: 4px 0 18px; }
+  .ck-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 720px) { .ck-tiers { grid-template-columns: minmax(0, 1fr); } }
+  .ck-tier { display: grid; gap: 6px; font-size: 14px; color: #6B6560; line-height: 1.55; }
+  .ck-tier strong { color: #1D1B1A; font-weight: 500; }
+  .ck-cta { background: #1D1B1A; color: #E9E4DC; border-radius: 10px; padding: clamp(26px, 5vw, 52px); display: grid; gap: 18px; }
+  .ck-cta p { margin: 0; line-height: 1.7; }
+  .ck-cta .accent { color: #E8D3A2; }
+  .ck-line { color: #FBFAF7; border-color: rgba(232, 211, 162, 0.5); }
+  @media print {
+    :global(header), :global(footer), :global(.crumbs-bar), :global(.skip-link), :global([class*="cookie"]), .no-print { display: none !important; }
+    .ck-item, .ck-tier, .ck-cta { break-inside: avoid; }
+    .ck-cta, .ck-h span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
