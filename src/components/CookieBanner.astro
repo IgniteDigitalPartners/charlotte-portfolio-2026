@@ -1,7 +1,7 @@
 <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie consent" hidden>
   <div class="cookie-inner">
     <p>
-      I'd like to use Google Analytics cookies to understand how people find and use this site. They're only set if you say yes.{" "}
+      I'd like to use Google Analytics and advertising cookies to understand how people find this site and to measure my ads. They're only set if you say yes.{" "}
       <a href="/privacy/#cookies">Read more</a>
     </p>
     <div class="cookie-actions">
@@ -31,11 +31,8 @@
     function choose(v) {
       save(v);
       banner.hidden = true;
-      if (v === "granted") { window.csLoadGtag && window.csLoadGtag(); }
-      else {
-        if (window.gtag) gtag("consent", "update", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
-        clearGaCookies();
-      }
+      if (window.csConsent) window.csConsent(v === "granted");
+      if (v !== "granted") clearGaCookies();
     }
     banner.querySelectorAll("[data-consent]").forEach(function (b) {
       b.addEventListener("click", function () { choose(b.getAttribute("data-consent")); });

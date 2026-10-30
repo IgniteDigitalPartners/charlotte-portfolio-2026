@@ -50,6 +50,14 @@ let n = 0;
 </Base>
 
 <script>
+  // Report the checklist signup (flag set by the /free-audit form just before the redirect).
+  try {
+    if (sessionStorage.getItem("cs-lead")) {
+      sessionStorage.removeItem("cs-lead");
+      (window as any).gtag?.("event", "generate_lead", { lead_source: "audit-checklist" });
+    }
+  } catch {}
+
   const boxes = document.querySelectorAll<HTMLInputElement>(".ck-box");
   const out = document.getElementById("score")!;
   boxes.forEach((b) => b.addEventListener("change", () => { out.textContent = String([...boxes].filter((x) => x.checked).length); }));

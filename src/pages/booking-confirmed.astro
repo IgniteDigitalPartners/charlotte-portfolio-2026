@@ -43,7 +43,10 @@ import Base from "../layouts/Base.astro";
       var q = new URLSearchParams(location.search);
       var type = q.get('event_type_name') || '';
       if (/welcome/i.test(type) || typeof gtag !== 'function') return;
-      gtag('event', 'manual_event_BOOK_APPOINTMENT', { transaction_id: (q.get('event_start_time') || '') + '|' + type });
+      var tx = (q.get('event_start_time') || '') + '|' + type;
+      gtag('event', 'manual_event_BOOK_APPOINTMENT', { transaction_id: tx });
+      // Paid calls (anything that isn't the free discovery call) also count as booking_paid.
+      if (type && !/discovery/i.test(type)) gtag('event', 'booking_paid', { transaction_id: tx, call_type: type });
     })();
   </script>
 </Base>

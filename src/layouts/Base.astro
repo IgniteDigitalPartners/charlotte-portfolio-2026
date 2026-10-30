@@ -59,24 +59,22 @@ import Analytics from "@vercel/analytics/astro";
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js), loaded only after cookie consent -->
+    <!-- Google tag (gtag.js) with Consent Mode v2. The tag always loads so Google receives
+         consent signals (cookieless pings enable behavioral modeling); cookies are only
+         written after the visitor accepts in the cookie banner. -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
-      window.csLoadGtag = function () {
-        if (window.csGtagLoaded) return;
-        window.csGtagLoaded = true;
-        gtag('consent', 'update', { analytics_storage: 'granted' });
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H05LQRNZWT';
-        document.head.appendChild(s);
-        gtag('js', new Date());
-        gtag('config', 'G-H05LQRNZWT');
+      gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+      window.csConsent = function (granted) {
+        var v = granted ? 'granted' : 'denied';
+        gtag('consent', 'update', { analytics_storage: v, ad_storage: v, ad_user_data: v, ad_personalization: v });
       };
-      try { if (localStorage.getItem('cs-consent') === 'granted') window.csLoadGtag(); } catch (e) {}
+      try { if (localStorage.getItem('cs-consent') === 'granted') window.csConsent(true); } catch (e) {}
+      gtag('js', new Date());
+      gtag('config', 'G-H05LQRNZWT');
     </script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-H05LQRNZWT"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>

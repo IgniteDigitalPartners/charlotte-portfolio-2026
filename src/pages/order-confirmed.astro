@@ -67,6 +67,20 @@ import Base from "../layouts/Base.astro";
     if (!r.receipt.monthly) { try { localStorage.removeItem("cs-cart-v1"); window.dispatchEvent(new CustomEvent("cart:change")); } catch { /* ignore */ } }
     try { sessionStorage.removeItem("cs-checkout-draft"); } catch { /* ignore */ }
 
+    // Report the purchase once per session (guards against refreshes of this page).
+    try {
+      const seen = "cs-purchase-" + r.receipt.orderId;
+      if (!sessionStorage.getItem(seen)) {
+        sessionStorage.setItem(seen, "1");
+        (window as any).gtag?.("event", "purchase", {
+          transaction_id: r.receipt.orderId,
+          value: r.receipt.total,
+          currency: "EUR",
+          items: r.receipt.items.map((i: any) => ({ item_name: i.name, price: i.amount, quantity: 1 })),
+        });
+      }
+    } catch {}
+
     if (r.first) document.querySelector("[data-first]")!.textContent = `, ${r.first}`;
     lead.textContent = `Your payment is complete. A welcome email with your receipt is on its way to ${r.email}.`;
     const lines = document.querySelector("[data-lines]")!;
